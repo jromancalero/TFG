@@ -1,0 +1,33 @@
+.section__footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2em;
+    background-image: url('/img/footer/fondofooter.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-wrap: wrap
+}
+.article__footer--copyrigth{
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: rgba(190, 125, 250, 0.5);
+    border-radius: 15px;
+    
+}
+.ul__footer--information{
+    list-style: none;
+    background-color: rgba(190, 125, 250, 0.5);
+    border-radius: 15px;
+    padding: 10px;
+}
+.ul__footer--information a{
+    text-decoration: none;
+    color:black;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.ul__footer--information a:hover{
+    color: rgb(201, 3, 102);
+}

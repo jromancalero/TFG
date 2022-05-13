@@ -1,0 +1,18 @@
+
+.section_bar--gacha{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-image: url('/img/bargacha/fondogacha2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    max-height: 200px;
+}
+
+.article__bar--gacha{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;;
+}

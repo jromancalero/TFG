@@ -1,0 +1,75 @@
+
+@font-face {
+    font-family: Hiromisake;
+    src: url('/fonts/HIROMISAKE.ttf');
+}
+
+.header__section{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.header__article{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-image: url('/img/header/fondoheader.jpg');
+    background-position: center;
+    background-size: cover;
+    max-height: 300px;
+}
+
+.title {
+    font-family: Hiromisake;
+    font-size: 7em;
+    margin-left: 0.5em;
+}
+
+.header__article--nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 15px;
+    max-height: 75px;
+    background-color: rgb(240, 174, 156);
+    box-shadow: 0px 5px 19px 5px rgb(143, 143, 231);
+    border-radius: 15px;
+}
+
+.header__articleNav--ul{
+    display: flex;
+    list-style: none;
+    padding: 0px;
+    font-size: 1.3em;
+    font-weight: bold;
+    gap: 1.5em;
+    align-items: center;
+}
+.header__articleNav--ul span{
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.invert_link{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+.invert_link:hover{
+    color: rgb(122, 48, 240);
+}
+.invert_link:active{
+    font-size: 1.1em;
+}
+.header__li--user{
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+
+
+
+
+

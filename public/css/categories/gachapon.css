@@ -1,0 +1,21 @@
+
+
+
+.article__gacha{
+    display: flex;
+}
+
+.gacha__container{
+    display: flex;
+    height: 500px;
+    width: 500px;
+    min-height: 50vh;
+    min-width: 500px;
+    border: 2px solid black;
+}
+.gancho{
+    margin: auto;
+    width: 2rem;
+    height: 0.8rem;
+    background-color: aqua;
+}
