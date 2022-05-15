@@ -1,21 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+/* --------------------------------------------------------------------------------------------- */
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+ //Inicio
 
 Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
+
+/* --------------------------------------------------------------------------------------------- */
+
+//Vistas de las categorias
 
 Route::get('/figuras',function (){
     return view('categories/figures');
@@ -32,3 +29,18 @@ Route::get('/merchandising',function(){
 Route::get('gachapon',function(){
     return view('categories/gachapon');
 })->name('gachapon');
+
+/* ------------------------------------------------------------------------------------------------ */
+
+//Login y registro
+
+Route::get('/registro',[LoginController::class,'registroForm'])->name('registro');
+Route::post('/registro',[LoginController::class,'registro']);
+Route::get('/login',[LoginController::class,'loginForm'])->name('login');
+Route::post('/login',[LoginController::class,'login']);
+Route::post('/logout',[LoginController::class,'logout'])->name('logout')->middleware('auth');
+
+Route::get('/cuenta',function(){
+    return view('auth.cuenta');
+})->name('cuenta')->middleware('auth');
+
