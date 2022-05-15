@@ -68,8 +68,17 @@
     align-items: center;
 }
 
+.li__user--a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.1em;
+}
+.li__user--a:hover{
+    color: rgb(122, 48, 240);
+}
 
-
-
+.li__user--a:active{
+    font-size: 1.15em;
+}
 
 
