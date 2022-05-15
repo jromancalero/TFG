@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    
+
 </head>
 
 <body>
@@ -27,10 +27,10 @@
                     <a class="invert_link" href="{{route('japaneseFood')}}">COMIDA NIPONA</a>
                 </li>
                 <li>
-                    <a class="invert_link" href="{{route('merchandising')}}">MERCHANDISING</a>                  
+                    <a class="invert_link" href="{{route('merchandising')}}">MERCHANDISING</a>
                 </li>
                 <li>
-                    <a class="invert_link" href="{{route('gachapon')}}">GACHAPON</a>                   
+                    <a class="invert_link" href="{{route('gachapon')}}">GACHAPON</a>
                 </li>
             </ul>
             <ul class="header__articleNav--ul">
@@ -41,8 +41,14 @@
                     <span class="material-symbols-outlined">shopping_cart</span>
                 </li>
                 <li class="header__li--user">
-                    <p class="material-symbols-outlined">account_circle_full</p>
-                    <p>Nombre usuario</p>
+
+                    @auth
+                        <p class="material-symbols-outlined">account_circle_full</p>
+                        <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
+                    @else
+                        <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
+                        <a class="li__user--a" href="{{route('registro')}}">Registrate</a>
+                    @endauth
                 </li>
             </ul>
         </article>
