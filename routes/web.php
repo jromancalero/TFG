@@ -2,29 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
+
 /* --------------------------------------------------------------------------------------------- */
 
  //Inicio
 
-Route::get('/', function () {
-    return view('inicio');
-})->name('inicio');
+Route::get('/', [ProductController::class, 'index'])->name('inicio');
+Route::get('/comida-nipona',[ProductController::class, 'comidaProduct'])->name('japaneseFood');
+Route::get('/merchandising',[ProductController::class, 'merchandisingProduct'])->name('merchandising');
+Route::get('/figuras',[ProductController::class, 'figuraProduct'])->name('figures');
 
 /* --------------------------------------------------------------------------------------------- */
-
 //Vistas de las categorias
-
-Route::get('/figuras',function (){
-    return view('categories/figures');
-})->name('figures');
-
-Route::get('/comida-nipona',function(){
-    return view('categories/japaneseFood');
-})->name('japaneseFood');
-
-Route::get('/merchandising',function(){
-    return view('categories/merchandising');
-})->name('merchandising');
 
 Route::get('gachapon',function(){
     return view('categories/gachapon');
@@ -44,3 +35,8 @@ Route::get('/cuenta',function(){
     return view('auth.cuenta');
 })->name('cuenta')->middleware('auth');
 
+/* ------------------------------------------------------------------------------------------------- */
+
+//Productos
+
+Route::resource('/products', ProductController::class);

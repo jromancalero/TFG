@@ -49,6 +49,7 @@
                         <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
                         <a class="li__user--a" href="{{route('registro')}}">Registrate</a>
                     @endauth
+
                 </li>
             </ul>
         </article>

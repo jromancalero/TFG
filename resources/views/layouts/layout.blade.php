@@ -1,6 +1,3 @@
-<?php
-    $ruta = Route::currentRouteName() ;
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,15 +15,11 @@
 </head>
 <body>
     @include('partials.header')
+
     <main>
-        @if($ruta === 'gachapon')
-            @yield('content')
-        @else
-            <!-- @include('partials.bargacha') -->
-            @yield('content')
-        @endif
-        
+        @yield('content')
     </main>
+
     @include('partials.footer')
 </body>
 
