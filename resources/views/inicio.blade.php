@@ -9,8 +9,8 @@
             {{$product->price}}<br>
             {{$product->description}}<br>
             {{$product->stock}}<br><br>
+
         @endif
-        af
     @empty
         No hay products
     @endforelse
