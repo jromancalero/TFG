@@ -4,7 +4,7 @@
     <h1 class="titulo">Figuras Anime</h1>
     <section class="section__products">
         @forelse ($products as $product )
-            <article class="article__products">
+            <article class="article__products re__animation">
                 @foreach ($product->images as $image)
                 <img class="img__product" src= '{{asset("$image->url")}}' alt="Logo"/>
                 @endforeach

@@ -1,4 +1,10 @@
+body {
+    background-image: url('/img/categorias/fondoPagina2.jpg');
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
 
+}
 .titulo{
     text-align: center;
     font-weight: bold;
@@ -30,7 +36,9 @@
     height: 540px;
     padding: 10px;
     margin-top: 25px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
 }
 
 .h2__titulo_producto{
@@ -47,6 +55,14 @@
 	transform: translateY(-10px);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 18px 40px 0 rgba(0, 0, 0, 0.19);
 
+}
+.re__animation{
+    transition: transform 300ms;
+	transform: translateY(10px);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 18px 40px 0 rgba(0, 0, 0, 0.19);
+}
+.article__products.article__products:hover::after{
+    background-color: red;
 }
 .boton__compra {
     position: relative;
