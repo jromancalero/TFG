@@ -25,7 +25,7 @@
             <h2 class="h2__titulo_producto">{{$comidas[$i]->name}}</h2>
             <p class="p__description">{{$comidas[$i]->description}}</p>
             <p class="p__price">{{$comidas[$i]->price}} €</p>
-            <button class="boton__compra animacion">Añadir a la cesta</button>sf
+            <button class="boton__compra animacion">Añadir a la cesta</button>
         </article>
         @endfor
         {{-- BOTON DE VER MAS Y REDIRECCION --}}
