@@ -1,0 +1,64 @@
+*{margin:0; padding:0}
+
+.main__registro{
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100%;
+background-image: url('/img/auth/sakuraregistro.png');
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+}
+
+
+.section__registro{
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 5px 19px 5px #e4436b;
+    border-radius: 15px;
+    background: #fce8ec;
+}
+
+.section__registro article{
+    margin: 35px;
+}
+
+.article__registro--form div{
+    display: flex;
+    margin-top: 15px;
+    gap: 5px;
+    font-weight: bold;
+}
+.article__registro--form h1{
+    font-weight: bold;
+    font-size: 1.8em;
+}
+.article__registro--form .div__botonEnviar{
+    margin-top: 25px;
+    justify-content: center;
+}
+.botonEnviar{
+	box-shadow: 3px 4px 0px 0px #899599;
+	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+	background-color:#ededed;
+	border-radius:15px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#3a8a9e;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+}
+
+.botonEnviar:hover{
+    background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+	background-color:#bab1ba;
+}
+.botonEnviar:active{
+    position:relative;
+	top:1px;
+}

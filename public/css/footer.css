@@ -1,3 +1,4 @@
+
 .section__footer{
     display: flex;
     justify-content: space-around;
@@ -14,7 +15,7 @@
     font-size: 1.1em;
     background-color: rgba(190, 125, 250, 0.5);
     border-radius: 15px;
-    
+
 }
 .ul__footer--information{
     list-style: none;
