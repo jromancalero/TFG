@@ -40,3 +40,9 @@ Route::get('/cuenta',function(){
 //Productos
 
 Route::resource('/products', ProductController::class);
+
+/* -------------------------------------------------------------------------------------------------- */
+
+//APIS
+
+Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');

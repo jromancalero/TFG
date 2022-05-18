@@ -11,7 +11,7 @@
                 <h2 class="h2__titulo_producto">{{$product->name}}</h2>
                 <p class="p__description">{{$product->description}}</p>
                 <p class="p__price">{{$product->price}} €</p>
-                <button class="boton__compra animacion">Añadir a la cesta</button>
+                <button class="boton__compra animacion" value="{{$product->id}}">Añadir a la cesta</button>
             </article>
         @empty
             No hay products

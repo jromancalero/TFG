@@ -12,7 +12,7 @@
             <h2 class="h2__titulo_producto">{{$figuras[$i]->name}}</h2>
             <p class="p__description">{{$figuras[$i]->description}}</p>
             <p class="p__price">{{$figuras[$i]->price}} €</p>
-            <button class="boton__compra animacion">Añadir a la cesta</button>
+            <button class="boton__compra animacion" value="{{$figuras[$i]->id}}">Añadir a la cesta</button>
         </article>
         @endfor
     </section>
@@ -25,7 +25,7 @@
             <h2 class="h2__titulo_producto">{{$comidas[$i]->name}}</h2>
             <p class="p__description">{{$comidas[$i]->description}}</p>
             <p class="p__price">{{$comidas[$i]->price}} €</p>
-            <button class="boton__compra animacion">Añadir a la cesta</button>
+            <button class="boton__compra animacion" value="{{$comidas[$i]->id}}">Añadir a la cesta</button>
         </article>
         @endfor
         {{-- BOTON DE VER MAS Y REDIRECCION --}}
@@ -39,7 +39,7 @@
             <h2 class="h2__titulo_producto">{{$merchandising[$i]->name}}</h2>
             <p class="p__description">{{$merchandising[$i]->description}}</p>
             <p class="p__price">{{$merchandising[$i]->price}} €</p>
-            <button class="boton__compra animacion">Añadir a la cesta</button>
+            <button class="boton__compra animacion" value="{{$merchandising[$i]->id}}">Añadir a la cesta</button>
         </article>
         @endfor
         {{-- BOTON DE VER MAS Y REDIRECCION --}}
