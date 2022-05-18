@@ -1,3 +1,6 @@
+<?php
+    $ruta = Route::currentRouteName() ;
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,16 +15,18 @@
     <link rel="stylesheet" href="{{asset('css/header.css')}}">
     <link rel="stylesheet" href="{{asset('css/footer.css')}}">
     <link rel="stylesheet" href="{{asset('css/bargacha.css')}}">
-    <link rel="stylesheet" href="{{asset('css/categories/products.css')}}">
-    <script type="text/javascript" src="{!! asset('js/products/products.js') !!}" defer></script>
 </head>
 <body>
     @include('partials.header')
-
     <main>
-        @yield('content')
+        @if($ruta === 'gachapon')
+            @yield('content')
+        @else
+            <!-- @include('partials.bargacha') -->
+            @yield('content')
+        @endif
+        
     </main>
-
     @include('partials.footer')
 </body>
 
