@@ -14,8 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('inicio',compact('products'));
+        $figuras = Product::where('type','Figura')->get();
+        $comidas = Product::where('type','Comida')->get();
+        $merchandising = Product::where('type','Merchandising')->get();
+        return view('inicio',compact('figuras','comidas','merchandising'));
     }
     public function figuraProduct()
     {
