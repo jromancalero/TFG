@@ -47,6 +47,10 @@
                 @auth
                     <p class="material-symbols-outlined">account_circle_full</p>
                     <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
+                    <form method="POST" action="{{route('logout')}}">
+                        @csrf
+                        <a href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();">Salir</a>
+                    </form>
                 @else
                     <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
                     <a class="li__user--a" href="{{route('registro')}}">Registrate</a>

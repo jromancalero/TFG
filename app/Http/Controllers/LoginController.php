@@ -44,7 +44,12 @@ class LoginController extends Controller
         if (Auth::attempt($credenciales))
         {
             //Autenticación válida
-            return redirect('cuenta');
+            if(Auth::user()->is_admin){
+                return redirect('admin');
+            }else{
+                return redirect('cuenta');
+            }
+
         } else {
             $error = 'Error al acceder a la aplicación';
             return view('auth.login', compact('error'));
