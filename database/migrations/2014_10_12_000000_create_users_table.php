@@ -18,14 +18,14 @@ return new class extends Migration
             $table->string('dni')->unique();
             $table->string('name');
             $table->string('surname');
-            $table->string('surname2')->nullable();;
+            $table->string('surname2')->nullable();
             $table->integer('phone');
             $table->string('user_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->date('date_birth')->nullable();
-            $table->string('profile_photo',2048)->nullable();;
+            $table->string('profile_photo',2048)->nullable();
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
