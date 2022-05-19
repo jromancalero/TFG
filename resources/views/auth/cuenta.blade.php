@@ -1,32 +1,34 @@
 @extends('layouts.layout')
 
 @section('content')
-<main class="main__cuenta">
     <section class="section__cuenta">
         <article class="article__fotoPerfil">
             <img>
         </article>
         <article class="article__user">
-            <h1>{{Auth::user()->name}} {{Auth::user()->surname}} {{Auth::user()->surname2}}</h1>
+            <h1 class="nombre_cuenta">{{Auth::user()->name}} {{Auth::user()->surname}} {{Auth::user()->surname2}}</h1>
 
-            <ul>
+            <ul class="lista_cuenta">
                 <li>
-                    {{Auth::user()->name}} {{Auth::user()->surname}} {{Auth::user()->surname2}}
+                    Nombre de usuario : {{Auth::user()->user_name}}
                 </li>
                 <li>
-                    {{Auth::user()->email}}
-                </li>
-                <li>
-                    Cambiar la contraseña
-                </li>
-                <li>
-                    Compras y pedidos
-                </li>
-                <li>
-                    Direcciones de envio
+                    Email : {{Auth::user()->email}}
                 </li>
                 <li>
                     Teléfono : {{Auth::user()->phone}}
+                </li>
+                <li>
+                    DNI : {{Auth::user()->dni}}
+                </li>
+                <li>
+                    Fecha Nacimiento : {{Auth::user()->date_birth}}
+                </li>
+                <li>
+                    Direcciones de envio :
+                </li>
+                <li>
+                    <button>Cambiar la contraseña</button><button>Compras y pedidos</button>
                 </li>
             </ul>
         </article>
@@ -34,6 +36,5 @@
             <p>Guardar cambios</p>
         </article>
     </section>
-</main>
 
 @endsection

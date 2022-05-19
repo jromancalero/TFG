@@ -3,7 +3,7 @@
 @section('content')
 
     <h1 class="titulo">Productos</h1>
-    <section class="section__products">
+    <section class="section__products" id="section__products">
         @for($i = 0; $i < 4; $i++)
         <article class="article__products re__animation">
             @foreach ($figuras[$i]->images as $image)
