@@ -20,7 +20,7 @@ class ProductController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','store']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -30,9 +30,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $product = new Product();
 
         $product->name = $request->name;
+        if($request->name === '' || $request->name === null || is_numeric($request->name)){
+            return "La tipografia del nombre no es correcta";
+        }
         $product->type = $request->type;
         $product->size = $request->size;
         $product->price = $request->price;

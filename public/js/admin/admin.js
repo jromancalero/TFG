@@ -1,4 +1,5 @@
 
+
 let bloqueLista = document.querySelector('#productos_usuarios');
 let botonUsuarios = document.querySelector('#usuarios');
 let botonProductos = document.querySelector('#productos');
@@ -56,6 +57,7 @@ function listar(lista,nombre){
     titulo_lista.textContent = nombre;
     titulo_lista.className="titulo_lista";
     bloqueLista.append(titulo_lista);
+
     lista.forEach(element => {
 
         if(nombre === 'PRODUCTOS'){
@@ -125,6 +127,8 @@ function listar(lista,nombre){
     });
 }
 
+//Funcion para crear los productos desde el admin
+
 const makeProducts = async()=>{
 
     makeProductsButton = document.querySelector('#crear_productos');
@@ -135,27 +139,26 @@ const makeProducts = async()=>{
 
         for(let name of carac){
             let div = document.createElement('div');
+            div.className="div_inputs_carac"
             let label = document.createElement('label');
             label.textContent = name;
-            label.for = name;
+            label.className = 'label_carac'
             let input = document.createElement('input');
-            if(name === 'price' || name === 'stock'){
-                input.type = "number";
-            }else{
-                input.type = "text";
-            }
-            input.name = name;
             input.id = name;
-
+            input.className ="input_carac";
             div.append(label,input);
             bloqueLista.append(div);
         }
         let sendButton = document.createElement('button');
         sendButton.textContent = 'Crear Producto';
-        bloqueLista.append(sendButton);
+        sendButton.className = 'send_button';
+        let divErrores = document.createElement('div');
+        divErrores.className = "div_errores";
+        bloqueLista.append(sendButton,divErrores);
 
+        //CREAR PRODUCTO
         sendButton.addEventListener('click',(e)=>{
-            console.log('jojo');
+
             let inputName = document.querySelector('#name');
             let inputType = document.querySelector('#type');
             let inputSize = document.querySelector('#size');
@@ -165,11 +168,47 @@ const makeProducts = async()=>{
             let token = document.querySelector('#token');
             console.log(inputName.value,inputDescription.value);
 
-            async function putFunction(){
-                let producto = {name: inputName.value,type: inputType.value,size: inputSize.value,price: inputPrice.value,
-                                description:inputDescription.value,stock: inputStock.value};
+            //VALIDACIONES DE LOS INPUT
+            let arrayErrores = [];
+            let error = false;
+            if(inputName.value === '' || inputName.value === null  || inputName.value.lenght > 30){
+                arrayErrores.push('Error en el nombre del producto, por favor escríbalo bien');
+                error = true;
+            }
+            if(inputType.value === '' || inputType.value === null || inputType.value.lenght > 25){
+                arrayErrores.push('Error en el tipo del producto, por favor escríbalo bien');
+                error = true;
+            }
+            if(inputPrice.value === '' || inputPrice.value === null || isNaN(inputPrice.value)){
+                arrayErrores.push('Error en el precio del producto, por favor escríbalo bien');
+                error = true;
+            }
+            if(inputDescription.value === '' || inputDescription.value === null || inputDescription.value.lenght > 255){
+                arrayErrores.push('Error en la descripción del producto, por favor escríbalo bien');
+                error = true;
+            }
+            if(inputStock.value === '' || inputStock.value === null || isNaN(inputStock.value)){
+                arrayErrores.push('Error en el stock del producto, por favor escríbalo bien');
+                error = true;
+            }
+            if(error){
+                divErrores.innerHTML="";
+                let ulErrores = document.createElement('ul');
+                ulErrores.className='lista_errores';
+                for(let _error of arrayErrores){
+                    let liError = document.createElement('li');
+                    liError.textContent = _error;
+                    ulErrores.append(liError);
+                }
+                divErrores.append(ulErrores);
+                console.log(error)
+                console.log(arrayErrores);
+            }else{
+                //ENVAIR DATOS
+                let producto = {"name": inputName.value,"type": inputType.value,"size": inputSize.value,"price": inputPrice.value,
+                                "description":inputDescription.value,"stock": inputStock.value};
                 console.log(producto);
-                const respPut = await fetch("/api/products", {
+                fetch("/api/products", {
                     method: "POST",
                     mode:'cors',
                     headers: {
@@ -178,12 +217,9 @@ const makeProducts = async()=>{
                     },
                     body: JSON.stringify(producto),
                 });
-                console.log('llega?')
-                console.log(respPut);
-             /*    const data = await respPut.json();
-                console.log(data); */
             }
-            putFunction();
+
+
 
         });
     });
