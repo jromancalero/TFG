@@ -20,16 +20,16 @@
     <section class="header__section--nav">
         <ul class="header__sectionNav--ul">
             <li>
-                <a class="invert_link" href="{{route('inicio')}}">INICIO</a>
+                <a class="invert_link" id="inicio" value="inicio" >INICIO</a>
             </li>
             <li>
-                <a class="invert_link" href="{{route('figures')}}">FIGURAS</a>
+                <a class="invert_link link" value="figuras" id="figuras">FIGURAS</a>
             </li>
             <li>
-                <a class="invert_link" href="{{route('japaneseFood')}}">COMIDA NIPONA</a>
+                <a class="invert_link link" value="comida" id="comida">COMIDA NIPONA</a>
             </li>
             <li>
-                <a class="invert_link" href="{{route('merchandising')}}">MERCHANDISING</a>
+                <a class="invert_link link" value="merchandising" id="merchandising">MERCHANDISING</a>
             </li>
             <li>
                 <a class="invert_link" href="{{route('gachapon')}}">GACHAPON</a>
@@ -47,6 +47,12 @@
                 @auth
                     <p class="material-symbols-outlined">account_circle_full</p>
                     <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
+                    <form method="POST" action="{{route('logout')}}">
+                        @csrf
+                        <a class="logout" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();"><span class="material-symbols-outlined">
+                            settings_power
+                            </span></a>
+                    </form>
                 @else
                     <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
                     <a class="li__user--a" href="{{route('registro')}}">Registrate</a>

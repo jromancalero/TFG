@@ -1,12 +1,168 @@
-console.log('hola');
 
+//Variables para los contenedores padres
 
+let link_inicio = document.querySelector('#inicio');
+let links = document.querySelectorAll('.link');
+let products_container = document.querySelector('#section__products');
+let main = document.querySelector('main');
+
+//Llamada fetch para los productos
 let getProducts = async() =>{
 
     try {
         let res = await fetch("/api/products");
-        json = await res.json();
-        console.log(json);
+        let products = await res.json();
+
+        let res2 = await fetch("/api/images");
+        let images = await res2.json();
+
+        //EVENTO CLICK PARA CAMBIAR LAS VISTAS DE LOS PRODUCTOS
+        for(let link of links){
+            link.addEventListener('click',(e)=>{
+                let valorLink = e.target.attributes.value.textContent;
+                console.log(valorLink);
+                products_container.innerHTML="";
+                main.innerHTML="";
+                let titulo = document.createElement('h1');
+                titulo.className = "titulo";
+                titulo.textContent = valorLink.toUpperCase();
+                if(valorLink === 'figuras'){
+                    valorLink = 'figura';
+                }
+                products.forEach(product => {
+                    console.log(product.type);
+                    console.log(valorLink.toLowerCase());
+                    if(product.type === valorLink.toLowerCase()){
+                        //Creación de los contenedores
+                        let article_product = document.createElement('article');
+                        let url = "";
+                        let id_image = "";
+                        let titulo_product = document.createElement('h2');
+                        let image = document.createElement('img');
+                        let descripcion = document.createElement('p');
+                        let price = document.createElement('p');
+                        let boton_compra = document.createElement('button');
+                        //Creación del textContent de los productos
+                        titulo_product.textContent = product.name;
+                        descripcion.textContent = product.description;
+                        price.textContent = product.price + '€';
+                        boton_compra.textContent = 'Añadir a la cesta';
+                        //BUCLE DEL JSON PARA LAS URL'S
+                        images.forEach(image => {
+                            if(image.product_id === product.id){
+                                url = image.url;
+                                id_image = image.id;
+                            }
+                        });
+                        //Añadir las clases
+                        article_product.className ="article__products re__animation";
+                        image.className="img__product";
+                        titulo_product.className="h2__titulo_producto";
+                        descripcion.className="p__description";
+                        price.className="p__price";
+                        boton_compra.className="boton__compra animacion";
+                        //Valores extras
+                        image.alt=product.name;
+                        image.src = url;
+                        boton_compra.value = product.id;
+                        image.dataset.url = product.id;
+                        image.dataset.id = id_image;
+                        //Inserción de elementos dentro de los contenedores
+                        article_product.append(image,titulo_product,descripcion,price,boton_compra);
+                        products_container.append(article_product);
+                    }
+                });
+                main.append(titulo,products_container);
+                showProduct();
+            });
+        }
+        //DATOS NECESARIOS PARA EL INICIO
+        let arrayFiguras = [];
+        let arrayMerchandising = [];
+        let arrayComida = [];
+        products.forEach(product => {
+            if(product.type === 'merchandising'){
+                arrayMerchandising.push(product);
+            }else if(product.type === 'figura'){
+                arrayFiguras.push(product);
+            }else{
+                arrayComida.push(product);
+            }
+        });
+
+        //EVENTO PARA EL INICIO
+        link_inicio.addEventListener('click',(e)=>{
+            let titulo = document.createElement('h1');
+            titulo.className = "titulo";
+            titulo.textContent = 'PRODUCTOS';
+            let arrayProducto = [];
+            products_container.innerHTML="";
+            main.innerHTML="";
+
+            //bucle para que inserte los 3 tipos de productos en la tienda.
+            for(let i = 0; i < 3; i++){
+                let arrayRandom = [];
+                for(let j = 0; j < 4; j++){
+                    if(i === 0)arrayProducto = arrayFiguras;
+                    if(i === 1)arrayProducto = arrayComida;
+                    if(i === 2)arrayProducto = arrayMerchandising;
+
+                    //Para imprimir 4 productos random de una misma categoria
+                    let numeroRandom = 0;
+                    let salir = true;
+                    do{
+                        numeroRandom = Math.floor(Math.random() * 18);
+                        if(arrayRandom.includes(numeroRandom)){
+                            salir = false;
+                        }else{
+                            salir = true;
+                            arrayRandom.push(numeroRandom);
+                        }
+                    }while(!salir);
+
+                    //Imprimir los productos
+                    let article_product = document.createElement('article');
+                    let url = "";
+                    let id_image = "";
+                    let titulo_product = document.createElement('h2');
+                    let image = document.createElement('img');
+                    let descripcion = document.createElement('p');
+                    let price = document.createElement('p');
+                    let boton_compra = document.createElement('button');
+                    //Creación del textContent de los productos
+                    titulo_product.textContent = arrayProducto[numeroRandom].name;
+                    descripcion.textContent = arrayProducto[numeroRandom].description;
+                    price.textContent = arrayProducto[numeroRandom].price +'€';
+                    boton_compra.textContent = 'Añadir a la cesta';
+                    //BUCLE DEL JSON PARA LAS URL'S
+                    images.forEach(image => {
+                        if(image.product_id === arrayProducto[numeroRandom].id){
+                            url = image.url
+                            id_image = image.id;
+                        }
+                    });
+                    //Añadir las clases
+                    article_product.className ="article__products re__animation";
+                    image.className="img__product";
+                    titulo_product.className="h2__titulo_producto";
+                    descripcion.className="p__description";
+                    price.className="p__price";
+                    boton_compra.className="boton__compra animacion";
+                    //Valores extras
+                    image.alt= arrayProducto[numeroRandom].name;
+                    image.src = url;
+                    image.dataset.url = arrayProducto[numeroRandom].id;
+                    image.dataset.id = id_image;
+                    boton_compra.value = arrayProducto[numeroRandom].id;
+                    //Inserción de elementos dentro de los contenedores
+                    article_product.append(image,titulo_product,descripcion,price,boton_compra);
+                    products_container.append(article_product);
+                }
+            }
+            main.append(titulo,products_container);
+           showProduct();
+        });
+
     } catch (error) {
         let message = err.statusText || "Ocurrio un error";
         divContainer.insertAdjacentHTML(
@@ -16,7 +172,86 @@ let getProducts = async() =>{
     }
 }
 
+//MOSTRAR VISTA EL PRODUCTO INDIVIDUAL
+showProduct = ()=>{
+    let imagenes_productos = document.querySelectorAll('.img__product');
+    //console.log(imagenes_productos);
+    for(let link_image of imagenes_productos){
+        link_image.addEventListener('click',(e)=>{
+            console.log(e.target)
+            let id_image = e.target.dataset.id;
+            let id_link = e.target.dataset.url;
 
+            const product = async() =>{
+                let res3 = await fetch(`/api/products/${id_link}`);
+                let producto = await res3.json();
+                console.log(producto);
+                products_container.innerHTML="";
+                main.innerHTML="";
+
+                let section = document.createElement('section');
+                let articleCompra = document.createElement('article');
+                let sectionIzquierda = document.createElement('section');
+                let sectionDerecha = document.createElement('section');
+                let articleComentarios = document.createElement('div');
+                let articleExtra = document.createElement('article');
+
+                let img = document.createElement('img');
+                let titulo_producto = document.createElement('h1');
+                let botonMas = document.createElement('button');
+                let botonMenos = document.createElement('button');
+                let precio = document.createElement('p');
+                let cantidad = document.createElement('p');
+                let stock = document.createElement('p');
+                let botonCompra = document.createElement('button');
+                let contenedorCantidad = document.createElement('div');
+                let comentarios = document.createElement('p');
+
+                let resp4 = await fetch(`/api/images/${id_image}`);
+                let image = await resp4.json();
+                console.log(image);
+
+                //Creación del textContent de los productos
+                titulo_producto.textContent = producto.name;
+                botonMas.textContent = '+';
+                botonMenos.textContent = '-';
+                precio.textContent = `Precio : ${producto.price}`;
+                cantidad.textContent = 1;
+                stock.textContent = `Stock acutal del producto :  ${producto.stock}`
+                botonCompra.textContent = 'Añadir al carrito';
+                comentarios.textContent= 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
+
+                //Valores extras
+                img.src = image.url;
+
+                //Clases de los elementos
+                section.className="section_product";
+                sectionDerecha.className="section_derecha";
+                sectionIzquierda.className="section_izquierda";
+                articleCompra.className="article_compra";
+                articleComentarios.className="article_comentarios";
+                articleExtra.className="article_Extra";
+                img.className="img_individual_product";
+                contenedorCantidad.className="contenedor_cantidad";
+                botonMas.className="boton_mas";
+                botonMenos.className="boton_menos";
+                botonCompra.className="boton__compra animacion"
+
+                //Inserción html
+                contenedorCantidad.append(botonMenos,cantidad,botonMas);
+                articleCompra.append(titulo_producto,precio,stock,contenedorCantidad,botonCompra)
+                articleComentarios.append(comentarios);
+                sectionIzquierda.append(img,articleComentarios);
+                sectionDerecha.append(articleCompra,articleExtra);
+                section.append(sectionIzquierda,sectionDerecha);
+                main.append(section);
+            }
+
+            product();
+
+        });
+    }
+}
 
 
 getProducts();

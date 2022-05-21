@@ -4,6 +4,9 @@
     src: url('/fonts/HIROMISAKE.ttf');
 }
 
+body{
+    margin: 0;
+}
 .header__section{
     display: flex;
     flex-direction: column;
@@ -58,8 +61,9 @@
     color: rgb(0, 0, 0);
 }
 
-.invert_link:hover{
+.invert_link:hover,.li__user--a:hover,.logout:hover{
     color: rgb(122, 48, 240);
+    cursor: pointer;
 }
 .invert_link:active{
     font-size: 1.1em;
@@ -75,12 +79,12 @@
     color: black;
     font-size: 1.1em;
 }
-.li__user--a:hover{
-    color: rgb(122, 48, 240);
-}
 
 .li__user--a:active{
     font-size: 1.15em;
 }
 
-
+.logout{
+    text-decoration: none;
+    color: black;
+}

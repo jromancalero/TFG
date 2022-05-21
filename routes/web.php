@@ -46,3 +46,16 @@ Route::resource('/products', ProductController::class);
 //APIS
 
 Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');
+Route::apiResource('api/users',App\Http\Controllers\Api\UserApiController::class)->middleware('api');
+Route::apiResource('api/images',App\Http\Controllers\Api\ImageApiController::class)->middleware('api');
+/* -------------------------------------------------------------------------------------------------- */
+
+//RUTAS ADMIN
+
+Route::get('/admin', function () {
+    if (Auth::user()->is_admin) {
+        return view('admin.index');
+    } else {
+        abort(403, 'Unauthorized action.');
+    }
+})->name('admin')->middleware('auth');
