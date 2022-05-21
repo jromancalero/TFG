@@ -17,6 +17,7 @@ getProducts = async() =>{
         });
 
 
+
     } catch (error) {
         let message = err.statusText || "Ocurrio un error";
         divContainer.insertAdjacentHTML(
@@ -124,7 +125,75 @@ function listar(lista,nombre){
     });
 }
 
+const makeProducts = async()=>{
 
+    makeProductsButton = document.querySelector('#crear_productos');
+    makeProductsButton.addEventListener('click',(e)=>{
+        bloqueLista.innerHTML="";
+
+        let carac = ['name','type','size','price','description','stock'];
+
+        for(let name of carac){
+            let div = document.createElement('div');
+            let label = document.createElement('label');
+            label.textContent = name;
+            label.for = name;
+            let input = document.createElement('input');
+            if(name === 'price' || name === 'stock'){
+                input.type = "number";
+            }else{
+                input.type = "text";
+            }
+            input.name = name;
+            input.id = name;
+
+            div.append(label,input);
+            bloqueLista.append(div);
+        }
+        let sendButton = document.createElement('button');
+        sendButton.textContent = 'Crear Producto';
+        bloqueLista.append(sendButton);
+
+        sendButton.addEventListener('click',(e)=>{
+            console.log('jojo');
+            let inputName = document.querySelector('#name');
+            let inputType = document.querySelector('#type');
+            let inputSize = document.querySelector('#size');
+            let inputPrice = document.querySelector('#price');
+            let inputDescription = document.querySelector('#description');
+            let inputStock = document.querySelector('#stock');
+            let token = document.querySelector('#token');
+            console.log(inputName.value,inputDescription.value);
+
+            async function putFunction(){
+                let producto = {name: inputName.value,type: inputType.value,size: inputSize.value,price: inputPrice.value,
+                                description:inputDescription.value,stock: inputStock.value};
+                console.log(producto);
+                const respPut = await fetch("/api/products", {
+                    method: "POST",
+                    mode:'cors',
+                    headers: {
+                        'X-CSRF-TOKEN': token.value,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(producto),
+                });
+                console.log('llega?')
+                console.log(respPut);
+             /*    const data = await respPut.json();
+                console.log(data); */
+            }
+            putFunction();
+
+        });
+    });
+
+}
+
+
+
+
+makeProducts();
 getProducts();
 getUsers();
 
