@@ -4,6 +4,9 @@
     src: url('/fonts/HIROMISAKE.ttf');
 }
 
+body{
+    margin: 0;
+}
 .header__section{
     display: flex;
     flex-direction: column;
