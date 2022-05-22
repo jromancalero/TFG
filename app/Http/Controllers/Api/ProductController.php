@@ -20,7 +20,7 @@ class ProductController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','store','update']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -30,7 +30,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $product = new Product();
+
+        $product->name = $request->name;
+        $product->type = $request->type;
+        $product->size = $request->size;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->stock = $request->stock;
+
+        $product->save();
+
+        return response()->json(["nombre" => $product->name], 201);
     }
 
     /**
@@ -53,7 +65,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name = $request->name;
+        $product->type = $request->type;
+        $product->size = $request->size;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->stock = $request->stock;
+
+        $product->save();
+
+        return response()->json(["nombre" => $product->name], 201);
     }
 
     /**

@@ -20,7 +20,7 @@ class UserApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','update']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -53,7 +53,16 @@ class UserApiController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->name = $request->name;
+        $user->surname = $request->surname;
+        $user->surname2 = $request->surname2;
+        $user->user_name = $request->user_name;
+        $user->dni = $request->dni;
+        $user->date_birth = $request->date_birth;
+
+        $user->save();
+        return response()->json(["nombre" => $user->name], 201);
+
     }
 
     /**
