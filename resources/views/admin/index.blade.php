@@ -16,7 +16,3 @@
     </article>
 </section>
 
-<script type="text/javascript">
-    window.CSRF_TOKEN = '{{ csrf_token() }}';
-</script>
-
