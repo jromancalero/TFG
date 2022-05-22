@@ -351,7 +351,7 @@ const makeProducts = async()=>{
     makeProductsButton.addEventListener('click',(e)=>{
         bloqueLista.innerHTML="";
 
-        let carac = ['name','type','size','price','description','stock'];
+        let carac = ['name','type','size','price','description','stock','url'];
 
         for(let name of carac){
             let div = document.createElement('div');
@@ -379,62 +379,85 @@ const makeProducts = async()=>{
             let inputPrice = document.querySelector('#price');
             let inputDescription = document.querySelector('#description');
             let inputStock = document.querySelector('#stock');
+            let inputUrl = document.querySelector('#url');
 
-
-            //VALIDACIONES DE LOS INPUT
-            let arrayErrores = [];
-            let error = false;
-            if(inputName.value === '' || inputName.value === null  || inputName.value.lenght > 30){
-                arrayErrores.push('Error en el nombre del producto, por favor escríbalo bien');
-                error = true;
-            }
-            if(inputType.value === '' || inputType.value === null || inputType.value.lenght > 25){
-                arrayErrores.push('Error en el tipo del producto, por favor escríbalo bien');
-                error = true;
-            }
-            if(inputPrice.value === '' || inputPrice.value === null || isNaN(inputPrice.value)){
-                arrayErrores.push('Error en el precio del producto, por favor escríbalo bien');
-                error = true;
-            }
-            if(inputDescription.value === '' || inputDescription.value === null || inputDescription.value.lenght > 255){
-                arrayErrores.push('Error en la descripción del producto, por favor escríbalo bien');
-                error = true;
-            }
-            if(inputStock.value === '' || inputStock.value === null || isNaN(inputStock.value)){
-                arrayErrores.push('Error en el stock del producto, por favor escríbalo bien');
-                error = true;
-            }
-            if(error){
-                divErrores.innerHTML="";
-                let ulErrores = document.createElement('ul');
-                ulErrores.className='lista_errores';
-                for(let _error of arrayErrores){
-                    let liError = document.createElement('li');
-                    liError.textContent = _error;
-                    ulErrores.append(liError);
+            const sendProductInformation = async() =>{
+                //CONSEGUIR LA LONGITUD DEL ARRAY DE PRODUCTOS
+                let resProductosLength = await fetch("/api/products");
+                productosLong = await resProductosLength.json();
+                idProduct = productosLong.length +1;
+                //VALIDACIONES DE LOS INPUT
+                let arrayErrores = [];
+                let error = false;
+                if(inputName.value === '' || inputName.value === null  || inputName.value.lenght > 30){
+                    arrayErrores.push('Error en el nombre del producto, por favor escríbalo bien');
+                    error = true;
                 }
-                divErrores.append(ulErrores);
-            }else{
-                //ENVAIR DATOS
-                let producto = {"name": inputName.value,"type": inputType.value,"size": inputSize.value,"price": inputPrice.value,
-                                "description":inputDescription.value,"stock": inputStock.value};
-                console.log(producto);
-                fetch("/api/products", {
-                    method: "POST",
-                    mode:'cors',
-                    headers: {
-                        'X-CSRF-TOKEN': token.value,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(producto),
-                }).then((res)=>{
-                    inputName.value = '';
-                    inputType.value = '';
-                    inputPrice.value = '';
-                    inputDescription.value = '';
-                    inputStock.value = '';
-                });
+                if(inputType.value === '' || inputType.value === null || inputType.value.lenght > 25){
+                    arrayErrores.push('Error en el tipo del producto, por favor escríbalo bien');
+                    error = true;
+                }
+                if(inputPrice.value === '' || inputPrice.value === null || isNaN(inputPrice.value)){
+                    arrayErrores.push('Error en el precio del producto, por favor escríbalo bien');
+                    error = true;
+                }
+                if(inputDescription.value === '' || inputDescription.value === null || inputDescription.value.lenght > 255){
+                    arrayErrores.push('Error en la descripción del producto, por favor escríbalo bien');
+                    error = true;
+                }
+                if(inputStock.value === '' || inputStock.value === null || isNaN(inputStock.value)){
+                    arrayErrores.push('Error en el stock del producto, por favor escríbalo bien');
+                    error = true;
+                }
+                if(inputUrl.value === '' || inputUrl.value === null){
+                    arrayErrores.push('Error en la URL del producto, por favor escríbalo bien');
+                    error = true;
+                }
+                if(error){
+                    divErrores.innerHTML="";
+                    let ulErrores = document.createElement('ul');
+                    ulErrores.className='lista_errores';
+                    for(let _error of arrayErrores){
+                        let liError = document.createElement('li');
+                        liError.textContent = _error;
+                        ulErrores.append(liError);
+                    }
+                    divErrores.append(ulErrores);
+                }else{
+                    //ENVAIR DATOS
+                    let producto = {"name": inputName.value,"type": inputType.value,"size": inputSize.value,"price": inputPrice.value,
+                                    "description":inputDescription.value,"stock": inputStock.value};
+                    console.log(producto);
+                    fetch("/api/products", {
+                        method: "POST",
+                        mode:'cors',
+                        headers: {
+                            'X-CSRF-TOKEN': token.value,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(producto),
+                    });
+                    fetch("/api/images", {
+                        method: "POST",
+                        mode:'cors',
+                        headers: {
+                            'X-CSRF-TOKEN': token.value,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({"url":inputUrl.value,"product_id":idProduct}),
+                    }).then((res)=>{
+                        inputName.value = '';
+                        inputType.value = '';
+                        inputPrice.value = '';
+                        inputDescription.value = '';
+                        inputStock.value = '';
+                        inputUrl.value = '';
+                    });
+                }
             }
+            sendProductInformation();
+
+
         });
     });
 }

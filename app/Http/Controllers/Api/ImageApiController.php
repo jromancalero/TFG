@@ -20,7 +20,7 @@ class ImageApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','update']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','update','store']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -30,7 +30,12 @@ class ImageApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = new Image();
+
+        $image->url = $request->url;
+        $image->product_id = $request->product_id;
+        $image->save();
+        return response()->json(["url" => $image->url], 201);
     }
 
     /**
