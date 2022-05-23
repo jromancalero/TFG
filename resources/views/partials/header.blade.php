@@ -20,16 +20,16 @@
     <section class="header__section--nav">
         <ul class="header__sectionNav--ul">
             <li>
-                <a class="invert_link" id="inicio" value="inicio" >INICIO</a>
+                <a class="invert_link" id="inicio" href="{{route('inicio')}}" >INICIO</a>
             </li>
             <li>
-                <a class="invert_link link" value="figuras" id="figuras">FIGURAS</a>
+                <a class="invert_link link" href="{{route('figures')}}" id="figuras">FIGURAS</a>
             </li>
             <li>
-                <a class="invert_link link" value="comida" id="comida">COMIDA NIPONA</a>
+                <a class="invert_link link" href="{{route('japaneseFood')}}" id="comida">COMIDA NIPONA</a>
             </li>
             <li>
-                <a class="invert_link link" value="merchandising" id="merchandising">MERCHANDISING</a>
+                <a class="invert_link link" href="{{route('merchandising')}}" id="merchandising">MERCHANDISING</a>
             </li>
             <li>
                 <a class="invert_link" href="{{route('gachapon')}}">GACHAPON</a>
@@ -53,7 +53,6 @@
                             settings_power
                             </span></a>
                     </form>
-                    <input type ="hidden" name="token_header" id="token_header" value="{{csrf_token()}}">
                     <input type ="hidden" name="id_user" id="id_user" value="{{Auth::user()->id}}">
                 @else
                     <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
