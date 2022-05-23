@@ -88,3 +88,6 @@ body{
     text-decoration: none;
     color: black;
 }
+.form_logout{
+    margin: 0;
+}
