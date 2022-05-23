@@ -5,7 +5,7 @@ let link_inicio = document.querySelector('#inicio');
 let links = document.querySelectorAll('.link');
 let products_container = document.querySelector('#section__products');
 let main = document.querySelector('main');
-let tokenInput = document.querySelector('#token_header');
+let tokenInput = document.querySelector('[name=_token]');
 let token = tokenInput.value;
 let inputUserID = document.querySelector('#id_user');
 //Llamada fetch para los productos

@@ -42,13 +42,13 @@
             <li>
                 <span class="material-symbols-outlined">shopping_cart</span>
             </li>
+            @csrf
             <li class="header__li--user">
 
                 @auth
                     <p class="material-symbols-outlined">account_circle_full</p>
                     <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
                     <form method="POST" action="{{route('logout')}}">
-                        @csrf
                         <a class="logout" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();"><span class="material-symbols-outlined">
                             settings_power
                             </span></a>
