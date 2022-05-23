@@ -5,7 +5,9 @@ let link_inicio = document.querySelector('#inicio');
 let links = document.querySelectorAll('.link');
 let products_container = document.querySelector('#section__products');
 let main = document.querySelector('main');
-
+let tokenInput = document.querySelector('[name=_token]');
+let token = tokenInput.value;
+let inputUserID = document.querySelector('#id_user');
 //Llamada fetch para los productos
 let getProducts = async() =>{
 
@@ -30,8 +32,6 @@ let getProducts = async() =>{
                     valorLink = 'figura';
                 }
                 products.forEach(product => {
-                    console.log(product.type);
-                    console.log(valorLink.toLowerCase());
                     if(product.type === valorLink.toLowerCase()){
                         //Creación de los contenedores
                         let article_product = document.createElement('article');
@@ -74,6 +74,7 @@ let getProducts = async() =>{
                 });
                 main.append(titulo,products_container);
                 showProduct();
+                carritoCompra();
             });
         }
         //DATOS NECESARIOS PARA EL INICIO
@@ -161,6 +162,7 @@ let getProducts = async() =>{
             }
             main.append(titulo,products_container);
            showProduct();
+           carritoCompra();
         });
 
     } catch (error) {
@@ -170,6 +172,7 @@ let getProducts = async() =>{
             `<p><b>Error ${err.status}: ${message} </b></p>`
         );
     }
+
 }
 
 //MOSTRAR VISTA EL PRODUCTO INDIVIDUAL
@@ -253,5 +256,48 @@ showProduct = ()=>{
     }
 }
 
+//Creamos los pedidos de los usuarios
+const createOrders = async()=>{
+    let id_user = inputUserID.value;
+    let respOrders = await fetch(`/api/orders/${id_user}`);
+    let order = await respOrders.json();
+    console.log(order);
 
+    if(order.length === 0){
+        console.log('tiene 0');
+        fetch("/api/orders", {
+            method: "POST",
+            mode:'cors',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"user_id":id_user}),
+        });
+    }
+}
+
+//Evento Añadir al carrito de la compra
+const carritoCompra= async()=>{
+
+    let botonesCesta = document.querySelectorAll('.boton__compra');
+    console.log(botonesCesta);
+    botonesCesta.forEach((botonCesta)=>{
+        botonCesta.addEventListener('click',(e)=>{
+            console.log(e.target.value);
+            //Creación lineas de pedido
+            const createLineasDeProducto = async()=>{
+                let id_user = inputUserID.value;
+                let respOrders = await fetch(`/api/orders/${id_user}`);
+                let order = await respOrders.json();
+                console.log(order);
+
+            }
+            createLineasDeProducto();
+        })
+    })
+}
+
+createOrders();
 getProducts();
+carritoCompra();

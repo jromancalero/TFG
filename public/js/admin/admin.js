@@ -118,9 +118,58 @@ divErrores.className = "div_errores";
     });
     //LLAMADA FUNCIÓN PARA EDITAR
     edit(nombre);
+    deleteProductsAndUsers(nombre);
 }
 
+//FUNCIÓN PARA BORRAR USUARIOS Y PRODUCTOS
+const deleteProductsAndUsers = async(nombre)=>{
+    deleteButtons = document.querySelectorAll('.delete_button');
+    deleteButtons.forEach((deleteButton)=>{
+        deleteButton.addEventListener('click',(e)=>{
+            //console.log(e)
+            getProductsAndUsersForDelete(e,nombre);
+        })
+    })
+}
+//FUNCIÓN PARA RECOGER LOS DATOS DE LOS USUARIOS Y PRODUCTOS PARA PODER BORRARLOS
+const getProductsAndUsersForDelete = async(e,nombre)=>{
 
+    let tokenDelete = token.value;
+    let id = e.target.value;
+
+    console.log(id);
+    console.log(nombre)
+    if(nombre === 'PRODUCTOS'){
+        let resProducto = await fetch(`/api/products/${id}`);
+        let producto = await resProducto.json();
+        let mensajeProduct = confirm(`Estas seguro de querer borrar el producto ${producto.name} de tipo ${producto.type} ?`);
+        if(mensajeProduct){
+            fetch(`/api/products/${id}`, {
+                method: "DELETE",
+                mode:'cors',
+                headers: {
+                    'X-CSRF-TOKEN': tokenDelete,
+                    'Content-Type': 'application/json',
+                },
+            }).then(()=>listar('PRODUCTOS'));
+        }
+    }else{
+        let resUser = await fetch(`/api/users/${id}`);
+        let user = await resUser.json();
+        let mensajeUser = confirm(`Estas seguro de querer borrar el usuario ${user.name} de DNI ${user.dni} ?`);
+        if(mensajeUser){
+            fetch(`/api/users/${id}`, {
+                method: "DELETE",
+                mode:'cors',
+                headers: {
+                    'X-CSRF-TOKEN': tokenDelete,
+                    'Content-Type': 'application/json',
+                },
+            }).then(()=>listar('USUARIOS'));
+        }
+    }
+
+}
 // FUNCIÓN EDITAR USUARIOS Y PRODUCTOS
 const edit = async(nombre)=>{
     editButtons = document.querySelectorAll('.edit_button');
@@ -129,7 +178,7 @@ const edit = async(nombre)=>{
             console.log(e.target.value)
             bloqueEditar.innerHTML="";
 
-            const getUser= async()=>{
+            const getUserAndProducts= async()=>{
                 let boton_enviar_cambios = document.createElement('button');
                 boton_enviar_cambios.className="boton_guardar_cambios";
                 boton_enviar_cambios.textContent = "Guardar Cambios"
@@ -338,7 +387,7 @@ const edit = async(nombre)=>{
                     });
                 }
             }
-            getUser();
+            getUserAndProducts();
         });
     }
 }

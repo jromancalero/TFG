@@ -20,7 +20,7 @@ class ProductController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','store','update']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -85,6 +85,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json(["eliminado"=>$product],201);
     }
 }

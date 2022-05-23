@@ -23,7 +23,9 @@ return new class extends Migration
             $table->integer('cp');
             $table->string('localidad');
             $table->string('pais');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id') ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }

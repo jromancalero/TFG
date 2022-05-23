@@ -20,7 +20,7 @@ class UserApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','update']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','update','destroy']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -73,6 +73,7 @@ class UserApiController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json(["eliminado"=>$user],201);
     }
 }
