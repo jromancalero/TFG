@@ -53,6 +53,8 @@
                             settings_power
                             </span></a>
                     </form>
+                    <input type ="hidden" name="token_header" id="token_header" value="{{csrf_token()}}">
+                    <input type ="hidden" name="id_user" id="id_user" value="{{Auth::user()->id}}">
                 @else
                     <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
                     <a class="li__user--a" href="{{route('registro')}}">Registrate</a>
