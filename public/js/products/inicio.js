@@ -98,6 +98,7 @@ const listar = async()=>{
     }
     main.append(titulo,products_container);
     showProduct();
+    carritoCompra();
 }
 
 //Mostrar un único producto
@@ -106,7 +107,6 @@ showProduct = ()=>{
     //console.log(imagenes_productos);
     for(let link_image of imagenes_productos){
         link_image.addEventListener('click',(e)=>{
-            console.log(e.target)
             let id_image = e.target.dataset.id;
             let id_link = e.target.dataset.url;
 
@@ -154,6 +154,7 @@ const productView = async(id_image,id_link) =>{
     cantidad.textContent = 1;
     stock.textContent = `Stock acutal del producto :  ${producto.stock}`
     botonCompra.textContent = 'Añadir al carrito';
+    botonCompra.value = producto.id;
     comentarios.textContent= 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
     botonVolverProductos.textContent = "VOLVER A LOS PRODUCTOS";
 
@@ -187,6 +188,41 @@ const productView = async(id_image,id_link) =>{
         console.log(e);
         listar();
     });
+
+
+    //AÑADIR AL CARRITO DE LA COMPRA DENTRO DE LA VISTA DE LOS PRODUCTOS INDIVIDUALES
+    carritoCompra();
+}
+
+//Evento Añadir al carrito de la compra
+const carritoCompra= async()=>{
+
+    let botonesCesta = document.querySelectorAll('.boton__compra');
+    botonesCesta.forEach((botonCesta)=>{
+        botonCesta.addEventListener('click',(e)=>{
+            console.log(e.target.value);
+            //Creación lineas de pedido
+            createLineasDeProducto();
+        });
+    });
+}
+
+const createLineasDeProducto = async()=>{
+    let respOrders = await fetch(' api/orders/cart');
+    let order = await respOrders.json();
+    console.log(order);
+    //SI NO TIENE CARRITO SE LO CREAMOS
+    if(order.length === 0){
+        fetch("/api/orders", {
+            method: "POST",
+            mode:'cors',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': 'application/json',
+            },
+        });
+    }
+
 
 }
 

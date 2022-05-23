@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class OrderApiController extends Controller
@@ -20,9 +21,10 @@ class OrderApiController extends Controller
         return response()->json($orders,200);
     }
 
-    public function orderCart($id_user)
+    public function orderCart()
     {
-        $orderCart = Order::where([['user_id',$id_user],['status','carrito']])->get();
+        $userId = Auth::user()->id;
+        $orderCart = Order::where([['user_id',$userId],['status','carrito']])->get();
         return response()->json($orderCart,200);
     }
     /**
@@ -34,7 +36,7 @@ class OrderApiController extends Controller
     public function store(Request $request)
     {
         $order = new Order();
-        $order->user_id = $request->user_id;
+        $order->user_id = Auth::user()->id;
         $order->status = 'carrito';
         $order->type_payment = null;
         $currentTime = date('Y-m-d');
