@@ -19,8 +19,12 @@ return new class extends Migration
             $table->integer('price');
             $table->string('disccount')->nullable();
             $table->date('date')->nullable();
-            $table->foreignId('order_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('order_id') ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->foreignId('product_id') ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->unique(['order_id','product_id'],'claves_ajenas');
             $table->timestamps();
         });
