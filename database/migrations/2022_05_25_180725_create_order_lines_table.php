@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orderlines', function (Blueprint $table) {
+        Schema::create('order_lines', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantity');
-            $table->integer('price');
-            $table->string('disccount')->nullable();
-            $table->date('date')->nullable();
+            $table->integer('quantity')->default(1);
             $table->foreignId('order_id') ->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');
@@ -37,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orderlines');
+        Schema::dropIfExists('order_lines');
     }
 };

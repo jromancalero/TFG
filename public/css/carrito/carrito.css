@@ -1,0 +1,11 @@
+
+.articulo__producto--carrito{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+}
+
+
+.img_producto--carrito{
+    max-width: 150px;
+    max-height: 150px;
+}

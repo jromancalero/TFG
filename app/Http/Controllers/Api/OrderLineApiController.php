@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderLine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
-use App\Models\Product;
 
 class OrderLineApiController extends Controller
 {
@@ -16,7 +17,15 @@ class OrderLineApiController extends Controller
      */
     public function index()
     {
-        //
+        $userId = Auth::user()->id;
+        $orderCart = Order::where([['user_id',$userId],['status','carrito']])->get();
+        $orderLine = $orderCart[0]->id;
+        $orderLines = OrderLine::where('order_id',$orderLine)->get();
+        return response()->json($orderLines,200);
+    }
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy']]);
     }
 
     /**
@@ -27,16 +36,24 @@ class OrderLineApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $orderLine = new OrderLine();
+
+
+        $orderLine->order_id = $request->get('order_id');
+        $orderLine->product_id = $request->get('product_id');
+        $orderLine->quantity = $request->get('quantity');
+
+        $orderLine->save();
+        return response()->json($orderLine, 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\OrderLine  $orderLine
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(OrderLine $orderLine)
     {
         //
     }
@@ -45,10 +62,10 @@ class OrderLineApiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\OrderLine  $orderLine
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, OrderLine $orderLine)
     {
         //
     }
@@ -56,10 +73,10 @@ class OrderLineApiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\OrderLine  $orderLine
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(OrderLine $orderLine)
     {
         //
     }

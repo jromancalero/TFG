@@ -20,6 +20,10 @@ class OrderApiController extends Controller
         $orders = Order::all();
         return response()->json($orders,200);
     }
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy','orderCart']]);
+    }
 
     public function orderCart()
     {
