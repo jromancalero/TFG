@@ -58,9 +58,9 @@ class ImageApiController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        $image->url = $request->url;
+        $image->url = $request->get('url');
         $image->save();
-        return response()->json(["image" => $image->url], 201);
+        return response()->json([ $image], 200);
     }
 
     /**

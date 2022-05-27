@@ -40,15 +40,17 @@
                 <span class="material-symbols-outlined">search</span>
             </li>
             <li>
-                <span class="material-symbols-outlined">shopping_cart</span>
+                <a href="{{route('carrito')}}" class="invert_link carrito"><span class="material-symbols-outlined">shopping_cart</span></a>
+                <span class="num_carrito" id="num_carrito">0</span>
             </li>
             @csrf
             <li class="header__li--user">
 
                 @auth
-                    <p class="material-symbols-outlined">account_circle_full</p>
+                    <p class="material-symbols-outlined">account_circle</p>
                     <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
                     <form class="form_logout" method="POST" action="{{route('logout')}}">
+                        @csrf
                         <a class="logout" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();"><span class="material-symbols-outlined">
                             settings_power
                             </span></a>
