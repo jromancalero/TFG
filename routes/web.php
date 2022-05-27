@@ -23,7 +23,7 @@ Route::get('gachapon',function(){
 
 Route::get('/carrito',function(){
     return view('carrito.carrito');
-})->name('carrito');
+})->name('carrito')->middleware('auth');
 
 /* ------------------------------------------------------------------------------------------------ */
 

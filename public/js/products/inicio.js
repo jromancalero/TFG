@@ -239,16 +239,41 @@ const introducirProductoCarrito= async(order,id_producto)=>{
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
     console.log(orderLines);
+    let existe = false;
+    let orderLineId;
+    let orderLineCantidad = 0;
+    //Comprobamos si existe el mismo producto para en vez de crear uno, le sumamos uno a quantity
+    orderLines.forEach( async line =>{
+        if(line.product_id == id_producto){
+            orderLineId = line.id;
+            orderLineCantidad = line.quantity + 1;
+            console.log(orderLineCantidad);
+            existe = true;
+            console.log(existe);
+        }
+    });
+    if(existe){
+        fetch(`/api/orderLines/${orderLineId}`, {
+            method: "PUT",
+            mode:'cors',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"quantity": orderLineCantidad}),
+        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+    }else{
+        fetch('api/orderLines',{
+            method: "POST",
+            mode:'cors',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"quantity": 1,"order_id": order,"product_id":id_producto}),
+        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+    }
 
-    fetch('api/orderLines',{
-        method: "POST",
-        mode:'cors',
-        headers: {
-            'X-CSRF-TOKEN': token,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({"quantity": 1,"order_id": order,"product_id":id_producto}),
-    }).then(resp=> resp.json()).then(resp=>console.log(resp));
 }
 
 const countCarrito = async()=>{
@@ -257,7 +282,11 @@ const countCarrito = async()=>{
     let orderLines = await respOrderLines.json();
     console.log(orderLines);
     let num_carrito = document.querySelector('#num_carrito');
-    num_carrito.textContent = orderLines.length;
+    let numeroCarrito = 0;
+    orderLines.forEach(linea =>{
+        numeroCarrito = numeroCarrito + linea.quantity;
+    });
+    num_carrito.textContent = numeroCarrito;
 
 }
 

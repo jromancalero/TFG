@@ -67,7 +67,9 @@ class OrderLineApiController extends Controller
      */
     public function update(Request $request, OrderLine $orderLine)
     {
-        //
+        $orderLine->quantity = $request->get('quantity');
+        $orderLine->save();
+        return response()->json($orderLine, 200);
     }
 
     /**
@@ -78,6 +80,7 @@ class OrderLineApiController extends Controller
      */
     public function destroy(OrderLine $orderLine)
     {
-        //
+        $orderLine->delete();
+        return response()->json(["eliminado"=>$orderLine],200);
     }
 }
