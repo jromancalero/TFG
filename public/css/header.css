@@ -3,9 +3,22 @@
     font-family: Hiromisake;
     src: url('/fonts/HIROMISAKE.ttf');
 }
+@font-face {
+    font-family: Montserrat;
+    src: url('/fonts/Montserrat-Regular.ttf');
+}
+@font-face {
+    font-family: MontserratBold;
+    src: url('/fonts/Montserrat-Bold.ttf');
+}
+@font-face {
+    font-family: MontserratSemiBold;
+    src: url('/fonts/Montserrat-SemiBold.ttf');
+}
 
 body{
     margin: 0;
+    font-family: 'Montserrat';
 }
 .header__section{
     display: flex;
@@ -41,6 +54,7 @@ body{
     position: sticky;
     top: 0px;
     z-index: 5;
+    font-family: MontserratBold;
 }
 
 .header__sectionNav--ul{

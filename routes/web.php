@@ -48,6 +48,9 @@ Route::resource('/products', ProductController::class);
 /* -------------------------------------------------------------------------------------------------- */
 
 //APIS
+Route::get('api/users/viewUser',[App\Http\Controllers\Api\UserApiController::class,'viewUser'])->middleware('api');
+Route::put('api/users/userPassword',[App\Http\Controllers\Api\UserApiController::class,'userPassword'])->middleware('api');
+Route::put('api/users/userUpdate',[App\Http\Controllers\Api\UserApiController::class,'userUpdate'])->middleware('api');
 Route::get('api/orders/cart',[App\Http\Controllers\Api\OrderApiController::class,'orderCart']);
 Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');
 Route::apiResource('api/users',App\Http\Controllers\Api\UserApiController::class)->middleware('api');

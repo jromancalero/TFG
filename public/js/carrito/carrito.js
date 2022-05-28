@@ -188,6 +188,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines)=>{
     articuloCompraFinal.append(botonFinalizarCompra,articulosCarrito,totalPrecio);
     section_carrito.append(articuloCompraFinal);
 
+  //llamada user para ver si tiene direcciones y demás
     botonFinalizarCompra.addEventListener('click',(e)=>{
         let anuncio = document.createElement('article');
         if(stockTotal<numeroCarrito){

@@ -262,6 +262,7 @@ const introducirProductoCarrito= async(order,id_producto)=>{
             },
             body: JSON.stringify({"quantity": orderLineCantidad}),
         }).then(resp=> resp.json()).then(resp=>console.log(resp));
+        countCarrito();
     }else{
         fetch('api/orderLines',{
             method: "POST",
@@ -272,6 +273,7 @@ const introducirProductoCarrito= async(order,id_producto)=>{
             },
             body: JSON.stringify({"quantity": 1,"order_id": order,"product_id":id_producto}),
         }).then(resp=> resp.json()).then(resp=>console.log(resp));
+        countCarrito();
     }
 
 }

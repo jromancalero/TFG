@@ -43,6 +43,7 @@ body {
 
 .h2__titulo_producto{
     text-align: center;
+    font-family: MontserratSemiBold;
 }
 .p__description{
     max-width: 200px;
