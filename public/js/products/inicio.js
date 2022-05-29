@@ -228,10 +228,7 @@ const createLineasDeProducto = async(id_producto)=>{
         console.log(order2);
         introducirProductoCarrito(order2[0].id,id_producto);
     }
-/*     console.log(order);
-    console.log(order[0].id) */
     introducirProductoCarrito(order[0].id,id_producto);
-    countCarrito();
 }
 
 const introducirProductoCarrito= async(order,id_producto)=>{
@@ -273,7 +270,7 @@ const introducirProductoCarrito= async(order,id_producto)=>{
             body: JSON.stringify({"quantity": 1,"order_id": order,"product_id":id_producto}),
         }).then(resp=> resp.json()).then(resp=>console.log(resp));
     }
-
+    countCarrito();
 }
 
 const countCarrito = async()=>{

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Address;
+use Illuminate\Support\Facades\Hash;
 
 class UserApiController extends Controller
 {
@@ -20,7 +23,7 @@ class UserApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','update','destroy']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','update','destroy','viewUser','userUpdate','userPassword']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -31,6 +34,37 @@ class UserApiController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function viewUser()
+    {
+        $user = Auth::user();
+        $userId = Auth::user()->id;
+        $direcciones = Address::where('user_id',$userId)->get();
+        return response()->json([$user,$direcciones],200);
+    }
+
+    public function userUpdate(Request $request)
+    {
+        $user = Auth::user();
+
+        $user->name = $request->get('name');
+        $user->surname = $request->get('surname');
+        $user->surname2 = $request->get('surname2');
+        $user->user_name = $request->get('user_name');
+        $user->phone = $request->get('phone');
+        $user->dni = $request->get('dni');
+        $user->date_birth = $request->get('date_birth');
+
+        $user->save();
+        return response()->json($user, 200);
+    }
+    public function userPassword(Request $request)
+    {
+        $user = Auth::user();
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+        return response()->json($user->password, 200);
     }
 
     /**

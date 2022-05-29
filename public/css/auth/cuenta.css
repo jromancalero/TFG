@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 600px;
 }
 
 .lista_cuenta{
@@ -20,7 +21,9 @@
 }
 .nombre_cuenta{
     font-weight: bold;
-    font-size: 2em;
+    font-size: 2.1em;
+    font-family: Hiromisake;
+    border-bottom: 2px solid black;
 }
 .lista_cuenta li{
 
@@ -30,4 +33,102 @@
     border-radius: 10px;
     padding: 10px;
     background-color: white;
+}
+
+.ul__direccionesEnvio {
+    list-style: none;
+    font-size: 0.6em;
+    margin: 10px;
+}
+
+.direccionesEnvio__perfil{
+    margin: 10px;
+}
+li .li__AñadirEliminar--Direcciones{
+    font-size: 0.9em;
+    margin: 10px;
+    text-align: center;
+}
+
+.pedidos__perfil,.cambiarContraseña__perfil,.cambiar_datos,.li__AñadirEliminar--Direcciones{
+    text-align: center;
+    cursor: pointer;
+}
+@keyframes color {
+    from{background-color: azure;}
+    to{background-color: rgb(4, 155, 4); color: white}
+}
+
+.pedidos__perfil:hover,.cambiarContraseña__perfil:hover,.cambiar_datos:hover,.li__AñadirEliminar--Direcciones:hover{
+    animation-name: color ;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+.div__datos--perfil,.div__contraseñas--perfil{
+    display: grid;
+    grid-template-columns: auto;
+    margin: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: azure;
+}
+.div__datos--perfil label,.div__contraseñas--perfil label{
+    margin: 10px;
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.titulo__modificar--datos,.titulo__cambio--contraseña{
+    font-size: 1.6em;
+    font-family: 'Hiromisake';
+    border-bottom: 2px solid black;
+}
+.botones__perfil--volverConfirmar{
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 10px;
+    gap: 5px;
+}
+.botones__perfil--volverConfirmar button{
+    border-radius: 10px;
+}
+
+.botones__perfil--volverConfirmar button:hover{
+    cursor: pointer;
+    background-color: rgb(4, 155, 4);
+}
+
+.div__contraseñas--perfil{
+    display: grid;
+    grid-template-columns: auto;
+    margin: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: azure;
+}
+
+.ul__DireccionesEnvio--Mod{
+    list-style: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.div__añadir--direccion{
+    display: grid;
+    grid-template-columns: auto;
+    gap: 10px;
+    font-size: 1.1em;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
+.div__añadir--direccion label{
+    margin: 10px;
+}
+.boton__eliminar--direccion:hover{
+    background-color: red;
+    cursor: pointer;
 }
