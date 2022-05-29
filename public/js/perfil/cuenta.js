@@ -23,6 +23,7 @@ listarUsuario = async()=>{
     let liFechaNacimiento = document.createElement('li');
     let liDireccionesEnvio = document.createElement('li');
     let ulDireccionesEnvio = document.createElement('ul');
+    let liAñadirEliminarDirecciones = document.createElement('li');
     let liCambiarDatos = document.createElement('li');
     let liPedidos = document.createElement('li');
     let liCambiarConstraseña = document.createElement('li');
@@ -35,13 +36,14 @@ listarUsuario = async()=>{
     liDNI.textContent = `DNI: ${user.dni}`;
     liFechaNacimiento.textContent = `Fecha Nacimiento : ${user.date_birth}`;
     liDireccionesEnvio.textContent = 'Direcciones de envio: ';
+    liAñadirEliminarDirecciones.textContent = "Añadir o eliminar direcciones";
     for(let address of addresses){
         let direccionEnvio = document.createElement('li');
         direccionEnvio.className = "direccionesEnvio__perfil";
-        direccionEnvio.textContent = ` Direccion: ${address.tipo} ${address.nombre}, ${address.localidad}, ${address.pais}, ${address.cp} | Patio: ${address.patio} | Puerta: ${address.puerta} | Piso: ${address.piso}`;
+        direccionEnvio.textContent = `Direccion: ${address.tipo} ${address.nombre}, Nº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais}  `;
         ulDireccionesEnvio.append(direccionEnvio);
     }
-    liDireccionesEnvio.append(ulDireccionesEnvio);
+    liDireccionesEnvio.append(ulDireccionesEnvio,liAñadirEliminarDirecciones);
     liPedidos.textContent = "Pedidos realizados";
     liCambiarConstraseña.textContent = "Cambiar la contraseña";
     liCambiarDatos.textContent = 'Cambiar datos'
@@ -52,15 +54,16 @@ listarUsuario = async()=>{
     liCambiarConstraseña.className = "cambiarContraseña__perfil";
     ulDireccionesEnvio.className = "ul__direccionesEnvio";
     liCambiarDatos.className = 'cambiar_datos';
+    liAñadirEliminarDirecciones.className="li__AñadirEliminar--Direcciones"
 
     //introducimos los datos a la vista
     listaUser.append(liNombreUsuario,liEmail,liTelefono,liDNI,liFechaNacimiento,liDireccionesEnvio,liCambiarDatos,liPedidos,liCambiarConstraseña);
     articleUser.append(nombreCompleto,listaUser);
 
-    eventosPerfil(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña);
+    eventosPerfil(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña,liAñadirEliminarDirecciones);
 }
-
-const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña)=>{
+//eventos click personalización de usuario
+const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña,liAñadirEliminarDirecciones)=>{
     let botonConfirmar = document.createElement('button');
     botonConfirmar.textContent = 'CONFIRMAR';
     let botonAtras = document.createElement('button');
@@ -68,6 +71,8 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
     let divBotones = document.createElement('div');
     divBotones.append(botonAtras,botonConfirmar);
     divBotones.className="botones__perfil--volverConfirmar";
+
+    //MODIFICAR DATOS DEL USUARIO
     liCambiarDatos.addEventListener('click',(e)=>{
         articleUser.innerHTML = "";
 
@@ -140,6 +145,7 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
         })
     });
 
+    //MODIFICAR LA CONTRASEÑA
     liCambiarConstraseña.addEventListener('click',e=>{
         articleUser.innerHTML = "";
         let titulo = document.createElement('h1');
@@ -148,11 +154,13 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
         let labelContraseñaRepetida = document.createElement('label');
         let inputContraseña = document.createElement('input');
         let inputContraseñaRepetida = document.createElement('input');
+        let aviso = document.createElement('p');
         let divErrores = document.createElement('div');
 
         labelContraseña.textContent = 'Nueva Contraseña';
         labelContraseñaRepetida.textContent = 'Repita la Contraseña';
         titulo.textContent = 'Cambiar contraseña';
+        aviso.textContent = 'Le rogamos que la contraseña sea cambiada las menos veces posible, gracias';
         //clases
         divContraseñas.className = "div__contraseñas--perfil";
         titulo.className = "titulo__cambio--contraseña";
@@ -161,7 +169,7 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
         labelContraseña.append(inputContraseña);
         labelContraseñaRepetida.append(inputContraseñaRepetida);
         divContraseñas.append(labelContraseña,labelContraseñaRepetida,divBotones);
-        articleUser.append(titulo,divContraseñas,divErrores);
+        articleUser.append(titulo,divContraseñas,aviso,divErrores);
 
         botonConfirmar.addEventListener('click',e=>{
             let contraseña = inputContraseña.value.trim();
@@ -217,9 +225,158 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
         })
     });
 
+    //AÑADIR O ELIMINAR LAS DIRECCIONES
+    liAñadirEliminarDirecciones.addEventListener('click',e=>{
+
+        articleUser.innerHTML = "";
+        let divDireccionesEnvio = document.createElement('div');
+        let ulDireccionesEnvioMod = document.createElement('ul');
+        ulDireccionesEnvioMod.className ="ul__DireccionesEnvio--Mod"
+        divDireccionesEnvio.className ="div__DireccionesEnvio"
+        for(let address of addresses){
+            let botonEliminarDireccion = document.createElement('button');
+            let direccionEnvio = document.createElement('li');
+            botonEliminarDireccion.textContent = "Eliminar";
+            botonEliminarDireccion.className ="boton__eliminar--direccion"
+            direccionEnvio.className = "direccionesEnvio__perfil";
+            direccionEnvio.textContent = `Direccion: ${address.tipo} ${address.nombre}, Nº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais}  `;
+            botonEliminarDireccion.value = address.id;
+            ulDireccionesEnvioMod.append(direccionEnvio,botonEliminarDireccion);
+        }
+        divDireccionesEnvio.append(ulDireccionesEnvioMod);
+
+        let titulo = document.createElement('h1');
+        titulo.textContent ="Añadir o eliminar Direcciones";
+        titulo.className = "titulo__modificar--datos";
+
+        let divAñadirDireccion = document.createElement('div');
+        let labelTipo = document.createElement('label');
+        let labelNombre = document.createElement('label');
+        let labelLocalidad = document.createElement('label');
+        let labelPais = document.createElement('label');
+        let labelCp = document.createElement('label');
+        let labelPatio = document.createElement('label');
+        let labelPuerta = document.createElement('label');
+        let labelPiso = document.createElement('label');
+
+        let inputTipo = document.createElement('input');
+        let inputNombre = document.createElement('input');
+        let inputLocalidad = document.createElement('input');
+        let inputPais = document.createElement('input');
+        let inputCp = document.createElement('input');
+        let inputPatio = document.createElement('input');
+        let inputPuerta = document.createElement('input');
+        let inputPiso = document.createElement('input');
+
+        //tipos de input
+        inputCp.type = "number";
+        inputPatio.type = "number";
+        inputPuerta.type = "number";
+        inputPiso.type = "number";
+        //clases
+        divAñadirDireccion.className ="div__añadir--direccion"
+        //valores a los labels
+        labelTipo.textContent = 'Tipo: ';
+        labelNombre.textContent = 'Nombre: ';
+        labelLocalidad.textContent = 'Localidad: ';
+        labelPais.textContent = 'País: ';
+        labelCp.textContent = 'Código Postal: ';
+        labelPatio.textContent = 'Patio: ';
+        labelPuerta.textContent = 'Puerta: ';
+        labelPiso.textContent = 'Piso: ';
+
+        //Añadimos los inputs a los labels
+        labelTipo.append(inputTipo);
+        labelNombre.append(inputNombre);
+        labelLocalidad.append(inputLocalidad);
+        labelPais.append(inputPais);
+        labelCp.append(inputCp);
+        labelPatio.append(inputPatio);
+        labelPuerta.append(inputPuerta);
+        labelPiso.append(inputPiso);
+
+        divAñadirDireccion.append(labelTipo,labelNombre,labelLocalidad,labelPais,labelCp,labelPatio,labelPuerta,labelPiso,divBotones);
+        articleUser.append(titulo,divDireccionesEnvio,divAñadirDireccion);
+        console.log(e)
+
+        //Función borrar direcciones
+        let botonesEliminarDireccion = document.querySelectorAll('.boton__eliminar--direccion');
+        console.log(botonesEliminarDireccion);
+        //Scrollear hasta el titulo
+        let scroll = titulo.getBoundingClientRect();
+        window.scrollTo(scroll.x,scroll.y);
+
+        //BORRAR DIRECCIONES
+        for(let botonEliminarDireccion of botonesEliminarDireccion){
+            botonEliminarDireccion.addEventListener('click',e=>{
+                borrarDireccion(botonEliminarDireccion.value,divDireccionesEnvio);
+            });
+        }
+
+        //AÑADIR DIRECCIÓN
+        botonConfirmar.addEventListener('click',async(e)=>{
+            let respAddresses = await fetch('api/addresses');
+            let addresses = await respAddresses.json();
+            console.log(addresses[0].length);
+            if(addresses[0].length < 4 ){
+                let direccion = {"tipo": inputTipo.value,"nombre":inputNombre.value,"patio":inputPatio.value,"puerta":inputPuerta.value,"piso":inputPiso.value,"cp":inputCp.value,"localidad":inputLocalidad.value,"pais":inputPais.value};
+                fetch(`api/addresses/`, {
+                    method: "POST",
+                    mode:'cors',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(direccion),
+                }).then(() => {
+                    listarUsuario();
+                });
+            }else{
+                alert('Superas el máximo de direcciones (4), por favor, elimina alguna');
+            }
+
+        });
+    });
+
+
     botonAtras.addEventListener('click',(e)=>{
         listarUsuario();
-    })
+    });
 }
+
+//llamada a la funcion para borrar las direcciones
+const borrarDireccion = async(idBotonEliminar,divDireccionesEnvio)=>{
+
+    console.log(idBotonEliminar);
+    fetch(`api/addresses/${idBotonEliminar}`, {
+        method: "DELETE",
+        mode:'cors',
+        headers: {
+            'X-CSRF-TOKEN': token,
+            'Content-Type': 'application/json',
+        },
+    }).then(async()=>{
+        let respAddresses2 = await fetch('api/addresses');
+        let addresses2 = await respAddresses2.json();
+        console.log(addresses2);
+
+        divDireccionesEnvio.innerHTML="";
+        let ulDireccionesEnvioMod = document.createElement('ul');
+        ulDireccionesEnvioMod.className ="ul__DireccionesEnvio--Mod"
+        divDireccionesEnvio.className ="div__DireccionesEnvio"
+        for(let address of addresses2[0]){
+            let botonEliminarDireccion = document.createElement('button');
+            let direccionEnvio = document.createElement('li');
+            botonEliminarDireccion.textContent = "Eliminar";
+            botonEliminarDireccion.className ="boton__eliminar--direccion"
+            direccionEnvio.className = "direccionesEnvio__perfil";
+            direccionEnvio.textContent = `Direccion: ${address.tipo} ${address.nombre}, Nº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais}  `;
+            botonEliminarDireccion.value = address.id;
+            ulDireccionesEnvioMod.append(direccionEnvio,botonEliminarDireccion);
+        }
+        divDireccionesEnvio.append(ulDireccionesEnvioMod);
+    });
+}
+
 
 listarUsuario();
