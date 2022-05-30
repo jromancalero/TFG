@@ -37,9 +37,6 @@
         </ul>
         <ul class="header__sectionNav--ul">
             <li>
-                <span class="material-symbols-outlined">search</span>
-            </li>
-            <li>
                 <a href="{{route('carrito')}}" class="invert_link carrito"><span class="material-symbols-outlined">shopping_cart</span></a>
                 <span class="num_carrito" id="num_carrito">0</span>
             </li>
