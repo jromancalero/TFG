@@ -6,120 +6,137 @@ let footer = document.querySelector('.section__footer');
 const listarCarrito= async()=>{
 
     section_carrito.innerHTML="";
+    try{
+        let respOrderLines = await fetch('api/orderLines');
+        let orderLines = await respOrderLines.json();
+        console.log(orderLines);
+        let orderLinesLength = orderLines.length;
+        let contadorLinesLength = 0;
+        let num_carrito = document.querySelector('#num_carrito');
+        let numeroCarrito = 0;
+        let stockTotal = true;
+        let precioFinal = 0;
+        let listaProductos = [];
 
-    let respOrderLines = await fetch('api/orderLines');
-    let orderLines = await respOrderLines.json();
-    console.log(orderLines);
-    let orderLinesLength = orderLines.length;
-    let contadorLinesLength = 0;
-    let num_carrito = document.querySelector('#num_carrito');
-    let numeroCarrito = 0;
-    let stockTotal = true;
-    let precioFinal = 0;
-    let listaProductos = [];
 
+       console.log(orderLines.length)
+       if(orderLines.length === 0){
+            let articleImg = document.createElement('article')
+            let img = document.createElement('img');
 
-   console.log(orderLines.length)
-   if(orderLines.length === 0){
-        let articleImg = document.createElement('article')
-        let img = document.createElement('img');
+            articleImg.className = 'article_img--rex';
+            img.className = 'img_rex';
+            img.src="/img/carrito/rexCompra.png";
 
-        articleImg.className = 'article_img--rex';
-        img.className = 'img_rex';
-        img.src="/img/carrito/rexCompra.png";
+            articleImg.append(img);
+            section_carrito.append(articleImg);
+            section_carrito.style="background-Color: white;"
+            footer.style="margin-top:0px"
+        }
 
-        articleImg.append(img);
-        section_carrito.append(articleImg);
-        section_carrito.style="background-Color: white;"
-        footer.style="margin-top:0px"
-    }
+        orderLines.forEach(linea =>{
+            numeroCarrito = numeroCarrito + linea.quantity;
+        });
+        num_carrito.textContent = numeroCarrito;
 
-    orderLines.forEach(linea =>{
-        numeroCarrito = numeroCarrito + linea.quantity;
-    });
-    num_carrito.textContent = numeroCarrito;
+        //creación de las líneas de pedido
+        orderLines.forEach( async line => {
+            console.log(line);
+            let product_id = line.product_id;
+            //Llamada para recopilar cada producto
+            let resProducto = await fetch(`/api/products/${product_id}`);
+            let producto = await resProducto.json();
 
-    //creación de las líneas de pedido
-    orderLines.forEach( async line => {
-        console.log(line);
-        let product_id = line.product_id;
-        //Llamada para recopilar cada producto
-        let resProducto = await fetch(`/api/products/${product_id}`);
-        let producto = await resProducto.json();
+            let res2 = await fetch("/api/images");
+            let images = await res2.json();
+            //BUCLE DEL JSON PARA LAS URL'S
+            images.forEach(image => {
+                if(image.product_id === producto.id){
+                    url = image.url;
+                }
+            });
 
-        let res2 = await fetch("/api/images");
-        let images = await res2.json();
-        //BUCLE DEL JSON PARA LAS URL'S
-        images.forEach(image => {
-            if(image.product_id === producto.id){
-                url = image.url;
+            let articuloProducto = document.createElement('article');
+            let img = document.createElement('img');
+            let divNomStock = document.createElement('div');
+            let nombre = document.createElement('h2');
+            let stock = document.createElement('p');
+            let divBotonCantidad = document.createElement('div');
+            let mas = document.createElement('button');
+            let cantidad = document.createElement('p');
+            let menos = document.createElement('button');
+            let precio = document.createElement('p');
+            let precioTotalProducto = document.createElement('p');
+            let botonEliminar = document.createElement('button');
+
+            //Insertamos el valor en cada caso
+
+            img.src = url;
+            nombre.textContent = producto.name;
+            menos.textContent = '-';
+            mas.textContent = '+';
+            precio.textContent = `Pr/ud: ${producto.price} €`;
+            precioTotalProducto.textContent = `Total: ${(producto.price * line.quantity).toFixed(2)} €`;
+            botonEliminar.textContent = 'Eliminar';
+            stock.textContent = `STOCK : ${producto.stock}`
+            cantidad.textContent = line.quantity;
+            mas.value = line.id;
+            menos.value = line.id;
+            mas.dataset.id = line.quantity;
+            menos.dataset.id = line.quantity;
+            botonEliminar.value = line.id;
+            //clases
+            articuloProducto.className="articulo__producto--carrito";
+            img.className="img_producto--carrito";
+            divNomStock.className = "div__nombreStock--carrito";
+            stock.className = "stock__producto--carrito";
+            divBotonCantidad.className = "div__botonCantidad--carrito";
+            mas.className = "boton_mas_menos";
+            menos.className = "boton_mas_menos";
+            precio.className = "precio__producto--carrito";
+            precioTotalProducto.className = "precioFinal__producto--carrito";
+            botonEliminar.className ="boton__borrarProducto--carrito";
+
+            divNomStock.append(nombre,stock);
+            divBotonCantidad.append(menos,cantidad,mas);
+            articuloProducto.append(img,divNomStock,divBotonCantidad,precio,precioTotalProducto,botonEliminar);
+            section_carrito.append(articuloProducto);
+
+            precioFinal += producto.price * line.quantity;
+            let precioTotalProductos = producto.price * line.quantity;
+            listaProductos.push({"name":producto.name,"cantidad":line.quantity,"precio":precioTotalProductos,"id_product":producto.id,"stock":producto.stock});
+
+            if(producto.stock < line.quantity){
+                stockTotal = false;
             }
+
+            //Funciones despues de mostrar todos los productos
+            contadorLinesLength += 1;
+            if(contadorLinesLength === orderLinesLength){
+                precioFinal = precioFinal.toFixed(2);
+                compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos);
+                eventoSumarRestar();
+                borrarLineOrder();
+            }
+
         });
 
-        let articuloProducto = document.createElement('article');
-        let img = document.createElement('img');
-        let divNomStock = document.createElement('div');
-        let nombre = document.createElement('h2');
-        let stock = document.createElement('p');
-        let divBotonCantidad = document.createElement('div');
-        let mas = document.createElement('button');
-        let cantidad = document.createElement('p');
-        let menos = document.createElement('button');
-        let precio = document.createElement('p');
-        let precioTotalProducto = document.createElement('p');
-        let botonEliminar = document.createElement('button');
+    }catch(error){
+        if(error){
+            let articleImg = document.createElement('article')
+            let img = document.createElement('img');
 
-        //Insertamos el valor en cada caso
+            articleImg.className = 'article_img--rex';
+            img.className = 'img_rex';
+            img.src="/img/carrito/rexCompra.png";
 
-        img.src = url;
-        nombre.textContent = producto.name;
-        menos.textContent = '-';
-        mas.textContent = '+';
-        precio.textContent = `Pr/ud: ${producto.price} €`;
-        precioTotalProducto.textContent = `Total: ${(producto.price * line.quantity).toFixed(2)} €`;
-        botonEliminar.textContent = 'Eliminar';
-        stock.textContent = `STOCK : ${producto.stock}`
-        cantidad.textContent = line.quantity;
-        mas.value = line.id;
-        menos.value = line.id;
-        mas.dataset.id = line.quantity;
-        menos.dataset.id = line.quantity;
-        botonEliminar.value = line.id;
-        //clases
-        articuloProducto.className="articulo__producto--carrito";
-        img.className="img_producto--carrito";
-        divNomStock.className = "div__nombreStock--carrito";
-        stock.className = "stock__producto--carrito";
-        divBotonCantidad.className = "div__botonCantidad--carrito";
-        mas.className = "boton_mas_menos";
-        menos.className = "boton_mas_menos";
-        precio.className = "precio__producto--carrito";
-        precioTotalProducto.className = "precioFinal__producto--carrito";
-        botonEliminar.className ="boton__borrarProducto--carrito";
-
-        divNomStock.append(nombre,stock);
-        divBotonCantidad.append(menos,cantidad,mas);
-        articuloProducto.append(img,divNomStock,divBotonCantidad,precio,precioTotalProducto,botonEliminar);
-        section_carrito.append(articuloProducto);
-
-        precioFinal += producto.price * line.quantity;
-        let precioTotalProductos = producto.price * line.quantity;
-        listaProductos.push({"name":producto.name,"cantidad":line.quantity,"precio":precioTotalProductos,"id_product":producto.id,"stock":producto.stock});
-
-        if(producto.stock < line.quantity){
-            stockTotal = false;
+            articleImg.append(img);
+            section_carrito.append(articleImg);
+            section_carrito.style="background-Color: white;"
+            footer.style="margin-top:0px"
         }
-
-        //Funciones despues de mostrar todos los productos
-        contadorLinesLength += 1;
-        if(contadorLinesLength === orderLinesLength){
-            precioFinal = precioFinal.toFixed(2);
-            compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos);
-            eventoSumarRestar();
-            borrarLineOrder();
-        }
-
-    });
+    }
+    console.log('koko')
 
 
 }
