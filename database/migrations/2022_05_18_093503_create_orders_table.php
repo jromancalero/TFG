@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('status')->default('carrito');
             $table->date('date')->nullable();
             $table->double('final_price')->nullable();
-            $table->foreignId('user_id') ->constrained()
+            $table->foreignId('user_id')->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->foreignId('address_id')->nullable()->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');
             $table->timestamps();

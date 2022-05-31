@@ -14,8 +14,9 @@ const listarCarrito= async()=>{
     let contadorLinesLength = 0;
     let num_carrito = document.querySelector('#num_carrito');
     let numeroCarrito = 0;
-    let stockTotal = 0;
+    let stockTotal = true;
     let precioFinal = 0;
+    let listaProductos = [];
 
     orderLines.forEach(linea =>{
         numeroCarrito = numeroCarrito + linea.quantity;
@@ -68,7 +69,6 @@ const listarCarrito= async()=>{
         mas.dataset.id = line.quantity;
         menos.dataset.id = line.quantity;
         botonEliminar.value = line.id;
-
         //clases
         articuloProducto.className="articulo__producto--carrito";
         img.className="img_producto--carrito";
@@ -87,12 +87,18 @@ const listarCarrito= async()=>{
         section_carrito.append(articuloProducto);
 
         precioFinal += producto.price * line.quantity;
-        stockTotal += producto.stock;
+        let precioTotalProductos = producto.price * line.quantity;
+        listaProductos.push({"name":producto.name,"cantidad":line.quantity,"precio":precioTotalProductos,"id_product":producto.id,"stock":producto.stock});
+
+        if(producto.stock < line.quantity){
+            stockTotal = false;
+        }
 
         //Funciones despues de mostrar todos los productos
         contadorLinesLength += 1;
         if(contadorLinesLength === orderLinesLength){
-            compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines);
+            precioFinal = precioFinal.toFixed(2);
+            compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos);
             eventoSumarRestar();
             borrarLineOrder();
         }
@@ -164,7 +170,7 @@ function borrarLineOrder(){
     })
 }
 
-compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines)=>{
+compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos)=>{
 
     let articuloCompraFinal = document.createElement('article');
     let botonFinalizarCompra = document.createElement('button');
@@ -188,18 +194,200 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines)=>{
     articuloCompraFinal.append(botonFinalizarCompra,articulosCarrito,totalPrecio);
     section_carrito.append(articuloCompraFinal);
 
-  //llamada user para ver si tiene direcciones y demás
-    botonFinalizarCompra.addEventListener('click',(e)=>{
-        let anuncio = document.createElement('article');
-        if(stockTotal<numeroCarrito){
+  //EVENTO FINALIZAR COMPRA
+    botonFinalizarCompra.addEventListener('click',async(e)=>{
+        let respUser = await fetch('api/users/viewUser');
+        let userAndAddress = await respUser.json();
+        let user = userAndAddress[0];
+        let addresses = userAndAddress[1];
+        console.log(user,addresses);
+        let edad = getEdad(user.date_birth);
+        console.log(edad);
+        let finalizaCompraBoolean = true;
+        let arrayErrores = [];
+        let articleFinalVentaProducto = document.createElement('article');
+        articleFinalVentaProducto.className="articulo__final--venta";
+        articleFinalVentaProducto.innerHTML ="";
+        if(edad < 18){
+            finalizaCompraBoolean = false;
+            arrayErrores.push('Para comprar productos en la tienda, deberás tener al menos 18 años');
+        }
+        if(!stockTotal){
+            finalizaCompraBoolean = false;
+            arrayErrores.push('Parece que no hay stock de alguno de los productos, por favor, revisa bien tu pedido');
+        }
+        if(addresses.length === 0){
+            finalizaCompraBoolean = false;
+            arrayErrores.push('Debes tener al menos una dirección para poder finalizar la compra');
+        }
+        //Finalizar compra
+        if(finalizaCompraBoolean){
+            section_carrito.innerHTML="";
+            let titulo_confirmaciónDirección = document.createElement('h1');
+            titulo_confirmaciónDirección.textContent = 'Confirme una dirección para el pedido'
+            titulo_confirmaciónDirección.className = "titulo_confirmación";
+            let lista_direcciones = document.createElement('ul');
+            lista_direcciones.className = 'lista_direcciones_carrito';
+
+            addresses.forEach(address=>{
+                let liDireccion = document.createElement('li');
+                liDireccion.textContent = `Direccion: ${address.tipo} ${address.nombre}, Nº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais}`;
+                let botonConfirmarDireccion = document.createElement('button');
+                botonConfirmarDireccion.textContent = 'Confirmar';
+                botonConfirmarDireccion.value = address.id;
+                botonConfirmarDireccion.className= "boton_confirmacion_direccion";
+                liDireccion.append(botonConfirmarDireccion);
+                lista_direcciones.append(liDireccion);
+            });
+            section_carrito.append(titulo_confirmaciónDirección,lista_direcciones);
+            let botonesdirecciones = document.querySelectorAll('.boton_confirmacion_direccion');
+            //coger el id de la order
+            let resOrder = await fetch('/api/orders/cart');
+            let order = await resOrder.json();
+            let orderId = order[0].id;
+            console.log(orderId);
+
+            for(let botonDireccion of botonesdirecciones){
+                //evento de confirmacion de la direccion y ultimos pasos para finalizar la compra
+                botonDireccion.addEventListener('click', async(e)=>{
+                    let addresId = e.target.value;
+                    console.log(orderId,addresId);
+                    section_carrito.innerHTML ="";
+                    let articleVentaFinal = document.createElement('article');
+                    articleVentaFinal.className="article_venta_final";
+                    console.log(listaProductos);
+
+                    let tituloProductosPedido = document.createElement('h1');
+                    tituloProductosPedido.textContent="Productos Del Pedido";
+                    tituloProductosPedido.className="titulos_carrito";
+                    articleVentaFinal.append(tituloProductosPedido);
+                    //Listar productos que van a ser comprados
+                    listaProductos.forEach(producto=>{
+                        let divProducto = document.createElement('div');
+                        let tituloProducto = document.createElement('p');
+                        let cantidadProducto = document.createElement('p');
+                        let precioProducto = document.createElement('p');
+                        //clases
+                        divProducto.className= 'divProducto_final--compra';
+                        tituloProducto.className = 'titulo__producto--compraFinal';
+                        cantidadProducto.className = 'cantidad__producto--compraFinal';
+                        precioProducto.className = 'precio__producto--compraFinal';
+                        //valor a los elementos
+                        tituloProducto.textContent = producto.name;
+                        cantidadProducto.textContent = producto.cantidad;
+                        precioProducto.textContent = producto.precio;
+                        //append
+                        divProducto.append(tituloProducto,cantidadProducto,precioProducto);
+                        articleVentaFinal.append(divProducto);
+                    });
+                    let botonFinalizarPago = document.createElement('button');
+                    botonFinalizarPago.textContent = 'Finalizar pago';
+                    articleVentaFinal.append(botonFinalizarPago);
+                    section_carrito.append(articleVentaFinal);
+
+                    //FINALIZACIÓN PAGO, RESTA DE PRODUCTOS EN LA BASE DE DATOS Y CAMBIO EN EL STATUS DE ORDER
+                    botonFinalizarPago.addEventListener('click', async(e)=>{
+                        //Cambio de carrito
+                        fetch(`api/orders/${orderId}`, {
+                            method: "PUT",
+                            mode:'cors',
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({"address_id":addresId}),
+                        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+
+                        //Eliminando productos
+                        listaProductos.forEach(async(producto)=>{
+                            let stock = producto.stock - producto.cantidad;
+                            console.log(stock);
+                            fetch(`api/products/stock/${producto.id_product}`, {
+                                method: "PUT",
+                                mode:'cors',
+                                headers: {
+                                    'X-CSRF-TOKEN': token,
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({"stock":stock}),
+                            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                        });
+                        let num_carrito = document.querySelector('#num_carrito');
+                        num_carrito.textContent = 0;
+                        setTimeout(()=>{
+                            listarCarrito();
+                        },6000);
+                        section_carrito.innerHTML="";
+                        let articleFinal = document.createElement('article');
+                        articleFinal.className = "article_final";
+                        let titulo_ultimo = document.createElement('h1');
+                        titulo_ultimo.className="titulo_ultimo";
+                        titulo_ultimo.textContent = 'Esto es una simulación del pago total por el carrito y sus productos, finalizará aquí, gracias por su compra';
+                        articleFinal.append(titulo_ultimo,)
+                        section_carrito.append(articleFinal);
+
+                    });
+                });
+            }
 
         }else{
-
+            let listaErrores = document.createElement('ul');
+            listaErrores.className="lista_errores_carrito";
+            for(let error of arrayErrores){
+                let liError = document.createElement('li');
+                liError.textContent = error;
+                listaErrores.append(liError);
+            }
+            let titulo = document.createElement('h1');
+            let subtitulo = document.createElement('h2');
+            let botonCerrar = document.createElement('button');
+            titulo.textContent = 'VAYA VAYA... PARACE QUE ALGO ANDA MAL...';
+            subtitulo.textContent = 'Creo que deberias revisar los siguientes errores...';
+            botonCerrar.textContent = 'Cerrar aviso';
+            botonCerrar.className = "boton_cerrar";
+            titulo.className = "titulo_error_carrito";
+            subtitulo.className = "subtitulo_error_carrito";
+            articleFinalVentaProducto.append(titulo,subtitulo,listaErrores,botonCerrar);
+            section_carrito.append(articleFinalVentaProducto);
+            let scroll = articleFinalVentaProducto.getBoundingClientRect();
+            window.scrollTo(scroll.x,scroll.y);
+            console.log(scroll);
+            botonCerrar.addEventListener('click',e=>{
+                articleFinalVentaProducto.innerHTML = "";
+            });
         }
     });
 }
 
+//contar carrito
+const countCarrito = async()=>{
+    let num_carrito = document.querySelector('#num_carrito');
+    let numeroCarrito = 0;
+    let respOrderLines = await fetch('api/orderLines');
+    let orderLines = await respOrderLines.json();
+    console.log(orderLines)
 
+    if(orderLines === 'error'){
+        console.log('no invitado');
+    }else{
+
+        console.log(orderLines);
+
+        orderLines.forEach(linea =>{
+            numeroCarrito = numeroCarrito + linea.quantity;
+        });
+        num_carrito.textContent = numeroCarrito;
+    }
+}
+
+//Función para saber si es mayor de edad
+function getEdad(date_birth){
+    let fechaNacimiento = new Date(date_birth);
+    let hoy = new Date();
+    let hoyCompleto = hoy.getFullYear();
+    let age = hoyCompleto - fechaNacimiento.getFullYear();
+    return age;
+}
 
 
 listarCarrito();

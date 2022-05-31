@@ -53,8 +53,6 @@
                         <input class="botonEnviar" type="submit" name="enviar" value="Registrarse">
                     </div>
 
-
-
                 </form>
 
                 @if($errors->any())

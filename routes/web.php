@@ -53,6 +53,7 @@ Route::get('api/users/viewUser',[App\Http\Controllers\Api\UserApiController::cla
 Route::put('api/users/userPassword',[App\Http\Controllers\Api\UserApiController::class,'userPassword'])->middleware('api');
 Route::put('api/users/userUpdate',[App\Http\Controllers\Api\UserApiController::class,'userUpdate'])->middleware('api');
 Route::get('api/orders/cart',[App\Http\Controllers\Api\OrderApiController::class,'orderCart']);
+Route::put('api/products/stock/{product}',[App\Http\Controllers\Api\ProductController::class,'updatestock']);
 Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');
 Route::apiResource('api/users',App\Http\Controllers\Api\UserApiController::class)->middleware('api');
 Route::apiResource('api/images',App\Http\Controllers\Api\ImageApiController::class)->middleware('api');

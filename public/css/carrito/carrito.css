@@ -2,6 +2,7 @@
 .section__carrito{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .articulo__producto--carrito{
@@ -14,6 +15,7 @@
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 15px;
+    width: 100%;
 }
 
 .img_producto--carrito{
@@ -50,4 +52,58 @@
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 15px;
+
+}
+
+.articulo__final--venta{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+    margin: 0 auto;
+    background-color: rgb(236, 188, 188);
+}
+.lista_errores_carrito{
+    list-style: none;
+    color: rgb(255, 0, 0);
+    font-size: 1em;
+    font-family: 'MontserratBold';
+    padding: 0;
+    margin: 15px;
+}
+.titulo_error_carrito{
+    font-size: 1.5em;
+    font-family: 'MontserratBold';
+    margin: 15px;
+}
+.subtitulo_error_carrito{
+    font-size: 1.3em;
+    font-family: 'Montserrat';
+    margin: 15px;
+}
+
+.boton_cerrar{
+    box-shadow: 3px 4px 0px 0px #899599;
+	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+	background-color:#ededed;
+	border-radius:15px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#3a8a9e;
+	font-family:Arial;
+	font-size:15px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+    margin: 15px;
+}
+.titulos_carrito{
+    font-size: 1.6em;
+    font-family: 'Hiromisake';
+    border-bottom: 2px solid black;
 }
