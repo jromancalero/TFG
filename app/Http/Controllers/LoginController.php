@@ -26,6 +26,7 @@ class LoginController extends Controller
             'dni' => $request->dni,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
+            'date_birth' => $request->date_birth,
         ]);
 
         Auth::login($user);

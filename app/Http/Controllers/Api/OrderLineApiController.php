@@ -17,11 +17,19 @@ class OrderLineApiController extends Controller
      */
     public function index()
     {
-        $userId = Auth::user()->id;
-        $orderCart = Order::where([['user_id',$userId],['status','carrito']])->get();
-        $orderLine = $orderCart[0]->id;
-        $orderLines = OrderLine::where('order_id',$orderLine)->get();
-        return response()->json($orderLines,200);
+
+        if(Auth::user()){
+
+            $userId = Auth::user()->id;
+            $orderCart = Order::where([['user_id',$userId],['status','carrito']])->get();
+            $orderLine = $orderCart[0]->id;
+            $orderLines = OrderLine::where('order_id',$orderLine)->get();
+            return response()->json($orderLines,200);
+
+        }else{
+            return response()->json('error',200);
+        }
+
     }
     public function __construct()
     {

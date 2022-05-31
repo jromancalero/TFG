@@ -32,6 +32,7 @@ class RegistroRequest extends FormRequest
             'dni' => ['required','string','min:9','max:9','unique:users'],
             'email' => ['required','string','max:30','unique:users'],
             'password' => ['required','confirmed', Password::defaults()],
+            'date_birth' => ['required'],
 
         ];
     }
@@ -58,6 +59,7 @@ class RegistroRequest extends FormRequest
             'password.required' => 'La contraseña es obligatoria',
             'password.confirmed' => 'Las contraseñas no coinciden',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres',
+            'date_birth.required' => 'La fecha de nacimineto es obligatoria',
 
         ];
     }

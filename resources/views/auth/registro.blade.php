@@ -44,7 +44,12 @@
                         <label for="phone">Numero de telefono</label>
                         <input type="number" name="phone" id="phone" placeholder="Opcional">
                     </div>
+                    <div>
+                        <label for="date_birth">Fecha de nacimiento</label>
+                        <input type="date" name="date_birth" id="date_birth">
+                    </div>
                     <div class="div__botonEnviar">
+                        <a class="botonEnviar" href="{{route('inicio')}}">Inicio</a>
                         <input class="botonEnviar" type="submit" name="enviar" value="Registrarse">
                     </div>
 
