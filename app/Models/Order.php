@@ -17,4 +17,8 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function address(){
+        return $this->bolongsTo(Address::class);
+    }
 }

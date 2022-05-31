@@ -72,7 +72,12 @@ class OrderApiController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $order->status = 'pagado';
+        $order->address_id = $request->get('address_id');
+
+        $order->save();
+
+        return response()->json($order,200);
     }
 
     /**
