@@ -2,7 +2,7 @@
 let section_carrito = document.querySelector('#section__carrito');
 let tokenInput = document.querySelector('[name=_token]');
 let token = tokenInput.value;
-
+let footer = document.querySelector('.section__footer');
 const listarCarrito= async()=>{
 
     section_carrito.innerHTML="";
@@ -17,6 +17,22 @@ const listarCarrito= async()=>{
     let stockTotal = true;
     let precioFinal = 0;
     let listaProductos = [];
+
+
+   console.log(orderLines.length)
+   if(orderLines.length === 0){
+        let articleImg = document.createElement('article')
+        let img = document.createElement('img');
+
+        articleImg.className = 'article_img--rex';
+        img.className = 'img_rex';
+        img.src="/img/carrito/rexCompra.png";
+
+        articleImg.append(img);
+        section_carrito.append(articleImg);
+        section_carrito.style="background-Color: white;"
+        footer.style="margin-top:0px"
+    }
 
     orderLines.forEach(linea =>{
         numeroCarrito = numeroCarrito + linea.quantity;
