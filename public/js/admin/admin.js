@@ -3,8 +3,9 @@
 let bloqueLista = document.querySelector('#productos_usuarios');
 let botonUsuarios = document.querySelector('#usuarios');
 let botonProductos = document.querySelector('#productos');
-let token = document.querySelector('#token');
-
+let tokenInput = document.querySelector('[name=_token]');
+let token = tokenInput.value;
+let articleEdicion = document.querySelector('#edicion')
 let divErrores = document.createElement('div');
 divErrores.className = "div_errores";
 
@@ -30,11 +31,13 @@ divErrores.className = "div_errores";
 
     let titulo_lista = document.createElement('h2');
     bloqueLista.innerHTML="";
+    articleEdicion.innerHTML="";
     titulo_lista.textContent = nombre;
     titulo_lista.className="titulo_lista";
     bloqueEditar = document.createElement('div');
     bloqueEditar.className="bloque_editar";
-    bloqueLista.append(bloqueEditar,titulo_lista);
+    articleEdicion.append(bloqueEditar);
+    bloqueLista.append(titulo_lista);
 
 
 
@@ -134,7 +137,6 @@ const deleteProductsAndUsers = async(nombre)=>{
 //FUNCIÓN PARA RECOGER LOS DATOS DE LOS USUARIOS Y PRODUCTOS PARA PODER BORRARLOS
 const getProductsAndUsersForDelete = async(e,nombre)=>{
 
-    let tokenDelete = token.value;
     let id = e.target.value;
 
     console.log(id);
@@ -148,7 +150,7 @@ const getProductsAndUsersForDelete = async(e,nombre)=>{
                 method: "DELETE",
                 mode:'cors',
                 headers: {
-                    'X-CSRF-TOKEN': tokenDelete,
+                    'X-CSRF-TOKEN': token,
                     'Content-Type': 'application/json',
                 },
             }).then(()=>listar('PRODUCTOS'));
@@ -162,7 +164,7 @@ const getProductsAndUsersForDelete = async(e,nombre)=>{
                 method: "DELETE",
                 mode:'cors',
                 headers: {
-                    'X-CSRF-TOKEN': tokenDelete,
+                    'X-CSRF-TOKEN': token,
                     'Content-Type': 'application/json',
                 },
             }).then(()=>listar('USUARIOS'));
@@ -265,7 +267,7 @@ const edit = async(nombre)=>{
                                 method: "PUT",
                                 mode:'cors',
                                 headers: {
-                                    'X-CSRF-TOKEN': token.value,
+                                    'X-CSRF-TOKEN': token,
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify(usuarioCambiado),
@@ -366,7 +368,7 @@ const edit = async(nombre)=>{
                                 method: "PUT",
                                 mode:'cors',
                                 headers: {
-                                    'X-CSRF-TOKEN': token.value,
+                                    'X-CSRF-TOKEN': token,
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify(productoCambiado),
@@ -376,7 +378,7 @@ const edit = async(nombre)=>{
                                 method: "PUT",
                                 mode:'cors',
                                 headers: {
-                                    'X-CSRF-TOKEN': token.value,
+                                    'X-CSRF-TOKEN': token,
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify({"url":inputImage.value}),
@@ -399,7 +401,7 @@ const makeProducts = async()=>{
     makeProductsButton = document.querySelector('#crear_productos');
     makeProductsButton.addEventListener('click',(e)=>{
         bloqueLista.innerHTML="";
-
+        articleEdicion.innerHTML="";
         let carac = ['name','type','size','price','description','stock','url'];
 
         for(let name of carac){
@@ -481,7 +483,7 @@ const makeProducts = async()=>{
                         method: "POST",
                         mode:'cors',
                         headers: {
-                            'X-CSRF-TOKEN': token.value,
+                            'X-CSRF-TOKEN': token,
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(producto),
@@ -490,7 +492,7 @@ const makeProducts = async()=>{
                         method: "POST",
                         mode:'cors',
                         headers: {
-                            'X-CSRF-TOKEN': token.value,
+                            'X-CSRF-TOKEN': token,
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({"url":inputUrl.value,"product_id":idProduct}),
@@ -498,6 +500,7 @@ const makeProducts = async()=>{
                         inputName.value = '';
                         inputType.value = '';
                         inputPrice.value = '';
+                        inputSize.value = '';
                         inputDescription.value = '';
                         inputStock.value = '';
                         inputUrl.value = '';

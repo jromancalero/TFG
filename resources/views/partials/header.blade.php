@@ -45,7 +45,11 @@
 
                 @auth
                     <p class="material-symbols-outlined">account_circle</p>
-                    <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
+                    @if (Auth::user()->is_admin = 1)
+                        <a class="li__user--a" href="{{route('admin')}}">{{Auth::user()->user_name}}</a>
+                    @else
+                        <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
+                    @endif
                     <form class="form_logout" method="POST" action="{{route('logout')}}">
                         @csrf
                         <a class="logout" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();"><span class="material-symbols-outlined">

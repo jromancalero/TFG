@@ -21,6 +21,10 @@
 }
 
 /* estilos del js */
+.listado_admin{
+    overflow-y: scroll;
+    height: 500px;
+}
 
 .lista_admin{
     list-style: none;
