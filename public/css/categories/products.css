@@ -16,14 +16,14 @@ body {
 
 .section__products{
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     justify-items: center;
 }
 
 
 .img__product{
-    max-width: 200px;
-    max-height: 250px;
+    width: 200px;
+    height: 250px;
 
 }
 
@@ -33,7 +33,6 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 250px;
-    height: 540px;
     padding: 10px;
     margin-top: 30px;
     border-radius: 10px;

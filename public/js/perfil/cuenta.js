@@ -11,7 +11,6 @@ listarUsuario = async()=>{
     let userAndAddress = await respUser.json();
     let user = userAndAddress[0];
     let addresses = userAndAddress[1];
-    console.log(addresses, user);
 
     let listaUser = document.createElement('ul');
 
@@ -338,10 +337,94 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
         });
     });
 
+    //EVENTO LISTAR PEDIDOS USUARIO
+    liPedidos.addEventListener('click', async(e)=>{
+        let respPaidOrders = await fetch('api/orders/profile');
+        let paidOrders = await respPaidOrders.json();
+        articleUser.innerHTML = "";
+        let titulo = document.createElement('h1');
+
+        titulo.className = "titulo__pedidos--perfil";
+        titulo.textContent = "Pedidos realizados";
+        articleUser.append(titulo);
+
+        paidOrders.forEach((order) => {
+
+            creacionPedidosPerfil(order,articleUser,botonAtras)
+
+        });
+    });
 
     botonAtras.addEventListener('click',(e)=>{
         listarUsuario();
+
     });
+}
+
+//Listar Pedidos con evento
+const creacionPedidosPerfil = async(order,articleUser,botonAtras)=>{
+    let respOrderLines = await fetch(`api/orderLines/profile/${order.id}`);
+    let arrayProductos = await respOrderLines.json();
+
+
+    //Partes de los pedidos
+    let orderArticle = document.createElement('article');
+    let divNumPedidoFecha = document.createElement('div');
+    let numPedido = document.createElement('p');
+    let fechaPedido = document.createElement('p');
+
+    //clases
+    orderArticle.className ="articulo__order--perfil";
+    divNumPedidoFecha.className = "div__numPedidoFecha--perfil";
+    numPedido.className = "numero__pedido-perfil";
+    fechaPedido.className = "fecha__pedido--perfil";
+
+
+    //valores textContext
+    numPedido.textContent = `ID pedido: ${order.id}`;
+    let fecha = new Date(order.updated_at);
+    fechaPedido.textContent = `Fecha: ${fecha.getDate()} - ${(fecha.getMonth()+1)} - ${fecha.getFullYear()}`;
+
+    divNumPedidoFecha.append(numPedido,fechaPedido);
+    orderArticle.append(divNumPedidoFecha);
+
+    //creamos los articulos de los pedidos
+    arrayProductos.forEach(lineaProducto=>{
+        console.log(lineaProducto);
+        let divProducto = document.createElement('div');
+        let nombreProducto = document.createElement('p');
+        let precioProducto = document.createElement('p');
+        let cantidadProducto = document.createElement('p');
+        //clases
+        divProducto.className ="div__productoPedidos--perfil";
+        //damos valor a los textContent
+        nombreProducto.textContent = `Nombre: ${lineaProducto[0]}`;
+        precioProducto.textContent = `Precio/Ud: ${lineaProducto[1]} €`;
+        cantidadProducto.textContent = `Cantidad: ${lineaProducto[2]}`;
+
+        divProducto.append(nombreProducto,cantidadProducto,precioProducto);
+        orderArticle.append(divProducto);
+    });
+
+    //CONSEGUIR DIRECCION
+    let respAddress = await fetch(`api/address/order/${order.address_id}`);
+    let addressPedido = await respAddress.json();
+    let address = addressPedido[0];
+
+    let divDireccionPrecioTotal = document.createElement('div');
+    let direccion = document.createElement('p');
+    let precioTotalPedido = document.createElement('p');
+
+    divDireccionPrecioTotal.className = "div__direccionPrecioTotal--perfil";
+    direccion.className ="direccion__pedido--perfil";
+    precioTotalPedido.className="precio__totalPedido--perfil";
+
+    direccion.textContent =  `Direccion: ${address.tipo} ${address.nombre}, Nº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais} `;
+    precioTotalPedido.textContent = `Total pedido: ${order.final_price} €`
+
+    divDireccionPrecioTotal.append(direccion,precioTotalPedido);
+    orderArticle.append(divDireccionPrecioTotal);
+    articleUser.append(orderArticle,botonAtras);
 }
 
 //llamada a la funcion para borrar las direcciones

@@ -4,6 +4,14 @@
     flex-direction: column;
     align-items: center;
 }
+.article_img--rex{
+    display: flex;
+    max-width: 100%;
+}
+.img_rex{
+    width: 100%;
+    height: auto;
+}
 
 .articulo__producto--carrito{
     display: grid;

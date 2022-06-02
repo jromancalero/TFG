@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderLine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -22,13 +23,26 @@ class OrderApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy','orderCart']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy','orderCart','paidOrderList']]);
     }
 
     public function orderCart()
     {
+
+        if(Auth::user()){
+            $userId = Auth::user()->id;
+            $orderCart = Order::where([['user_id',$userId],['status','carrito']])->get();
+            return response()->json($orderCart,200);
+        }else{
+            return response()->json('no registrado',200);
+        }
+    }
+
+    public function paidOrderList()
+    {
         $userId = Auth::user()->id;
-        $orderCart = Order::where([['user_id',$userId],['status','carrito']])->get();
+        $orderCart = Order::where([['user_id',$userId],['status','pagado']])->get();
+
         return response()->json($orderCart,200);
     }
     /**
@@ -74,7 +88,7 @@ class OrderApiController extends Controller
     {
         $order->status = 'pagado';
         $order->address_id = $request->get('address_id');
-
+        $order->final_price = $request->get('final_price');
         $order->save();
 
         return response()->json($order,200);

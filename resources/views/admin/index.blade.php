@@ -5,12 +5,13 @@
 <section class="section_admin">
     <h1 class="titulo"> VISTA DE ADMIN PARA ADMINISTRAR LA APLICACIÓN</h1>
     <h2 class="name_admin">Admin:{{Auth::user()->name}}</h2>
-    <input type ="hidden" name="_token" id="token" value="{{csrf_token()}}">
+    @csrf
     <article class="article__modalidades">
         <button id="usuarios">Usuarios</button>
         <button id="productos">Productos</button>
         <button id="crear_productos">Crear Productos</button>
     </article>
+    <article id="edicion"></article>
     <article class="listado_admin" id="productos_usuarios">
 
     </article>

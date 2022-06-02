@@ -6,11 +6,12 @@
     align-items: center;
 }
 .article__user{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     align-items: center;
-    max-width: 600px;
 }
+
+
 
 .lista_cuenta{
     list-style: none;
@@ -19,11 +20,12 @@
     flex-direction: column;
     gap: 1em;
 }
-.nombre_cuenta{
+.nombre_cuenta,.titulo__modificar--datos,.titulo__cambio--contraseña,.titulo__pedidos--perfil{
     font-weight: bold;
     font-size: 2.1em;
     font-family: Hiromisake;
     border-bottom: 2px solid black;
+    text-align: center;
 }
 .lista_cuenta li{
 
@@ -48,17 +50,20 @@ li .li__AñadirEliminar--Direcciones{
     font-size: 0.9em;
     margin: 10px;
     text-align: center;
+    background-color: rgb(232, 212, 238);
 }
-
+/* rgb(4, 155, 4) */
 .pedidos__perfil,.cambiarContraseña__perfil,.cambiar_datos,.li__AñadirEliminar--Direcciones{
     text-align: center;
     cursor: pointer;
 }
 @keyframes color {
-    from{background-color: azure;}
-    to{background-color: rgb(4, 155, 4); color: white}
+    from{ background-color: rgb(232, 212, 238);}
+    to{ background-color: rgb(187, 101, 211); color: white}
 }
-
+article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_datos{
+    background-color: rgb(232, 212, 238);
+}
 .pedidos__perfil:hover,.cambiarContraseña__perfil:hover,.cambiar_datos:hover,.li__AñadirEliminar--Direcciones:hover{
     animation-name: color ;
     animation-duration: 1.5s;
@@ -71,18 +76,13 @@ li .li__AñadirEliminar--Direcciones{
     margin: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
-    background-color: azure;
+    background-color: rgb(252, 252, 252);
 }
 .div__datos--perfil label,.div__contraseñas--perfil label{
     margin: 10px;
     color: black;
     font-weight: bold;
     font-size: 1.2em;
-}
-.titulo__modificar--datos,.titulo__cambio--contraseña{
-    font-size: 1.6em;
-    font-family: 'Hiromisake';
-    border-bottom: 2px solid black;
 }
 .botones__perfil--volverConfirmar{
     display: grid;
@@ -131,4 +131,40 @@ li .li__AñadirEliminar--Direcciones{
 .boton__eliminar--direccion:hover{
     background-color: red;
     cursor: pointer;
+}
+
+.articulo__order--perfil{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    margin: 15px;
+    font-size: 1.2em;
+}
+
+.div__numPedidoFecha--perfil{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    font-family: 'MonsterratBold';
+    font-weight: bold;
+}
+
+.div__productoPedidos--perfil{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px;
+    gap: 5px;
+}
+.div__direccionPrecioTotal--perfil{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 10px;
+}
+.precio__totalPedido--perfil{
+    font-family: 'MonsterratBold';
+    font-weight: bold;
 }
