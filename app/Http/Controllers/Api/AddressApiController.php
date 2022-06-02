@@ -21,6 +21,11 @@ class AddressApiController extends Controller
         return response()->json([$addresses],200);
     }
 
+    public function addressOrder($id_order)
+    {
+        $address = Address::where('id',$id_order)->get();
+        return response()->json($address,200);
+    }
     /**
      * Store a newly created resource in storage.
      *

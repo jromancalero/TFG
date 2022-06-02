@@ -7,6 +7,7 @@ use App\Models\OrderLine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
+use App\Models\Product;
 
 class OrderLineApiController extends Controller
 {
@@ -33,7 +34,7 @@ class OrderLineApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','store','update','destroy','listOrdersWithProducts']]);
     }
 
     /**
@@ -53,6 +54,20 @@ class OrderLineApiController extends Controller
 
         $orderLine->save();
         return response()->json($orderLine, 200);
+    }
+
+    public function listOrdersWithProducts($id_order)
+    {
+
+        $arrayOrderProductos = array();
+        $order_lines = OrderLine::where('order_id',$id_order)->get();
+        foreach($order_lines as $orderLine){
+            $orderLineProductId = $orderLine->id;
+            $product = Product::where('id',$orderLineProductId)->get();
+
+            array_push($arrayOrderProductos,[$product[0]->name,$product[0]->price,$orderLine->quantity]);
+        }
+        return response()->json($arrayOrderProductos,200);
     }
 
     /**

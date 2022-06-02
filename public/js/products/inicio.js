@@ -239,13 +239,18 @@ const carritoCompra=(modo,)=>{
         });
     });
 }
-            //Creación lineas de pedido
+
+//Creación lineas de pedido
 const createLineasDeProducto = async(id_producto,modo,cantidad)=>{
     console.log(id_producto);
     let respOrders = await fetch('api/orders/cart');
     let order = await respOrders.json();
     console.log(order);
-    //SI NO TIENE CARRITO SE LO CREAMOS Y AÑADIMOS PRODUCTO DIRECTAMENTE
+    //si no esta registrado, aviso
+    if(order === 'no registrado'){
+        alert('Para añadir artículos a tu carrito, debes registrarte o estar logueado antes');
+    }else{
+            //SI NO TIENE CARRITO SE LO CREAMOS Y AÑADIMOS PRODUCTO DIRECTAMENTE
     if(order.length === 0){
         fetch("/api/orders", {
             method: "POST",
@@ -261,6 +266,8 @@ const createLineasDeProducto = async(id_producto,modo,cantidad)=>{
         introducirProductoCarrito(order2[0].id,id_producto,modo,cantidad);
     }
     introducirProductoCarrito(order[0].id,id_producto,modo,cantidad);
+    }
+
 }
 
 const introducirProductoCarrito= async(order,id_producto,modo,cantidad)=>{

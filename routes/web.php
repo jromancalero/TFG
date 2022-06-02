@@ -53,6 +53,9 @@ Route::get('api/users/viewUser',[App\Http\Controllers\Api\UserApiController::cla
 Route::put('api/users/userPassword',[App\Http\Controllers\Api\UserApiController::class,'userPassword'])->middleware('api');
 Route::put('api/users/userUpdate',[App\Http\Controllers\Api\UserApiController::class,'userUpdate'])->middleware('api');
 Route::get('api/orders/cart',[App\Http\Controllers\Api\OrderApiController::class,'orderCart']);
+Route::get('api/address/order/{order_id}',[App\Http\Controllers\Api\AddressApiController::class,'addressOrder']);
+Route::get('api/orders/profile',[App\Http\Controllers\Api\OrderApiController::class,'paidOrderList']);
+Route::get('api/orderLines/profile/{order_id}',[App\Http\Controllers\Api\OrderLineApiController::class,'listOrdersWithProducts']);
 Route::put('api/products/stock/{product}',[App\Http\Controllers\Api\ProductController::class,'updatestock']);
 Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');
 Route::apiResource('api/users',App\Http\Controllers\Api\UserApiController::class)->middleware('api');

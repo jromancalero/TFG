@@ -136,9 +136,6 @@ const listarCarrito= async()=>{
             footer.style="margin-top:0px"
         }
     }
-    console.log('koko')
-
-
 }
 
 function eventoSumarRestar(){
@@ -290,12 +287,16 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                     articleVentaFinal.className="article_venta_final";
                     console.log(listaProductos);
 
+                    let precioTotalFinal = 0;
+                    let precioFinalProductos = document.createElement('p');
                     let tituloProductosPedido = document.createElement('h1');
+                    precioFinalProductos.className="precioFinalVenta";
                     tituloProductosPedido.textContent="Productos Del Pedido";
                     tituloProductosPedido.className="titulos_carrito";
                     articleVentaFinal.append(tituloProductosPedido);
                     //Listar productos que van a ser comprados
                     listaProductos.forEach(producto=>{
+                        precioTotalFinal += producto.precio;
                         let divProducto = document.createElement('div');
                         let tituloProducto = document.createElement('p');
                         let cantidadProducto = document.createElement('p');
@@ -307,15 +308,29 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                         precioProducto.className = 'precio__producto--compraFinal';
                         //valor a los elementos
                         tituloProducto.textContent = producto.name;
-                        cantidadProducto.textContent = producto.cantidad;
-                        precioProducto.textContent = producto.precio;
+                        cantidadProducto.textContent = `Cantidad: ${producto.cantidad}`;
+                        precioProducto.textContent = `Precio: ${producto.precio} €`;
                         //append
                         divProducto.append(tituloProducto,cantidadProducto,precioProducto);
                         articleVentaFinal.append(divProducto);
                     });
+
+                    let precioEnvio = document.createElement('p');
                     let botonFinalizarPago = document.createElement('button');
                     botonFinalizarPago.textContent = 'Finalizar pago';
-                    articleVentaFinal.append(botonFinalizarPago);
+                    if(precioTotalFinal < 39.99){
+                        let anuncio = document.createElement('p');
+                        precioTotalFinal = (precioTotalFinal + 3.95).toFixed(2);
+                        anuncio.textContent = 'Si el total de la compra supera los 40€, el envio será gratuito';
+                        precioEnvio.textContent = 'Precio del envio: 3,95€';
+                        precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal} €`;
+                        articleVentaFinal.append(anuncio);
+                    }else{
+                        precioTotalFinal = (precioTotalFinal).toFixed(2);
+                        precioEnvio.textContent = 'Precio del envio: 0€';
+                        precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal} €`;
+                    }
+                    articleVentaFinal.append(precioEnvio,precioFinalProductos,botonFinalizarPago);
                     section_carrito.append(articleVentaFinal);
 
                     //FINALIZACIÓN PAGO, RESTA DE PRODUCTOS EN LA BASE DE DATOS Y CAMBIO EN EL STATUS DE ORDER
@@ -328,7 +343,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                 'X-CSRF-TOKEN': token,
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({"address_id":addresId}),
+                            body: JSON.stringify({"address_id":addresId,"final_price":precioTotalFinal}),
                         }).then(resp=> resp.json()).then(resp=>console.log(resp));
 
                         //Eliminando productos
