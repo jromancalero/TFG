@@ -22,8 +22,8 @@ body {
 
 
 .img__product{
-    max-width: 200px;
-    max-height: 250px;
+    width: 200px;
+    height: 250px;
 
 }
 
