@@ -14,25 +14,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $figuras = Product::where('type','Figura')->get();
-        $comidas = Product::where('type','Comida')->get();
-        $merchandising = Product::where('type','Merchandising')->get();
-        return view('inicio',compact('figuras','comidas','merchandising'));
-    }
-    public function figuraProduct()
-    {
-        $products = Product::where('type','Figura')->get();
-        return view('categories.figures', compact('products'));
-    }
-    public function comidaProduct()
-    {
-        $products = Product::where('type','Comida')->get();
-        return view('categories.japaneseFood', compact('products'));
-    }
-    public function merchandisingProduct()
-    {
-        $products = Product::where('type','Merchandising')->get();
-        return view('categories.merchandising', compact('products'));
     }
 
     /**

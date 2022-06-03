@@ -1,0 +1,32 @@
+.section__politica--privacidades {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.article__politica--privacidades{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    background-color: white;
+    margin: 30px;
+    padding: 20px;
+    font-size: 1.1em;
+    margin-bottom: 0px;
+}
+
+.article__politica--privacidades h1{
+    font-family: 'MontserratBold';
+    font-size: 1.6em;
+}
+.article__politica--privacidades h2{
+    font-family: 'MontserratBold';
+    font-size: 1.2em;
+}
+.titulo__extra{
+    font-size: 3em;
+    text-align: center;
+    font-family:'Hiromisake' ;
+    border-bottom: 2px solid rgb(88, 87, 87);
+    width: 100%;
+}

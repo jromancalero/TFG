@@ -6,25 +6,48 @@ use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
-/* --------------------------------------------------------------------------------------------- */
-
- //Inicio
-
-Route::get('/', [ProductController::class, 'index'])->name('inicio');
-Route::get('/comida-nipona',[ProductController::class, 'comidaProduct'])->name('japaneseFood');
-Route::get('/merchandising',[ProductController::class, 'merchandisingProduct'])->name('merchandising');
-Route::get('/figuras',[ProductController::class, 'figuraProduct'])->name('figures');
 
 /* --------------------------------------------------------------------------------------------- */
 //Vistas de las categorias
+
+Route::get('/',function(){
+    return view('inicio');
+})->name('inicio');
+
+Route::get('merchandising',function(){
+    return view('categories/merchandising');
+})->name('merchandising');
 
 Route::get('gachapon',function(){
     return view('categories/gachapon');
 })->name('gachapon');
 
+Route::get('figuras',function(){
+    return view('categories/figures');
+})->name('figures');
+
+Route::get('/comida-nipona',function(){
+    return view('categories.japaneseFood');
+})->name('japaneseFood');
+
+
 Route::get('/carrito',function(){
     return view('carrito.carrito');
 })->name('carrito')->middleware('auth');
+
+Route::get('/politica-privacidad',function(){
+    return view('extra.politicas_privacidades');
+})->name('politica-privacidad');
+
+Route::get('/mapa-web',function(){
+    return view('extra.mapa_web');
+})->name('mapa-web');
+
+Route::get('/contacto',function(){
+    return view('extra.contacto');
+})->name('contacto');
+
+
 
 /* ------------------------------------------------------------------------------------------------ */
 

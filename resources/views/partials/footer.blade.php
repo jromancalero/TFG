@@ -12,13 +12,13 @@
         <article class="article__footer--information">
             <ul class="ul__footer--information">
                 <li>
-                    <a href="#">Politica</a>
+                    <a href="{{route('politica-privacidad')}}">Politica</a>
                 </li>
                 <li>
-                    <a href="#">Sobre nosotros</a>
+                    <a href="{{route('contacto')}}">Contacto</a>
                 </li>
                 <li>
-                    <a href="#">Mapa Web</a>
+                    <a href="{{route('mapa-web')}}">Mapa Web</a>
                 </li>
             </ul>
         </article>

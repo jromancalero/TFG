@@ -21,7 +21,10 @@
                 </article>
                 <article >
                     <input class="botonLogin" type="submit" name="envair" value="Logearse">
-                    <button class="botonLogin">Contraseña olvidada</button>
+                    <a class="botonLogin" href="{{route('contacto')}}">Contraseña olvidada</a>
+                </article>
+                <article class="volver__inicio--login">
+
                 </article>
             </form>
         </article>
