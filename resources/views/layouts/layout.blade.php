@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{asset('css/bargacha.css')}}">
     <link rel="stylesheet" href="{{asset('css/categories/products.css')}}">
     <link rel="stylesheet" href="{{asset('css/auth/cuenta.css')}}">
+    <link rel="stylesheet" href="{{asset('css/extras/politica_privacidad.css')}}">
+
     {{--<script type="text/javascript" src="{!! asset('js/products/products.js') !!}" defer></script>  --}}
 </head>
 <body>
