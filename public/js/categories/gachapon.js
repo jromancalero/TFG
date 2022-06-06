@@ -1,60 +1,56 @@
 
-let x = 0;
-let y = 0;
+const ruleta = document.querySelector('#ruleta');
+const infoGacha = document.querySelector('.info__gracha--container');
+//Evento ruleta
+ruleta.addEventListener('click',girar);
 
-let div = document.querySelector('#gancho');
-console.log(div)
-let gacahaContainer = document.querySelector('#gacha__container');
+//Funcion girar ruleta
+function girar(){
 
+    let girosRandom = Math.random() * 7200;
 
-window.addEventListener("keydown", (e)=>{
-    moveBall(e,".gancho",".gacha__container")
-})
+    //Hacer que gire la ruleta
+    calcular(girosRandom);
 
+    //sonido para la ruleta
+    let sonidoRuleta = new Audio('/sonidos/sonido_ruleta.mp3');
+    sonidoRuleta.play();
+    console.log(sonidoRuleta);
 
-function moveBall(e,gancho,gacha_container){
-    const ball = document.querySelector(gancho);
-    const stage = document.querySelector(gacha_container);
-    limitsBall = ball.getBoundingClientRect();
-    limitsStage = stage.getBoundingClientRect();
-    let posotionBallXTranslate = 0;
-    console.log(e.key);
-    console.log(limitsBall,limitsStage);
+    setTimeout(()=>{
+        switch(true){
+            case valor > 0 && valor <= 45:
+                console.log("abanico");
+                break;
+            case valor > 45 && valor <= 90:
+                console.log('figura BAKUGO');
+                break;
+            case valor > 90 && valor <= 135:
+                console.log('figura zoro');
+                break;
+            case valor > 135 && valor <= 180:
+                console.log('mochis sabor fresa');
+                break;
+            case valor > 180 && valor <= 225:
+                console.log('Póster de jujutsu kaisen');
+                break;
+            case valor > 225 && valor <= 270:
+                console.log('Taza de naruto');
+                break;
+            case valor > 270 && valor <= 315:
+                console.log('Pocky Fresa con Chocolate');
+                break;
+            case valor > 315 && valor <= 360:
+                console.log('Taza de totoro');
+                break;
+        }
+    },5000);
+}
 
-    switch(e.key){
-        case 'ArrowUp': 
-            e.preventDefault();
-            if(limitsBall.top < limitsStage.top)y++;
-            y--;
-        break;
-        case 'ArrowDown': 
-            e.preventDefault();
-            if(limitsBall.bottom > limitsStage.bottom)y--;
-            y++;
-        break;
-        case 'ArrowLeft': 
-            e.preventDefault();
-            if(limitsBall.left < 15)x++;
-            x--;
-            break;
-        case 'ArrowRight': 
-            e.preventDefault();
-            if(limitsBall.right > 505)x--;
-            x++;
-            console.log(x);
-        break;
-        case 'Enter':
-            posotionBallXTranslate = x*5;
-            console.log(posotionBallXTranslate);
-            ball.animate([
-                {left:limitsBall.left},
-                {transform:`translate(${posotionBallXTranslate}px,300px)`},
-            ],{
-                duration: 2000,
-                direction:'normal'
-            })
-        break;
-    }
-    ball.style.transform = `translate(${x*5}px,${y*5}px)`;
-    console.log(posotionBallXTranslate);
+//Función para hacer que gire
+function calcular(girosRandom){
+
+    valor = girosRandom / 360;
+    valor = (valor - parseInt(valor.toString().split('.')[0])) * 360;
+    ruleta.style.transform = "rotate("+girosRandom+"deg)";
 }

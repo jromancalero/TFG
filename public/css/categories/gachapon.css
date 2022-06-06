@@ -3,19 +3,31 @@
 
 .article__gacha{
     display: flex;
+    justify-content: center;
+}
+.gacha__container{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
 }
 
-.gacha__container{
-    display: flex;
-    height: 500px;
-    width: 500px;
-    min-height: 50vh;
-    min-width: 500px;
-    border: 2px solid black;
+.img_ruleta{
+    max-width: 600px;
+    transition: all 5s;
 }
-.gancho{
+
+.vara_premio{
+    height: 90px;
+    width: 15px;
+    background-color: gray;
     margin: auto;
-    width: 2rem;
-    height: 0.8rem;
-    background-color: aqua;
+    position: relative;
+    border-radius:10px;
+    border: 1px solid black;
+    z-index: 2;
+    top: 90px;
+}
+
+.info__gracha--container{
+
 }

@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gacha</title>
-    <link rel="stylesheet" href="{{asset('css/categories/gachapon.css')}}">
-    <script type="text/javascript" src="{!! asset('js/categories/gachapon.js') !!}" defer></script>
-</head>
-<body>
-    @extends('layouts.layout')
-    @section('content')
-        <section>
-            <article class="article__gacha">
-                <div class="gacha__container" id="gacha__container">
-                    <div class="gancho" id="gancho"></div>
+<link rel="stylesheet" href="{{asset('css/categories/gachapon.css')}}">
+<script type="text/javascript" src="{!! asset('js/categories/gachapon.js') !!}" defer></script>
 
+@extends('layouts.layout')
+@section('content')
+    <section>
+        <article class="article__gacha">
+            <div class="gacha__container" id="gacha__container">
+
+                <div class="img_container">
+                    <div class="vara_premio"></div>
+                    <img class="img_ruleta"  src="{{asset('img/gachapon/ruleta.png')}}" id="ruleta">
                 </div>
-            </article>
-        </section>
-    @endsection
-</body>
-</html>
+                <div class="info__gracha--container">
+                    <h2>Bienvenidos a la ruleta del gachapón</h2>
+                    <h3>Para poder participar necesitarás 1 ficha Gacha</h3>
+                </div>
+
+            </div>
+        </article>
+    </section>
+@endsection
 
 
 
