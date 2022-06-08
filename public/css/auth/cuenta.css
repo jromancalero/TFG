@@ -53,7 +53,7 @@ li .li__AñadirEliminar--Direcciones{
     background-color: rgb(232, 212, 238);
 }
 /* rgb(4, 155, 4) */
-.pedidos__perfil,.cambiarContraseña__perfil,.cambiar_datos,.li__AñadirEliminar--Direcciones{
+.pedidos__perfil,.cambiarContraseña__perfil,.cambiar_datos,.li__AñadirEliminar--Direcciones,.li__productos--ganados{
     text-align: center;
     cursor: pointer;
 }
@@ -61,10 +61,10 @@ li .li__AñadirEliminar--Direcciones{
     from{ background-color: rgb(232, 212, 238);}
     to{ background-color: rgb(187, 101, 211); color: white}
 }
-article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_datos{
+article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_datos, article .li__productos--ganados{
     background-color: rgb(232, 212, 238);
 }
-.pedidos__perfil:hover,.cambiarContraseña__perfil:hover,.cambiar_datos:hover,.li__AñadirEliminar--Direcciones:hover{
+.pedidos__perfil:hover,.cambiarContraseña__perfil:hover,.cambiar_datos:hover,.li__AñadirEliminar--Direcciones:hover, .li__productos--ganados:hover{
     animation-name: color ;
     animation-duration: 1.5s;
     animation-fill-mode: forwards;

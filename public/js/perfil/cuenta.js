@@ -26,6 +26,7 @@ listarUsuario = async()=>{
     let liCambiarDatos = document.createElement('li');
     let liPedidos = document.createElement('li');
     let liCambiarConstraseña = document.createElement('li');
+    let liProductosGandos = document.createElement('li');
 
     //metemos datos a los li
     nombreCompleto.textContent = `${user.name} ${user.surname} ${user.surname2}`;
@@ -46,6 +47,8 @@ listarUsuario = async()=>{
     liPedidos.textContent = "Pedidos realizados";
     liCambiarConstraseña.textContent = "Cambiar la contraseña";
     liCambiarDatos.textContent = 'Cambiar datos'
+    liProductosGandos.textContent = 'Productos ganados Gachapón';
+
     //clases
     listaUser.className ="lista_cuenta";
     nombreCompleto.className ="nombre_cuenta";
@@ -54,15 +57,16 @@ listarUsuario = async()=>{
     ulDireccionesEnvio.className = "ul__direccionesEnvio";
     liCambiarDatos.className = 'cambiar_datos';
     liAñadirEliminarDirecciones.className="li__AñadirEliminar--Direcciones"
+    liProductosGandos.className="li__productos--ganados";
 
     //introducimos los datos a la vista
-    listaUser.append(liNombreUsuario,liEmail,liTelefono,liDNI,liFechaNacimiento,liDireccionesEnvio,liCambiarDatos,liPedidos,liCambiarConstraseña);
+    listaUser.append(liNombreUsuario,liEmail,liTelefono,liDNI,liFechaNacimiento,liDireccionesEnvio,liCambiarDatos,liPedidos,liCambiarConstraseña,liProductosGandos);
     articleUser.append(nombreCompleto,listaUser);
 
-    eventosPerfil(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña,liAñadirEliminarDirecciones);
+    eventosPerfil(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña,liAñadirEliminarDirecciones,liProductosGandos);
 }
 //eventos click personalización de usuario
-const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña,liAñadirEliminarDirecciones)=>{
+const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseña,liAñadirEliminarDirecciones,liProductosGanados)=>{
     let botonConfirmar = document.createElement('button');
     botonConfirmar.textContent = 'CONFIRMAR';
     let botonAtras = document.createElement('button');
@@ -349,11 +353,60 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
         articleUser.append(titulo);
 
         paidOrders.forEach((order) => {
-
             creacionPedidosPerfil(order,articleUser,botonAtras)
 
         });
     });
+
+    //Evento listar Productos ganados por el gachapón
+    liProductosGanados.addEventListener('click',async(e)=>{
+        let respProductosGanados = await fetch('api/EarnedProducts');
+        let productosGanados = await respProductosGanados.json();
+        if(productosGanados.length === 0){
+            alert('Todavia no tienes ningún producto ganado');
+        }else{
+            articleUser.innerHTML = "";
+            productosGanados.forEach(async(productoGanado)=>{
+
+                let respProducto = await fetch(`/api/products/${productoGanado.product_id}`);
+                let producto = await respProducto.json();
+                console.log(producto);
+
+                let articleProductoGanado = document.createElement('article');
+                let fechaAndId = document.createElement('div');
+                let fechaProductoGanado = document.createElement('p')
+                let idProductoGanado = document.createElement('p')
+                let nombreProducto = document.createElement('h2');
+                let aviso1 = document.createElement('p');
+                let aviso2 = document.createElement('p');
+
+                //clases
+                articleProductoGanado.className = 'producto__ganador--article';
+                fechaAndId.className = 'producto__ganador--divFechaId';
+                fechaProductoGanado.className = 'producto__ganador--fecha';
+                nombreProducto.className = 'producto__ganador--nombre';
+                idProductoGanado.className = 'producto__ganador--id';
+                aviso1.className = 'producto__ganador--aviso';
+                aviso2.className = 'producto__ganador--aviso';
+
+                //textContext
+                fechaProductoGanado.textContent = `Fecha: ${productoGanado.date}`;
+                idProductoGanado.textContent = `Num identificación: ${productoGanado.id}`;
+                nombreProducto.textContent = `Nombre Producto: ${producto.name}`;
+                aviso1.textContent = 'Este producto ganado, se le enviará a la primera dirección de envio que tenga en su perfil, en los próximos 3-7 dias laborables.';
+                aviso2.textContent = 'Si quiere cambiar la dirección de envio, hágalo en su perfil en el apartado "Añadir o eliminar direcciones", gracias.'
+
+                //append
+                fechaAndId.append(idProductoGanado,fechaProductoGanado);
+                articleProductoGanado.append(fechaAndId,nombreProducto,aviso1,aviso2);
+                articleUser.append(articleProductoGanado,botonAtras);
+
+            });
+
+
+        }
+        console.log(productosGanados);
+    })
 
     botonAtras.addEventListener('click',(e)=>{
         listarUsuario();
@@ -365,7 +418,7 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstrase�
 const creacionPedidosPerfil = async(order,articleUser,botonAtras)=>{
     let respOrderLines = await fetch(`api/orderLines/profile/${order.id}`);
     let arrayProductos = await respOrderLines.json();
-
+    //console.log(arrayProductos);
 
     //Partes de los pedidos
     let orderArticle = document.createElement('article');
@@ -388,9 +441,10 @@ const creacionPedidosPerfil = async(order,articleUser,botonAtras)=>{
     divNumPedidoFecha.append(numPedido,fechaPedido);
     orderArticle.append(divNumPedidoFecha);
 
+    console.log(arrayProductos);
     //creamos los articulos de los pedidos
-    arrayProductos.forEach(lineaProducto=>{
-        console.log(lineaProducto);
+    arrayProductos[0].forEach(lineaProducto=>{
+        console.log(lineaProducto[0],lineaProducto[1],lineaProducto[2]);
         let divProducto = document.createElement('div');
         let nombreProducto = document.createElement('p');
         let precioProducto = document.createElement('p');

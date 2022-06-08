@@ -45,7 +45,7 @@
 
                 @auth
                     <p class="material-symbols-outlined">account_circle</p>
-                    @if (Auth::user()->is_admin = 1)
+                    @if (Auth::user()->is_admin == 1)
                         <a class="li__user--a" href="{{route('admin')}}">{{Auth::user()->user_name}}</a>
                     @else
                         <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
@@ -67,3 +67,5 @@
     </section>
 </body>
 </html>
+<script type="text/javascript" src="{!! asset('js/header/header.js') !!}" defer></script>
+

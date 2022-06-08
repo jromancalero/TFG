@@ -62,12 +62,12 @@ class OrderLineApiController extends Controller
         $arrayOrderProductos = array();
         $order_lines = OrderLine::where('order_id',$id_order)->get();
         foreach($order_lines as $orderLine){
-            $orderLineProductId = $orderLine->id;
+            $orderLineProductId = $orderLine->product_id;
             $product = Product::where('id',$orderLineProductId)->get();
 
             array_push($arrayOrderProductos,[$product[0]->name,$product[0]->price,$orderLine->quantity]);
         }
-        return response()->json($arrayOrderProductos,200);
+        return response()->json([$arrayOrderProductos],200);
     }
 
     /**

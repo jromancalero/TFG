@@ -23,7 +23,7 @@ class UserApiController extends Controller
     }
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show','update','destroy','viewUser','userUpdate','userPassword']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','update','destroy','viewUser','userUpdate','userPassword','viewUserCoin','operationsCoins']]);
     }
     /**
      * Store a newly created resource in storage.
@@ -42,6 +42,21 @@ class UserApiController extends Controller
         $userId = Auth::user()->id;
         $direcciones = Address::where('user_id',$userId)->get();
         return response()->json([$user,$direcciones],200);
+    }
+
+    public function viewUserCoin()
+    {
+        $user = Auth::user();
+        $userCoins = $user->coin;
+        return response()->json($userCoins,200);
+    }
+    public function operationsCoins(Request $request){
+
+        $user = Auth::user();
+        $user->coin = ($user->coin + $request->get('coin'));
+        $user->save();
+
+        return response()->json([$user->coin,$user],200);
     }
 
     public function userUpdate(Request $request)

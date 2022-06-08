@@ -250,6 +250,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
             finalizaCompraBoolean = false;
             arrayErrores.push('Debes tener al menos una dirección para poder finalizar la compra');
         }
+
         //Finalizar compra
         if(finalizaCompraBoolean){
             section_carrito.innerHTML="";
@@ -359,6 +360,21 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                 },
                                 body: JSON.stringify({"stock":stock}),
                             }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                        });
+
+                        //Si el producto son gacha coins, añadirselo al usuario
+                        listaProductos.forEach(async(producto)=>{
+                            if(producto.id_product == 62){
+                                fetch('api/users/operationsCoins', {
+                                    method: "PUT",
+                                    mode:'cors',
+                                    headers: {
+                                        'X-CSRF-TOKEN': token,
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({"coin":producto.cantidad}),
+                                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                            }
                         });
                         let num_carrito = document.querySelector('#num_carrito');
                         num_carrito.textContent = 0;

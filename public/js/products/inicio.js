@@ -206,11 +206,11 @@ const productView = async(id_image,id_link) =>{
 
     });
     //AÑADIR AL CARRITO DE LA COMPRA DENTRO DE LA VISTA DE LOS PRODUCTOS INDIVIDUALES
-    carritoCompra(modo,);
+    carritoCompra(modo);
 }
 
 //Evento Añadir al carrito de la compra
-const carritoCompra=(modo,)=>{
+const carritoCompra=(modo)=>{
     console.log(modo);
     let botonesCesta = document.querySelectorAll('.boton__compra');
     botonesCesta.forEach((botonCesta)=>{
@@ -356,7 +356,6 @@ const countCarrito = async()=>{
 
 }
 
-countCarrito();
 listar();
 
 

@@ -1,5 +1,10 @@
 
-
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 .article__gacha{
     display: flex;
@@ -12,10 +17,13 @@
 }
 
 .img_ruleta{
+    width: 100%;
     max-width: 600px;
     transition: all 5s;
 }
-
+.img_ruleta:hover{
+    cursor: pointer;
+}
 .vara_premio{
     height: 90px;
     width: 15px;
@@ -27,7 +35,95 @@
     z-index: 2;
     top: 90px;
 }
+.section__gacha h1{
+    margin-bottom: 0px;
+}
 
 .info__gracha--container{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.compra__coins{
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+    border-top: 2px solid rgb(104, 103, 103);
+}
+.img__coin{
+    width: 100%;
+    max-width: 150px;
+    margin-top: 15px;
+}
+.cantidad__coins{
+    display: flex;
+    margin-right: 30px;
+}
+.div__cantidad--precio{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: center;
+    margin: 20px;
+}
 
+.div__compra{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+.cantidad__coins{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(206, 201, 201);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 3px 10px 0 rgb(0 0 0 / 19%);
+    border-radius: 20px;
+}
+.cantidad__coins button{
+    max-height: 25px;
+    width: 25px;
+    border: 2px solid rgb(179, 179, 179);
+    border-radius: 40%;
+    margin: 15px;
+}
+
+/* ARticulo ganado */
+.article__producto--ganado{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    margin: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    position: absolute;
+}
+.div__producto--ganado{
+    display: grid;
+    grid-template-columns:repeat(1, minmax(0, 1fr));
+    justify-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(116, 114, 114, 0.2), 0 3px 10px 0 rgba(122, 122, 122, 0.19);
+    gap: 10px;
+    margin: 15px;
+}
+.h1__producto--ganado{
+    font-family: 'MontserratBold';
+}
+.img__producto--ganado{
+    width: 100%;
+    max-width: 250px;
+}
+.gif__producto--ganado{
+    margin: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+.botonCerrar__producto--ganado{
+    margin-bottom: 10px;
 }
