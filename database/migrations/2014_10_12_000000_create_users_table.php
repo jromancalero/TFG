@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('date_birth')->nullable();
             $table->string('profile_photo',2048)->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->integer('coin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

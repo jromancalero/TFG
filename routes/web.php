@@ -72,20 +72,28 @@ Route::resource('/products', ProductController::class);
 /* -------------------------------------------------------------------------------------------------- */
 
 //APIS
+//USERS
 Route::get('api/users/viewUser',[App\Http\Controllers\Api\UserApiController::class,'viewUser'])->middleware('api');
 Route::put('api/users/userPassword',[App\Http\Controllers\Api\UserApiController::class,'userPassword'])->middleware('api');
 Route::put('api/users/userUpdate',[App\Http\Controllers\Api\UserApiController::class,'userUpdate'])->middleware('api');
-Route::get('api/orders/cart',[App\Http\Controllers\Api\OrderApiController::class,'orderCart']);
+Route::get('api/users/viewUserCoin',[App\Http\Controllers\Api\UserApiController::class,'viewUserCoin'])->middleware('api');
+Route::put('api/users/operationsCoins',[App\Http\Controllers\Api\UserApiController::class,'operationsCoins'])->middleware('api');
+//ADDRESSES
 Route::get('api/address/order/{order_id}',[App\Http\Controllers\Api\AddressApiController::class,'addressOrder']);
+//ORDERS-ORDERSLINE
+Route::get('api/orders/cart',[App\Http\Controllers\Api\OrderApiController::class,'orderCart']);
 Route::get('api/orders/profile',[App\Http\Controllers\Api\OrderApiController::class,'paidOrderList']);
 Route::get('api/orderLines/profile/{order_id}',[App\Http\Controllers\Api\OrderLineApiController::class,'listOrdersWithProducts']);
+//PRODUCTS
 Route::put('api/products/stock/{product}',[App\Http\Controllers\Api\ProductController::class,'updatestock']);
+//API RESOURCES
 Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');
 Route::apiResource('api/users',App\Http\Controllers\Api\UserApiController::class)->middleware('api');
 Route::apiResource('api/images',App\Http\Controllers\Api\ImageApiController::class)->middleware('api');
 Route::apiResource('api/orders',App\Http\Controllers\Api\OrderApiController::class)->middleware('api');
 Route::apiResource('api/orderLines',App\Http\Controllers\Api\OrderLineApiController::class);
 Route::apiResource('api/addresses',App\Http\Controllers\Api\AddressApiController::class);
+Route::apiResource('api/EarnedProducts',App\Http\Controllers\Api\EarnedProductApiController::class);
 Route::post('/api/orderLines', 'App\Http\Controllers\Api\OrderLineApiController@store');
 /* -------------------------------------------------------------------------------------------------- */
 
