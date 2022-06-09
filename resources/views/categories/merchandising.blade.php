@@ -3,7 +3,6 @@
 @extends('layouts.layout')
 
 @section('content')
-    <h1 class="titulo">Merchandising</h1>
     <section class="section__products" id="section__products">
     </section>
 @endsection

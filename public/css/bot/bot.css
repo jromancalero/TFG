@@ -1,0 +1,65 @@
+
+.article__bot{
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    position: fixed;
+    z-index: 5;
+    right: 0px;
+    bottom: 0px;
+    margin: 15px;
+    border-radius: 15px;
+}
+
+.div__consultas--bot{
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+}
+.div__imagen--bot{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.img__bot{
+    width: 100%;
+    max-width: 175px;
+    text-align: center;
+}
+.img__bot:hover{
+    cursor: pointer;
+}
+.discurso__inicial--bot{
+    margin: 10px;
+    font-family: 'MontserratSemiBold';
+    text-align: center;
+    font-size: 1.2em;
+}
+.div__ayuda--bot{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 2px solid rgb(104, 103, 103);
+    margin-top: 10px;
+    border-bottom: 2px solid rgb(104, 103, 103);
+}
+.div__botonAyuda--bot{
+    margin-bottom: 10px;
+}
+.boton__ayudaNo--bot, .boton__ayudaSi--bot{
+    margin: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    border: none;
+    padding: 7px;
+    font-size: 1em;
+}
+.boton__ayudaNo--bot:hover{
+    cursor: pointer;
+    background-color: rgb(226, 62, 62);
+}
+.boton__ayudaSi--bot:hover{
+    cursor: pointer;
+    background-color: rgb(85, 194, 85);
+}
+

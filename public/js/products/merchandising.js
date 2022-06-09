@@ -14,7 +14,6 @@ const listar = async()=>{
 
     //EVENTO CLICK PARA CAMBIAR LAS VISTAS DE LOS PRODUCTOS
     products_container.innerHTML="";
-    main.innerHTML="";
     let titulo = document.createElement('h1');
     titulo.className = "titulo";
     titulo.textContent = 'MERCHANDISING'

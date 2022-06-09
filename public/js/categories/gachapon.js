@@ -180,7 +180,10 @@ function girar(){
             sonidoProductoGanador.pause();
         });
 
+        let scroll = articleProductoGanado.getBoundingClientRect();
+        window.scrollTo(scroll.x,scroll.y);
     },6000);
+
 }
 
 //Función para hacer que gire
