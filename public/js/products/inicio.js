@@ -219,6 +219,10 @@ const carritoCompra=(modo)=>{
             let respProducts = await fetch(`api/products/${id_producto}`);
             let producto = await respProducts.json();
             console.log(e.target.value);
+            botonCesta.style = 'background-color: rgb(122, 196, 11);';
+            setTimeout(()=>{
+                botonCesta.style = 'background-color: white';
+            },200);
 
             if(modo === 'individual'){
                 let cantidadTot = document.querySelector('.cantidad_producto--inidividual');
