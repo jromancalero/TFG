@@ -1,7 +1,7 @@
 
 <section class="header__section" >
     <article class="header__article">
-        <img src= '{{asset("img/header/logo.png")}}' width="200px" heigth="200px" alt="Logo"/>
+        <img src= '{{asset("img/header/logo.png")}}' width="200px" heigth="200px" class="img__principal--header" alt="Logo"/>
         <h1 class="title">GACHAPÓ</h1>
     </article>
 
@@ -10,11 +10,11 @@
     <nav>
         <div class="menu__responsive">
             <div class="menu_bar">
-                <a href="#" class="boton__menu"><span class="material-symbols-outlined">
+                <a  class="boton__menu"><span class="material-symbols-outlined">
                     menu
                     </span></a>
             </div>
-            <ul class="header__sectionNav--ul">
+            <ul class="header__sectionNav--ul subrayado invisible">
 
                 <li>
                     <a class="invert_link" id="inicio" href="{{route('inicio')}}" >INICIO</a>

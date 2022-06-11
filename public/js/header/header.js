@@ -19,3 +19,32 @@ const countTheCarrito = async()=>{
 }
 
 countTheCarrito();
+
+/* RESPONSIVE */
+
+let listaNav = document.querySelector('.invisible');
+let hamburguesa = document.querySelector('.material-symbols-outlined');
+let nav = document.querySelector('nav');
+let headerUsuariCarrito = document.querySelector('.header__usuario');
+
+console.log(listaNav);
+let contadorHamburguesa = 0;
+
+hamburguesa.addEventListener('click',(e)=>{
+    console.log(contadorHamburguesa)
+    if(contadorHamburguesa === 0){
+        listaNav.style= 'display:flex;';
+        nav.style= 'align-items: flex-start; max-height: 100%;';
+        headerUsuariCarrito.style = 'margin-top: 0px';
+        listaNav.animate({
+            left:'0'
+        });
+        contadorHamburguesa = 1;
+    }else if(contadorHamburguesa === 1){
+        listaNav.style= 'display:none;';
+        nav.style= 'align-items: center;';
+        headerUsuariCarrito.style = 'margin-top: 17.600px';
+
+        contadorHamburguesa = 0;
+    }
+});
