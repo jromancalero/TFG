@@ -45,6 +45,7 @@
 
 .direccionesEnvio__perfil{
     margin: 10px;
+    font-size: 1.2em;
 }
 li .li__AñadirEliminar--Direcciones{
     font-size: 0.9em;
@@ -77,12 +78,29 @@ article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_da
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
     background-color: rgb(252, 252, 252);
+    gap: 15px;
 }
 .div__datos--perfil label,.div__contraseñas--perfil label{
     margin: 10px;
     color: black;
     font-weight: bold;
+    font-size: 1.3em;
+}
+.div__contraseñas--perfil input{
+    font-size: 1em;
+    margin-left: 10px;
+}
+.div__contraseñas--perfil label{
+    margin: 15px;
+}
+.div__contraseñas--perfil p {
     font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 2px solid rgb(109, 107, 107);
+}
+.div__datos--perfil input{
+    font-size: 1em;
+    margin-left: 10px;
 }
 .botones__perfil--volverConfirmar{
     display: grid;
@@ -115,6 +133,15 @@ article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_da
     background-color: white;
     padding-top: 10px;
     padding-bottom: 10px;
+    padding-left: 0;
+    text-align: center;
+}
+.material-symbols-outlined:hover{
+    cursor: pointer;
+    color: red;
+}
+.material-symbols-outlined{
+    font-size: 2.5em;
 }
 .div__añadir--direccion{
     display: grid;
@@ -127,10 +154,17 @@ article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_da
 }
 .div__añadir--direccion label{
     margin: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
 }
-.boton__eliminar--direccion:hover{
-    background-color: red;
-    cursor: pointer;
+.div__añadir--direccion input{
+    font-size: 1em;
+    margin-left: 10px;
+}
+
+.boton__eliminar--direccion{
+    background-color: white;
+    border: none;
 }
 
 .articulo__order--perfil{
@@ -140,7 +174,8 @@ article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_da
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
     margin: 15px;
-    font-size: 1.2em;
+    font-size: 1.3em;
+
 }
 
 .div__numPedidoFecha--perfil{
@@ -167,4 +202,78 @@ article .pedidos__perfil,article .cambiarContraseña__perfil,article .cambiar_da
 .precio__totalPedido--perfil{
     font-family: 'MonsterratBold';
     font-weight: bold;
+}
+
+.boton_volverAtras{
+    font-size: 1em;
+    margin: 10px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 15px;
+    border-color: #451d72;
+    box-shadow: 3px 4px 0px 0px #d58ae7;
+	background:linear-gradient(to bottom, #cfaaf1 5%, #923ce2 100%);
+}
+.boton_volverAtras:hover{
+    background:linear-gradient(to bottom, #923ce2 5%, #cfaaf1 100%);
+	background-color:#923ce2;
+    cursor: pointer;
+}
+.boton_volverAtras:active{
+    position:relative;
+	top:1px;
+}
+
+.boton__confirmar{
+    font-size: 1em;
+    margin: 10px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 15px;
+    border-color: #39772a;
+    box-shadow: 3px 4px 0px 0px #a9f0cd;
+	background:linear-gradient(to bottom, #e1f3e1 5%, #9efa87 100%);
+}
+.boton__confirmar:hover{
+    background:linear-gradient(to bottom, #9efa87 5%, #e1f3e1 100%);
+	background-color:#9efa87;
+    cursor: pointer;
+}
+.boton__confirmar:active{
+    position:relative;
+	top:1px;
+}
+
+.producto__ganador--article{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    margin: 15px;
+}
+
+.producto__ganador--divFechaId{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.producto__ganador--nombre{
+    margin: 10px;
+}
+.producto__ganador--aviso{
+    margin: 10px;
+    font-size: 1.1em;
+}
+.producto__ganador--aviso{
+    margin: 10px;
+    font-size: 1.1em;
+}
+
+@media(max-width: 500px){
+    .producto__ganador--divFechaId{
+        flex-direction: column;
+    }
 }

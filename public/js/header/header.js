@@ -26,6 +26,7 @@ let listaNav = document.querySelector('.invisible');
 let hamburguesa = document.querySelector('.material-symbols-outlined');
 let nav = document.querySelector('nav');
 let headerUsuariCarrito = document.querySelector('.header__usuario');
+let botonMenu = document.querySelector('.boton__menu');
 
 console.log(listaNav);
 let contadorHamburguesa = 0;
@@ -36,15 +37,17 @@ hamburguesa.addEventListener('click',(e)=>{
         listaNav.style= 'display:flex;';
         nav.style= 'align-items: flex-start; max-height: 100%;';
         headerUsuariCarrito.style = 'margin-top: 0px';
-        listaNav.animate({
-            left:'0'
+        hamburguesa.animate([
+            {transform: 'rotate (90deg)'},
+        ],{
+            duration:1000,
+            fill:'forwards',
         });
         contadorHamburguesa = 1;
     }else if(contadorHamburguesa === 1){
         listaNav.style= 'display:none;';
         nav.style= 'align-items: center;';
         headerUsuariCarrito.style = 'margin-top: 17.600px';
-
         contadorHamburguesa = 0;
     }
 });

@@ -41,6 +41,7 @@ main{
 
 .info__gracha--container{
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     margin: 10px;
     padding: 10px;
@@ -126,4 +127,73 @@ main{
 }
 .botonCerrar__producto--ganado{
     margin-bottom: 10px;
+}
+
+@media(max-width: 1050px){
+    .subtitulo__gacha{
+        font-size: 1.3em;
+        font-weight: bold;
+    }
+    .aviso__gacha{
+        font-size: 1.1em;
+    }
+    .img_ruleta{
+        width: 500px;
+    }
+    .img__coin{
+        width: 125px;
+    }
+
+    .article__producto--ganado{
+        justify-items: center;
+    }
+    .gif__producto--ganado{
+        margin: 0px;
+        max-width: 300px;
+        text-align: center;
+    }
+    .img__producto--ganado{
+        width: 200px;
+    }
+    .h1__producto--ganado{
+        font-size: 1.3em;
+    }
+    .nombre__producto--ganado{
+        font-size: 1.3em;
+    }
+    .div__producto--ganado{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+@media(max-width: 800px){
+    .gacha__container{
+        display: flex;
+        flex-direction: column-reverse;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .img_container{
+        margin-top: -70px;
+    }
+}
+
+@media(max-width: 700px){
+    .article__producto--ganado{
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .div__producto--ganado{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+@media(max-width: 550px){
+    .img_ruleta{
+        width: 375px;
+    }
+    .img__coin{
+        width: 100px;
+    }
 }

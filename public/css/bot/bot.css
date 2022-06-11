@@ -63,3 +63,14 @@
     background-color: rgb(85, 194, 85);
 }
 
+@media(max-width: 725px){
+    .img__bot{
+        max-width: 145px;
+    }
+}
+@media(max-width: 415px){
+    .img__bot{
+        max-width: 115px;
+    }
+}
+

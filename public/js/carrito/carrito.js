@@ -68,7 +68,7 @@ const listarCarrito= async()=>{
             let precio = document.createElement('p');
             let precioTotalProducto = document.createElement('p');
             let botonEliminar = document.createElement('button');
-
+            let  basura = document.createElement('span');
             //Insertamos el valor en cada caso
 
             img.src = url;
@@ -77,7 +77,7 @@ const listarCarrito= async()=>{
             mas.textContent = '+';
             precio.textContent = `Pr/ud: ${producto.price} €`;
             precioTotalProducto.textContent = `Total: ${(producto.price * line.quantity).toFixed(2)} €`;
-            botonEliminar.textContent = 'Eliminar';
+            basura.textContent="delete";
             stock.textContent = `STOCK : ${producto.stock}`
             cantidad.textContent = line.quantity;
             mas.value = line.id;
@@ -96,7 +96,9 @@ const listarCarrito= async()=>{
             precio.className = "precio__producto--carrito";
             precioTotalProducto.className = "precioFinal__producto--carrito";
             botonEliminar.className ="boton__borrarProducto--carrito";
+            basura.className = "material-symbols-outlined"
 
+            botonEliminar.append(basura);
             divNomStock.append(nombre,stock);
             divBotonCantidad.append(menos,cantidad,mas);
             articuloProducto.append(img,divNomStock,divBotonCantidad,precio,precioTotalProducto,botonEliminar);

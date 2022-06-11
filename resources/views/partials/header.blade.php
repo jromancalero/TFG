@@ -43,19 +43,21 @@
             <li class="header__li--user">
 
                 @auth
-                    <p class="material-symbols-outlined">account_circle</p>
-                    @if (Auth::user()->is_admin == 1)
-                        <a class="li__user--a" href="{{route('admin')}}">{{Auth::user()->user_name}}</a>
-                    @else
-                        <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
-                    @endif
-                    <form class="form_logout" method="POST" action="{{route('logout')}}">
-                        @csrf
-                        <a class="logout" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();"><span class="material-symbols-outlined">
-                            settings_power
-                            </span></a>
-                    </form>
-                    <input type ="hidden" name="id_user" id="id_user" value="{{Auth::user()->id}}">
+                    <div class="user">
+                        <p class="material-symbols-outlined">account_circle</p>
+                        @if (Auth::user()->is_admin == 1)
+                            <a class="li__user--a" href="{{route('admin')}}">{{Auth::user()->user_name}}</a>
+                        @else
+                            <a class="li__user--a" href="{{route('cuenta')}}">{{Auth::user()->user_name}}</a>
+                        @endif
+                        <form class="form_logout" method="POST" action="{{route('logout')}}">
+                            @csrf
+                            <a class="logout" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();"><span class="material-symbols-outlined">
+                                settings_power
+                                </span></a>
+                        </form>
+                        <input type ="hidden" name="id_user" id="id_user" value="{{Auth::user()->id}}">
+                    </div>
                 @else
                     <a class="li__user--a" href="{{route('login')}}">Conéctate</a>
                     <a class="li__user--a" href="{{route('registro')}}">Registrate</a>

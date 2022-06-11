@@ -150,13 +150,13 @@ const productView = async(id_image,id_link) =>{
     titulo_producto.textContent = producto.name;
     botonMas.textContent = '+';
     botonMenos.textContent = '-';
-    precio.textContent = `Precio : ${producto.price}`;
+    precio.textContent = `Precio : ${producto.price} €`;
     cantidad.textContent = 1;
     stock.textContent = `Stock acutal del producto :  ${producto.stock}`
     botonCompra.textContent = 'Añadir al carrito';
     botonCompra.value = producto.id;
     botonCompra.dataset.stock = producto.stock;
-    comentarios.textContent= 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
+    comentarios.textContent= `Descripción: ${producto.description}`
     botonVolverProductos.textContent = "VOLVER A LOS PRODUCTOS";
 
     //Valores extras
@@ -175,6 +175,7 @@ const productView = async(id_image,id_link) =>{
     botonMas.className="boton_mas";
     botonMenos.className="boton_menos";
     botonCompra.className="boton__compra animacion"
+    botonVolverProductos.className = "boton__volver--productos"
 
     //Inserción html
     contenedorCantidad.append(botonMenos,cantidad,botonMas);

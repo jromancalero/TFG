@@ -74,6 +74,8 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
     let divBotones = document.createElement('div');
     divBotones.append(botonAtras,botonConfirmar);
     divBotones.className="botones__perfil--volverConfirmar";
+    botonConfirmar.className = 'boton__confirmar';
+    botonAtras.className = 'boton_volverAtras';
 
     //MODIFICAR DATOS DEL USUARIO
     liCambiarDatos.addEventListener('click',(e)=>{
@@ -234,16 +236,20 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
         articleUser.innerHTML = "";
         let divDireccionesEnvio = document.createElement('div');
         let ulDireccionesEnvioMod = document.createElement('ul');
+        let eliminar = document.createElement('span');
         ulDireccionesEnvioMod.className ="ul__DireccionesEnvio--Mod"
         divDireccionesEnvio.className ="div__DireccionesEnvio"
         for(let address of addresses){
             let botonEliminarDireccion = document.createElement('button');
             let direccionEnvio = document.createElement('li');
-            botonEliminarDireccion.textContent = "Eliminar";
+
+            eliminar.className ="material-symbols-outlined";
+            eliminar.textContent = 'delete';
             botonEliminarDireccion.className ="boton__eliminar--direccion"
             direccionEnvio.className = "direccionesEnvio__perfil";
             direccionEnvio.textContent = `Direccion: ${address.tipo} ${address.nombre}, NÂº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais}  `;
             botonEliminarDireccion.value = address.id;
+            botonEliminarDireccion.append(eliminar);
             ulDireccionesEnvioMod.append(direccionEnvio,botonEliminarDireccion);
         }
         divDireccionesEnvio.append(ulDireccionesEnvioMod);

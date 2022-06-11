@@ -138,6 +138,11 @@ nav{
 .boton__menu{
     display: none;
 }
+.user{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 /* Media querys */
 
@@ -202,6 +207,7 @@ nav{
         font-size: 3em;
         color: black;
         font-weight: bold;
+        animation-fill-mode: forwards;
     }
     .material-symbols-outlined{
         cursor: pointer;
@@ -236,4 +242,13 @@ nav{
     .article__footer--copyrigth{
         margin: 10px;
     }
+    .header__li--user{
+        flex-direction: column;
+    }
+    .user{
+        display: flex;
+        align-items: center;
+    }
 }
+
+
