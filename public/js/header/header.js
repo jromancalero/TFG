@@ -37,12 +37,6 @@ hamburguesa.addEventListener('click',(e)=>{
         listaNav.style= 'display:flex;';
         nav.style= 'align-items: flex-start; max-height: 100%;';
         headerUsuariCarrito.style = 'margin-top: 0px';
-        hamburguesa.animate([
-            {transform: 'rotate (90deg)'},
-        ],{
-            duration:1000,
-            fill:'forwards',
-        });
         contadorHamburguesa = 1;
     }else if(contadorHamburguesa === 1){
         listaNav.style= 'display:none;';

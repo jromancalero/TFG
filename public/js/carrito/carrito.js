@@ -84,7 +84,7 @@ const listarCarrito= async()=>{
             menos.value = line.id;
             mas.dataset.id = line.quantity;
             menos.dataset.id = line.quantity;
-            botonEliminar.value = line.id;
+            basura.value = line.id;
             //clases
             articuloProducto.className="articulo__producto--carrito";
             img.className="img_producto--carrito";
@@ -257,6 +257,12 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
         if(finalizaCompraBoolean){
             section_carrito.innerHTML="";
             let titulo_confirmaciónDirección = document.createElement('h1');
+            let direccionesTitulo = document.createElement('h2');
+            direccionesTitulo.className= 'direccionesTitulo';
+            direccionesTitulo.textContent = 'Direcciones';
+            let avisoDirecciones = document.createElement('p');
+            avisoDirecciones.className = 'avisoDirecciones';
+            avisoDirecciones.textContent = 'Para poder enviar su paquete, necesitaremos su dirección, seleccione una, gracias';
             titulo_confirmaciónDirección.textContent = 'Confirme una dirección para el pedido'
             titulo_confirmaciónDirección.className = "titulo_confirmación";
             let lista_direcciones = document.createElement('ul');
@@ -272,7 +278,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                 liDireccion.append(botonConfirmarDireccion);
                 lista_direcciones.append(liDireccion);
             });
-            section_carrito.append(titulo_confirmaciónDirección,lista_direcciones);
+            section_carrito.append(titulo_confirmaciónDirección,direccionesTitulo,lista_direcciones,avisoDirecciones);
             let botonesdirecciones = document.querySelectorAll('.boton_confirmacion_direccion');
             //coger el id de la order
             let resOrder = await fetch('/api/orders/cart');
@@ -296,7 +302,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                     precioFinalProductos.className="precioFinalVenta";
                     tituloProductosPedido.textContent="Productos Del Pedido";
                     tituloProductosPedido.className="titulos_carrito";
-                    articleVentaFinal.append(tituloProductosPedido);
+                    section_carrito.append(tituloProductosPedido);
                     //Listar productos que van a ser comprados
                     listaProductos.forEach(producto=>{
                         precioTotalFinal += producto.precio;
@@ -321,6 +327,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                     let precioEnvio = document.createElement('p');
                     let botonFinalizarPago = document.createElement('button');
                     botonFinalizarPago.textContent = 'Finalizar pago';
+                    botonFinalizarPago.className = 'botonFinalizarPago';
                     if(precioTotalFinal < 39.99){
                         let anuncio = document.createElement('p');
                         precioTotalFinal = (precioTotalFinal + 3.95).toFixed(2);

@@ -109,7 +109,7 @@
     margin: 15px;
 }
 .titulos_carrito{
-    font-size: 1.6em;
+    font-size: 2.5em;
     font-family: 'Hiromisake';
     border-bottom: 2px solid black;
 }
@@ -144,6 +144,81 @@
     cursor: pointer;
     color: red;
 }
+.titulo_confirmación{
+    font-size: 2.5em;
+    margin: 50px;
+    font-family: 'MontserratBold';
+    border-bottom: 2px solid rgb(78, 78, 78);
+}
+.lista_direcciones_carrito{
+    list-style: none;
+    padding: 0;
+    font-size: 1.2em;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+}
+.lista_direcciones_carrito li{
+    display: flex;
+    gap: 5px;
+    margin: 15px;
+    align-items: center;
+}
+.direccionesTitulo {
+    font-size: 2em;
+    font-family: 'MontserratBold';
+}
+.avisoDirecciones{
+    font-size: 1.3em;
+}
+.boton_confirmacion_direccion, .botonFinalizarPago{
+    font-size: 0.7em;
+    margin: 10px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 15px;
+    border-color: #39772a;
+    box-shadow: 3px 4px 0px 0px #a9f0cd;
+	background:linear-gradient(to bottom, #e1f3e1 5%, #9efa87 100%);
+}
+.boton_confirmacion_direccion:hover, .botonFinalizarPago:hover{
+    background:linear-gradient(to bottom, #9efa87 5%, #e1f3e1 100%);
+	background-color:#9efa87;
+    cursor: pointer;
+}
+.boton_confirmacion_direccion:active, .botonFinalizarPago:active{
+    position:relative;
+	top:1px;
+}
+.article_venta_final{
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 3px 10px 0 rgb(0 0 0 / 19%);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-size: 1.2em;
+    gap: 5px;
+    padding: 10px;
+    font-family: 'MontserratSemiBold';
+}
+.divProducto_final--compra{
+    border-bottom: 2px solid rgb(78, 78, 78);
+}
+.titulo_ultimo{
+    font-size: 3.5em;
+    margin: 30px;
+    margin-top: 150px;
+    font-family: 'MontserratBold';
+    background-color: white;
+    padding: 5px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 3px 10px 0 rgb(0 0 0 / 19%);
+    border-radius: 15px;
+    margin-bottom: 150px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 
 @media(max-width: 900px){
     .articulo__producto--carrito{
