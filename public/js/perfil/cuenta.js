@@ -74,6 +74,8 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
     let divBotones = document.createElement('div');
     divBotones.append(botonAtras,botonConfirmar);
     divBotones.className="botones__perfil--volverConfirmar";
+    botonConfirmar.className = 'boton__confirmar';
+    botonAtras.className = 'boton_volverAtras';
 
     //MODIFICAR DATOS DEL USUARIO
     liCambiarDatos.addEventListener('click',(e)=>{
@@ -142,7 +144,7 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(userModificated),
-            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+            });
 
             listarUsuario();
         })
@@ -159,7 +161,8 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
         let inputContraseÃ±aRepetida = document.createElement('input');
         let aviso = document.createElement('p');
         let divErrores = document.createElement('div');
-
+        inputContraseÃ±a.type = 'password';
+        inputContraseÃ±aRepetida.type = 'password';
         labelContraseÃ±a.textContent = 'Nueva ContraseÃ±a';
         labelContraseÃ±aRepetida.textContent = 'Repita la ContraseÃ±a';
         titulo.textContent = 'Cambiar contraseÃ±a';
@@ -223,7 +226,7 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({"password":contraseÃ±a}),
-                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                });
             }
         })
     });
@@ -239,12 +242,17 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
         for(let address of addresses){
             let botonEliminarDireccion = document.createElement('button');
             let direccionEnvio = document.createElement('li');
-            botonEliminarDireccion.textContent = "Eliminar";
+            let eliminar = document.createElement('span');
+
+            eliminar.className ="material-symbols-outlined";
+            eliminar.textContent = 'delete';
             botonEliminarDireccion.className ="boton__eliminar--direccion"
             direccionEnvio.className = "direccionesEnvio__perfil";
             direccionEnvio.textContent = `Direccion: ${address.tipo} ${address.nombre}, NÂº ${address.patio}, piso ${address.piso}, puerta ${address.puerta}, ${address.cp}, ${address.localidad}, ${address.pais}  `;
             botonEliminarDireccion.value = address.id;
-            ulDireccionesEnvioMod.append(direccionEnvio,botonEliminarDireccion);
+            botonEliminarDireccion.append(eliminar);
+            direccionEnvio.append(botonEliminarDireccion);
+            ulDireccionesEnvioMod.append(direccionEnvio);
         }
         divDireccionesEnvio.append(ulDireccionesEnvioMod);
 
@@ -300,11 +308,9 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
 
         divAÃ±adirDireccion.append(labelTipo,labelNombre,labelLocalidad,labelPais,labelCp,labelPatio,labelPuerta,labelPiso,divBotones);
         articleUser.append(titulo,divDireccionesEnvio,divAÃ±adirDireccion);
-        console.log(e)
 
         //FunciÃ³n borrar direcciones
         let botonesEliminarDireccion = document.querySelectorAll('.boton__eliminar--direccion');
-        console.log(botonesEliminarDireccion);
         //Scrollear hasta el titulo
         let scroll = titulo.getBoundingClientRect();
         window.scrollTo(scroll.x,scroll.y);
@@ -320,7 +326,6 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
         botonConfirmar.addEventListener('click',async(e)=>{
             let respAddresses = await fetch('api/addresses');
             let addresses = await respAddresses.json();
-            console.log(addresses[0].length);
             if(addresses[0].length < 4 ){
                 let direccion = {"tipo": inputTipo.value,"nombre":inputNombre.value,"patio":inputPatio.value,"puerta":inputPuerta.value,"piso":inputPiso.value,"cp":inputCp.value,"localidad":inputLocalidad.value,"pais":inputPais.value};
                 fetch(`api/addresses/`, {
@@ -370,7 +375,6 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
 
                 let respProducto = await fetch(`/api/products/${productoGanado.product_id}`);
                 let producto = await respProducto.json();
-                console.log(producto);
 
                 let articleProductoGanado = document.createElement('article');
                 let fechaAndId = document.createElement('div');
@@ -405,7 +409,6 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
 
 
         }
-        console.log(productosGanados);
     })
 
     botonAtras.addEventListener('click',(e)=>{
@@ -418,7 +421,6 @@ const eventosPerfil=(user,addresses,liCambiarDatos,liPedidos,liCambiarConstraseÃ
 const creacionPedidosPerfil = async(order,articleUser,botonAtras)=>{
     let respOrderLines = await fetch(`api/orderLines/profile/${order.id}`);
     let arrayProductos = await respOrderLines.json();
-    //console.log(arrayProductos);
 
     //Partes de los pedidos
     let orderArticle = document.createElement('article');
@@ -441,10 +443,8 @@ const creacionPedidosPerfil = async(order,articleUser,botonAtras)=>{
     divNumPedidoFecha.append(numPedido,fechaPedido);
     orderArticle.append(divNumPedidoFecha);
 
-    console.log(arrayProductos);
     //creamos los articulos de los pedidos
     arrayProductos[0].forEach(lineaProducto=>{
-        console.log(lineaProducto[0],lineaProducto[1],lineaProducto[2]);
         let divProducto = document.createElement('div');
         let nombreProducto = document.createElement('p');
         let precioProducto = document.createElement('p');
@@ -484,7 +484,6 @@ const creacionPedidosPerfil = async(order,articleUser,botonAtras)=>{
 //llamada a la funcion para borrar las direcciones
 const borrarDireccion = async(idBotonEliminar,divDireccionesEnvio)=>{
 
-    console.log(idBotonEliminar);
     fetch(`api/addresses/${idBotonEliminar}`, {
         method: "DELETE",
         mode:'cors',
@@ -495,7 +494,6 @@ const borrarDireccion = async(idBotonEliminar,divDireccionesEnvio)=>{
     }).then(async()=>{
         let respAddresses2 = await fetch('api/addresses');
         let addresses2 = await respAddresses2.json();
-        console.log(addresses2);
 
         divDireccionesEnvio.innerHTML="";
         let ulDireccionesEnvioMod = document.createElement('ul');

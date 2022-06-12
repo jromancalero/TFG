@@ -9,7 +9,6 @@ const listarCarrito= async()=>{
     try{
         let respOrderLines = await fetch('api/orderLines');
         let orderLines = await respOrderLines.json();
-        console.log(orderLines);
         let orderLinesLength = orderLines.length;
         let contadorLinesLength = 0;
         let num_carrito = document.querySelector('#num_carrito');
@@ -19,7 +18,6 @@ const listarCarrito= async()=>{
         let listaProductos = [];
 
 
-       console.log(orderLines.length)
        if(orderLines.length === 0){
             let articleImg = document.createElement('article')
             let img = document.createElement('img');
@@ -41,7 +39,6 @@ const listarCarrito= async()=>{
 
         //creación de las líneas de pedido
         orderLines.forEach( async line => {
-            console.log(line);
             let product_id = line.product_id;
             //Llamada para recopilar cada producto
             let resProducto = await fetch(`/api/products/${product_id}`);
@@ -68,7 +65,7 @@ const listarCarrito= async()=>{
             let precio = document.createElement('p');
             let precioTotalProducto = document.createElement('p');
             let botonEliminar = document.createElement('button');
-
+            let  basura = document.createElement('span');
             //Insertamos el valor en cada caso
 
             img.src = url;
@@ -77,14 +74,14 @@ const listarCarrito= async()=>{
             mas.textContent = '+';
             precio.textContent = `Pr/ud: ${producto.price} €`;
             precioTotalProducto.textContent = `Total: ${(producto.price * line.quantity).toFixed(2)} €`;
-            botonEliminar.textContent = 'Eliminar';
+            basura.textContent="delete";
             stock.textContent = `STOCK : ${producto.stock}`
             cantidad.textContent = line.quantity;
             mas.value = line.id;
             menos.value = line.id;
             mas.dataset.id = line.quantity;
             menos.dataset.id = line.quantity;
-            botonEliminar.value = line.id;
+            basura.value = line.id;
             //clases
             articuloProducto.className="articulo__producto--carrito";
             img.className="img_producto--carrito";
@@ -96,7 +93,9 @@ const listarCarrito= async()=>{
             precio.className = "precio__producto--carrito";
             precioTotalProducto.className = "precioFinal__producto--carrito";
             botonEliminar.className ="boton__borrarProducto--carrito";
+            basura.className = "material-symbols-outlined"
 
+            botonEliminar.append(basura);
             divNomStock.append(nombre,stock);
             divBotonCantidad.append(menos,cantidad,mas);
             articuloProducto.append(img,divNomStock,divBotonCantidad,precio,precioTotalProducto,botonEliminar);
@@ -160,7 +159,7 @@ function eventoSumarRestar(){
                         'X-CSRF-TOKEN': token,
                         'Content-Type': 'application/json',
                     },
-                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                });
             }else{
                 fetch(`/api/orderLines/${orderLineId}`, {
                     method: "PUT",
@@ -170,7 +169,7 @@ function eventoSumarRestar(){
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({"quantity": cantidad}),
-                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                });
             }
 
             listarCarrito();
@@ -193,7 +192,7 @@ function borrarLineOrder(){
                     'X-CSRF-TOKEN': token,
                     'Content-Type': 'application/json',
                 },
-            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+            });
 
             listarCarrito();
         });
@@ -230,9 +229,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
         let userAndAddress = await respUser.json();
         let user = userAndAddress[0];
         let addresses = userAndAddress[1];
-        console.log(user,addresses);
         let edad = getEdad(user.date_birth);
-        console.log(edad);
         let finalizaCompraBoolean = true;
         let arrayErrores = [];
         let articleFinalVentaProducto = document.createElement('article');
@@ -255,6 +252,12 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
         if(finalizaCompraBoolean){
             section_carrito.innerHTML="";
             let titulo_confirmaciónDirección = document.createElement('h1');
+            let direccionesTitulo = document.createElement('h2');
+            direccionesTitulo.className= 'direccionesTitulo';
+            direccionesTitulo.textContent = 'Direcciones';
+            let avisoDirecciones = document.createElement('p');
+            avisoDirecciones.className = 'avisoDirecciones';
+            avisoDirecciones.textContent = 'Para poder enviar su paquete, necesitaremos su dirección, seleccione una, gracias';
             titulo_confirmaciónDirección.textContent = 'Confirme una dirección para el pedido'
             titulo_confirmaciónDirección.className = "titulo_confirmación";
             let lista_direcciones = document.createElement('ul');
@@ -270,23 +273,20 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                 liDireccion.append(botonConfirmarDireccion);
                 lista_direcciones.append(liDireccion);
             });
-            section_carrito.append(titulo_confirmaciónDirección,lista_direcciones);
+            section_carrito.append(titulo_confirmaciónDirección,direccionesTitulo,lista_direcciones,avisoDirecciones);
             let botonesdirecciones = document.querySelectorAll('.boton_confirmacion_direccion');
             //coger el id de la order
             let resOrder = await fetch('/api/orders/cart');
             let order = await resOrder.json();
             let orderId = order[0].id;
-            console.log(orderId);
 
             for(let botonDireccion of botonesdirecciones){
                 //evento de confirmacion de la direccion y ultimos pasos para finalizar la compra
                 botonDireccion.addEventListener('click', async(e)=>{
                     let addresId = e.target.value;
-                    console.log(orderId,addresId);
                     section_carrito.innerHTML ="";
                     let articleVentaFinal = document.createElement('article');
                     articleVentaFinal.className="article_venta_final";
-                    console.log(listaProductos);
 
                     let precioTotalFinal = 0;
                     let precioFinalProductos = document.createElement('p');
@@ -294,7 +294,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                     precioFinalProductos.className="precioFinalVenta";
                     tituloProductosPedido.textContent="Productos Del Pedido";
                     tituloProductosPedido.className="titulos_carrito";
-                    articleVentaFinal.append(tituloProductosPedido);
+                    section_carrito.append(tituloProductosPedido);
                     //Listar productos que van a ser comprados
                     listaProductos.forEach(producto=>{
                         precioTotalFinal += producto.precio;
@@ -319,6 +319,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                     let precioEnvio = document.createElement('p');
                     let botonFinalizarPago = document.createElement('button');
                     botonFinalizarPago.textContent = 'Finalizar pago';
+                    botonFinalizarPago.className = 'botonFinalizarPago';
                     if(precioTotalFinal < 39.99){
                         let anuncio = document.createElement('p');
                         precioTotalFinal = (precioTotalFinal + 3.95).toFixed(2);
@@ -345,12 +346,11 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({"address_id":addresId,"final_price":precioTotalFinal}),
-                        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                        });
 
                         //Eliminando productos
                         listaProductos.forEach(async(producto)=>{
                             let stock = producto.stock - producto.cantidad;
-                            console.log(stock);
                             fetch(`api/products/stock/${producto.id_product}`, {
                                 method: "PUT",
                                 mode:'cors',
@@ -359,7 +359,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify({"stock":stock}),
-                            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                            });
                         });
 
                         //Si el producto son gacha coins, añadirselo al usuario
@@ -373,7 +373,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                         'Content-Type': 'application/json',
                                     },
                                     body: JSON.stringify({"coin":producto.cantidad}),
-                                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                                });
                             }
                         });
                         let num_carrito = document.querySelector('#num_carrito');
@@ -415,7 +415,6 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
             section_carrito.append(articleFinalVentaProducto);
             let scroll = articleFinalVentaProducto.getBoundingClientRect();
             window.scrollTo(scroll.x,scroll.y);
-            console.log(scroll);
             botonCerrar.addEventListener('click',e=>{
                 articleFinalVentaProducto.innerHTML = "";
             });
@@ -429,14 +428,9 @@ const countCarrito = async()=>{
     let numeroCarrito = 0;
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines)
 
     if(orderLines === 'error'){
-        console.log('no invitado');
     }else{
-
-        console.log(orderLines);
-
         orderLines.forEach(linea =>{
             numeroCarrito = numeroCarrito + linea.quantity;
         });

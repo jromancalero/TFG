@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{asset('css/extras/politica_privacidad.css')}}">
     <link rel="stylesheet" href="{{asset('css/bot/bot.css')}}">
     <script type="text/javascript" src="{!! asset('js/bot/bot.js') !!}" defer></script>
+    <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {{--<script type="text/javascript" src="{!! asset('js/products/products.js') !!}" defer></script>  --}}
 </head>

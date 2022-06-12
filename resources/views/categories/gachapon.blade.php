@@ -12,8 +12,8 @@
                     <img class="img_ruleta"  src="{{asset('img/gachapon/ruleta.png')}}" id="ruleta">
                 </div>
                 <div class="info__gracha--container">
-                    <h2>Bienvenidos a la ruleta del gachapón</h2>
-                    <h3>Para poder jugar necesitarás 1 Gacha Coin por partida</h3>
+                    <h2 class="subtitulo__gacha">Bienvenidos a la ruleta del gachapón</h2>
+                    <h3 class="aviso__gacha">Para poder jugar necesitarás 1 Gacha Coin por partida</h3>
                     @if(Auth::user())
                         <p class="gacha__coins--propios">Tus Gacha Coins: {{Auth::user()->coin}}</p>
                     @else

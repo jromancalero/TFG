@@ -19,6 +19,46 @@
     display: flex;
     justify-content: space-between;
 }
+.article__modalidades button, .article__modalidades a, .boton_guardar_cambios, .send_button{
+    text-decoration: none;
+    color: black;
+    font-size: 1em;
+    margin: 10px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 15px;
+    border: 2px solid;
+    border-color: #39772a;
+    box-shadow: 3px 4px 0px 0px #a9f0cd;
+	background:linear-gradient(to bottom, #e1f3e1 5%, #9efa87 100%);
+}
+.article__modalidades a{
+    font-size: 1.2em;
+}
+.article__modalidades button:hover, .article__modalidades a:hover, .boton_guardar_cambios:hover, .send_button:hover{
+    cursor: pointer;
+    background:linear-gradient(to bottom, #9efa87 5%, #e1f3e1 100%);
+	background-color:#9efa87;
+}
+.article__modalidades button:active, .article__modalidades a:active, .boton_guardar_cambios:active, .send_button:active{
+    position:relative;
+	top:1px;
+}
+.article__filtro{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 15px;
+    border: 3px solid black;
+    padding: 5px;
+}
+.article__filtro input{
+    margin-left: 10px;
+}
+
+
 
 /* estilos del js */
 .listado_admin{
@@ -29,11 +69,13 @@
 .lista_admin{
     list-style: none;
     display: flex;
+    width: 100%;
     flex-direction: column;
     border-bottom: 2px solid black;
     margin: 5px;
     font-weight: bold;
     flex-wrap: wrap;
+    font-size: 1.2em;
 }
 .titulo_lista{
     border-bottom: 2px solid black;
@@ -43,4 +85,60 @@
 .botones_lista{
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.delete_button , .edit_button{
+    border: none;
+    background-color: white;
+    border-bottom: 2px solid black;
+}
+.delete_button .material-symbols-outlined,.edit_button .material-symbols-outlined {
+    font-size: 2.5em;
+    margin-right: 10px;
+}
+.material-symbols-outlined:hover{
+    cursor: pointer;
+
+}
+.basura:hover{
+    color: red;
+    font-weight: bold;
+}
+.edit:hover{
+    color: orange;
+    font-weight: bold;
+}
+
+.bloque_editar{
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    align-items: center;
+    font-size: 1.1em;
+}
+.boton_guardar_cambios{
+    grid-column: 1 / span 2;
+}
+
+.listado_admin{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: fit-content;
+    align-items: flex-start;
+    align-content: center;
+}
+.div_inputs_carac{
+    display: flex;
+    display: flex;
+    font-size: 1.3em;
+    justify-content: center;
+    margin: 10px;
+}
+.div_inputs_carac label {
+    margin-right: 10px;
+}
+.send_button{
+    width: 50%;
+    margin:15px
 }
