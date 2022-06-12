@@ -81,7 +81,6 @@ showProduct = ()=>{
 const productView = async(id_image,id_link) =>{
     let res3 = await fetch(`/api/products/${id_link}`);
     let producto = await res3.json();
-    console.log(producto);
     products_container.innerHTML="";
     main.innerHTML="";
 
@@ -106,7 +105,6 @@ const productView = async(id_image,id_link) =>{
 
     let resp4 = await fetch(`/api/images/${id_image}`);
     let image = await resp4.json();
-    console.log(image);
 
     //Creación del textContent de los productos
     titulo_producto.textContent = producto.name;
@@ -147,7 +145,6 @@ const productView = async(id_image,id_link) =>{
 
     //Volver a productos
     botonVolverProductos.addEventListener('click',(e)=>{
-        console.log(e);
         listar();
     });
 
@@ -157,23 +154,46 @@ const productView = async(id_image,id_link) =>{
 }
 
 //Evento Añadir al carrito de la compra
-const carritoCompra= async()=>{
-
+const carritoCompra=(modo)=>{
     let botonesCesta = document.querySelectorAll('.boton__compra');
     botonesCesta.forEach((botonCesta)=>{
-        botonCesta.addEventListener('click',(e)=>{
-            console.log(e.target.value);
-            //Creación lineas de pedido
-            createLineasDeProducto();
+        botonCesta.addEventListener('click',async(e)=>{
+            id_producto = e.target.value;
+            let respProducts = await fetch(`api/products/${id_producto}`);
+            let producto = await respProducts.json();
+            botonCesta.style = 'background-color: rgb(122, 196, 11);';
+            setTimeout(()=>{
+                botonCesta.style = 'background-color: white';
+            },200);
+
+            if(modo === 'individual'){
+                let cantidadTot = document.querySelector('.cantidad_producto--inidividual');
+                let cantidad = cantidadTot.textContent;
+                if(cantidad > producto.stock){
+                    alert('No puedes añadir mas productos que el stock existente');
+                }else{
+                    createLineasDeProducto(id_producto,modo,cantidad);
+                }
+            }else{
+                if(producto.stock > 0 ){
+                    createLineasDeProducto(id_producto,modo);
+                }else{
+                    alert(`No hay stock del producto ${producto.name}, sentimos las molestias`);
+                }
+            }
         });
     });
 }
 
-const createLineasDeProducto = async()=>{
-    let respOrders = await fetch(' api/orders/cart');
+//Creación lineas de pedido
+const createLineasDeProducto = async(id_producto,modo,cantidad)=>{
+    let respOrders = await fetch('api/orders/cart');
     let order = await respOrders.json();
-    console.log(order);
-    //SI NO TIENE CARRITO SE LO CREAMOS
+    //si no esta registrado, aviso
+    if(order === 'no registrado'){
+        alert('Para añadir artículos a tu carrito, debes registrarte o estar logueado antes');
+    }else{
+            //SI NO TIENE CARRITO SE LO CREAMOS Y AÑADIMOS PRODUCTO DIRECTAMENTE
     if(order.length === 0){
         fetch("/api/orders", {
             method: "POST",
@@ -183,9 +203,87 @@ const createLineasDeProducto = async()=>{
                 'Content-Type': 'application/json',
             },
         });
+        let respOrders2 = await fetch('api/orders/cart');
+        let order2 = await respOrders2.json();
+        introducirProductoCarrito(order2[0].id,id_producto,modo,cantidad);
+    }
+    introducirProductoCarrito(order[0].id,id_producto,modo,cantidad);
     }
 
+}
+
+const introducirProductoCarrito= async(order,id_producto,modo,cantidad)=>{
+
+    let respOrderLines = await fetch('api/orderLines');
+    let orderLines = await respOrderLines.json();
+    let existe = false;
+    let orderLineId;
+    let orderLineCantidad = 0;
+    //Comprobamos si existe el mismo producto para en vez de crear uno, le sumamos uno a quantity
+    orderLines.forEach( async line =>{
+        if(line.product_id == id_producto & modo === undefined){
+            orderLineId = line.id;
+            orderLineCantidad = line.quantity + 1;
+            existe = true;
+        }
+        if(line.product_id == id_producto & modo === 'individual'){
+            orderLineId = line.id;
+            orderLineCantidad = line.quantity + parseInt(cantidad);
+            existe = true;
+        }
+    });
+    if(existe){
+        fetch(`/api/orderLines/${orderLineId}`, {
+            method: "PUT",
+            mode:'cors',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"quantity": orderLineCantidad}),
+        });
+    }else{
+        if(modo === 'individual'){
+            orderLineCantidad = parseInt(cantidad);
+            fetch('api/orderLines',{
+                method: "POST",
+                mode:'cors',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({"quantity": orderLineCantidad,"order_id": order,"product_id":id_producto}),
+            });
+        }else{
+            fetch('api/orderLines',{
+                method: "POST",
+                mode:'cors',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({"quantity": 1,"order_id": order,"product_id":id_producto}),
+            });
+        }
+    }
+    countCarrito();
+}
+
+const countCarrito = async()=>{
+
+    let respOrderLines = await fetch('api/orderLines');
+    let orderLines = await respOrderLines.json();
+    if(orderLines === 'error'){
+    }else{
+        let num_carrito = document.querySelector('#num_carrito');
+        let numeroCarrito = 0;
+        orderLines.forEach(linea =>{
+            numeroCarrito = numeroCarrito + linea.quantity;
+        });
+        num_carrito.textContent = numeroCarrito;
+    }
 
 }
 
 listar();
+

@@ -20,7 +20,6 @@ ruleta.addEventListener('click',async(e)=>{
 
     let respUserCoin = await fetch('api/users/viewUserCoin');
     let coins = await respUserCoin.json();
-    console.log(coins);
     if(coins >= 1 ){
         girar();
 
@@ -32,13 +31,11 @@ ruleta.addEventListener('click',async(e)=>{
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"coin":-1}),
-        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+        });
 
         //Cambiar los gachas propios
         let gachacoinsNumber = parseInt(gachaCoinsPropios.textContent.split(':')[1]);
         gachacoinsNumber -= 1;
-        console.log(gachaCoinsPropios.textContent = `Tus Gacha Coins: ${gachacoinsNumber}`);
-
     }else{
         alert('NO TIENES COINS');
     }
@@ -55,7 +52,6 @@ function girar(){
     //sonido para la ruleta
     let sonidoRuleta = new Audio('/sonidos/sonido_ruleta.mp3');
     sonidoRuleta.play();
-    console.log(sonidoRuleta);
 
     //Hacer que gire la ruleta
     calcular(girosRandom);
@@ -68,49 +64,41 @@ function girar(){
 
     switch(true){
         case valor > 0 && valor <= 45:
-            console.log("abanico antiguo");
             name = "Abanico Japonés estilo antiguo";
             url="img/products/merchandising/AbanicoOriental.jpg";
             product_id = 23;
             break;
         case valor > 45 && valor <= 90:
-            console.log('figura BAKUGO');
             name = 'Figura de Bakugo';
             url= 'img/products/figuras/bakugo.png';
             product_id = 44;
             break;
         case valor > 90 && valor <= 135:
-            console.log('figura zoro');
             name = 'Figura de Zoro';
             url ="img/products/figuras/zoroOnePiece.webp";
             product_id = 61;
             break;
         case valor > 135 && valor <= 180:
-            console.log('mochis sabor fresa');
             name = 'Mochis Sabor a Fresa';
             url ="img/products/comida/mochisFresa.jpg";
             product_id = 20;
             break;
         case valor > 180 && valor <= 225:
-            console.log('Póster de jujutsu kaisen');
             name = 'Póster de Jujutsu kaisen';
             url="img/products/merchandising/PosterJujutsu.jpg";
             product_id = 31;
             break;
         case valor > 225 && valor <= 270:
-            console.log('Taza de naruto');
             name ="Taza de Naruto";
             url ="img/products/merchandising/tazaNaruto.jpg";
             product_id = 36;
             break;
         case valor > 270 && valor <= 315:
-            console.log('Pocky Fresa con Chocolate');
             name ="Pocky de Fresa con Chocolate";
             url ="img/products/comida/pockyFresaChocolate.jpg";
             product_id = 4;
             break;
         case valor > 315 && valor <= 360:
-            console.log('Taza de totoro');
             name ="Taza de Totoro";
             url ="img/products/merchandising/tazaTotoro.png";
             product_id = 40;
@@ -127,7 +115,7 @@ function girar(){
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({"product_id":product_id}),
-    }).then(resp=> resp.json()).then(resp=>console.log(resp));
+    });
 
     //Aviso del producto ganado
     setTimeout(()=>{
@@ -164,7 +152,6 @@ function girar(){
         articleProductoGanado.append(gif1,divProductoGanado,gif2);
 
         section.style="opacity:0.5";
-        console.log(main);
         main.append(articleProductoGanado);
 
         //Musica para el premio ganado
@@ -174,7 +161,6 @@ function girar(){
         //evento para cerrar el premio
         botonCerrar.addEventListener('click',e=>{
 
-            console.log(e);
             articleProductoGanado.innerHTML = "";
             section.style="opacity:1";
             sonidoProductoGanador.pause();
@@ -217,14 +203,11 @@ botonesCantidad.forEach((botonCambio)=>{
 //Evento Añadir al carrito de la compra Gacha Coins
 
 botonCesta.addEventListener('click',async(e)=>{
-    console.log(e.target);
 
     let respProductCoin = await fetch(` api/products/${62}`);
     let coins = await respProductCoin.json();
-    console.log(coins);
     let id_producto = 62;
     let cantidadCoinNum = cantidadCoin.textContent;
-    console.log(cantidadCoinNum)
     if(cantidadCoinNum > coins.stock){
         alert('No puedes añadir mas productos que el stock existente');
     } else if(coins.stock > 0 ){
@@ -240,7 +223,6 @@ botonCesta.addEventListener('click',async(e)=>{
 const createLineasDeProducto = async(id_producto,cantidadCoinNum)=>{
     let respOrders = await fetch('api/orders/cart');
     let order = await respOrders.json();
-    console.log(order);
     //si no esta registrado, aviso
     if(order === 'no registrado'){
         alert('Para añadir artículos a tu carrito, debes registrarte o estar logueado antes');
@@ -257,7 +239,6 @@ const createLineasDeProducto = async(id_producto,cantidadCoinNum)=>{
         });
         let respOrders2 = await fetch('api/orders/cart');
         let order2 = await respOrders2.json();
-        console.log(order2);
         introducirProductoCarrito(order2[0].id,id_producto,cantidadCoinNum);
     }
     introducirProductoCarrito(order[0].id,id_producto,cantidadCoinNum);
@@ -269,7 +250,6 @@ const introducirProductoCarrito= async(order,id_producto,cantidadCoinNum)=>{
 
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines);
     let existe = false;
     let orderLineId;
     let orderLineCantidad = 0;
@@ -279,11 +259,8 @@ const introducirProductoCarrito= async(order,id_producto,cantidadCoinNum)=>{
         if(line.product_id == id_producto){
             orderLineId = line.id;
             orderLineCantidad = line.quantity + parseInt(cantidadCoinNum);
-            console.log(orderLineCantidad);
             existe = true;
-            console.log(existe);
         }
-        console.log(line.product_id, id_producto);
     });
     if(existe){
         fetch(`/api/orderLines/${orderLineId}`, {
@@ -294,7 +271,7 @@ const introducirProductoCarrito= async(order,id_producto,cantidadCoinNum)=>{
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"quantity": orderLineCantidad}),
-        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+        });
     }else{
         fetch('api/orderLines',{
             method: "POST",
@@ -304,7 +281,7 @@ const introducirProductoCarrito= async(order,id_producto,cantidadCoinNum)=>{
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"quantity": parseInt(cantidadCoinNum),"order_id": order,"product_id":id_producto}),
-        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+        });
     }
     countCarrito();
 }
@@ -313,11 +290,8 @@ const countCarrito = async()=>{
 
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines)
     if(orderLines === 'error'){
-        console.log('no invitado');
     }else{
-        console.log(orderLines);
         let num_carrito = document.querySelector('#num_carrito');
         let numeroCarrito = 0;
         orderLines.forEach(linea =>{

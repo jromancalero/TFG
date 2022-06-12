@@ -9,7 +9,6 @@ const listarCarrito= async()=>{
     try{
         let respOrderLines = await fetch('api/orderLines');
         let orderLines = await respOrderLines.json();
-        console.log(orderLines);
         let orderLinesLength = orderLines.length;
         let contadorLinesLength = 0;
         let num_carrito = document.querySelector('#num_carrito');
@@ -19,7 +18,6 @@ const listarCarrito= async()=>{
         let listaProductos = [];
 
 
-       console.log(orderLines.length)
        if(orderLines.length === 0){
             let articleImg = document.createElement('article')
             let img = document.createElement('img');
@@ -41,7 +39,6 @@ const listarCarrito= async()=>{
 
         //creación de las líneas de pedido
         orderLines.forEach( async line => {
-            console.log(line);
             let product_id = line.product_id;
             //Llamada para recopilar cada producto
             let resProducto = await fetch(`/api/products/${product_id}`);
@@ -162,7 +159,7 @@ function eventoSumarRestar(){
                         'X-CSRF-TOKEN': token,
                         'Content-Type': 'application/json',
                     },
-                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                });
             }else{
                 fetch(`/api/orderLines/${orderLineId}`, {
                     method: "PUT",
@@ -172,7 +169,7 @@ function eventoSumarRestar(){
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({"quantity": cantidad}),
-                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                });
             }
 
             listarCarrito();
@@ -195,7 +192,7 @@ function borrarLineOrder(){
                     'X-CSRF-TOKEN': token,
                     'Content-Type': 'application/json',
                 },
-            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+            });
 
             listarCarrito();
         });
@@ -232,9 +229,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
         let userAndAddress = await respUser.json();
         let user = userAndAddress[0];
         let addresses = userAndAddress[1];
-        console.log(user,addresses);
         let edad = getEdad(user.date_birth);
-        console.log(edad);
         let finalizaCompraBoolean = true;
         let arrayErrores = [];
         let articleFinalVentaProducto = document.createElement('article');
@@ -284,17 +279,14 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
             let resOrder = await fetch('/api/orders/cart');
             let order = await resOrder.json();
             let orderId = order[0].id;
-            console.log(orderId);
 
             for(let botonDireccion of botonesdirecciones){
                 //evento de confirmacion de la direccion y ultimos pasos para finalizar la compra
                 botonDireccion.addEventListener('click', async(e)=>{
                     let addresId = e.target.value;
-                    console.log(orderId,addresId);
                     section_carrito.innerHTML ="";
                     let articleVentaFinal = document.createElement('article');
                     articleVentaFinal.className="article_venta_final";
-                    console.log(listaProductos);
 
                     let precioTotalFinal = 0;
                     let precioFinalProductos = document.createElement('p');
@@ -354,12 +346,11 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({"address_id":addresId,"final_price":precioTotalFinal}),
-                        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                        });
 
                         //Eliminando productos
                         listaProductos.forEach(async(producto)=>{
                             let stock = producto.stock - producto.cantidad;
-                            console.log(stock);
                             fetch(`api/products/stock/${producto.id_product}`, {
                                 method: "PUT",
                                 mode:'cors',
@@ -368,7 +359,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify({"stock":stock}),
-                            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                            });
                         });
 
                         //Si el producto son gacha coins, añadirselo al usuario
@@ -382,7 +373,7 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
                                         'Content-Type': 'application/json',
                                     },
                                     body: JSON.stringify({"coin":producto.cantidad}),
-                                }).then(resp=> resp.json()).then(resp=>console.log(resp));
+                                });
                             }
                         });
                         let num_carrito = document.querySelector('#num_carrito');
@@ -424,7 +415,6 @@ compraFinal =  async(precioFinal,numeroCarrito,stockTotal,orderLines,listaProduc
             section_carrito.append(articleFinalVentaProducto);
             let scroll = articleFinalVentaProducto.getBoundingClientRect();
             window.scrollTo(scroll.x,scroll.y);
-            console.log(scroll);
             botonCerrar.addEventListener('click',e=>{
                 articleFinalVentaProducto.innerHTML = "";
             });
@@ -438,14 +428,9 @@ const countCarrito = async()=>{
     let numeroCarrito = 0;
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines)
 
     if(orderLines === 'error'){
-        console.log('no invitado');
     }else{
-
-        console.log(orderLines);
-
         orderLines.forEach(linea =>{
             numeroCarrito = numeroCarrito + linea.quantity;
         });

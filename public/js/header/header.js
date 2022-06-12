@@ -3,11 +3,8 @@ const countTheCarrito = async()=>{
 
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines)
     if(orderLines === 'error'){
-        console.log('no invitado');
     }else{
-        console.log(orderLines);
         let num_carrito = document.querySelector('#num_carrito');
         let numeroCarrito = 0;
         orderLines.forEach(linea =>{
@@ -28,11 +25,9 @@ let nav = document.querySelector('nav');
 let headerUsuariCarrito = document.querySelector('.header__usuario');
 let botonMenu = document.querySelector('.boton__menu');
 
-console.log(listaNav);
 let contadorHamburguesa = 0;
 
 hamburguesa.addEventListener('click',(e)=>{
-    console.log(contadorHamburguesa)
     if(contadorHamburguesa === 0){
         listaNav.style= 'display:flex;';
         nav.style= 'align-items: flex-start; max-height: 100%;';

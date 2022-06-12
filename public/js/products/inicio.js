@@ -104,7 +104,6 @@ const listar = async()=>{
 //Mostrar un único producto
 showProduct = ()=>{
     let imagenes_productos = document.querySelectorAll('.img__product');
-    //console.log(imagenes_productos);
     for(let link_image of imagenes_productos){
         link_image.addEventListener('click',(e)=>{
             let id_image = e.target.dataset.id;
@@ -119,7 +118,6 @@ showProduct = ()=>{
 const productView = async(id_image,id_link) =>{
     let res3 = await fetch(`/api/products/${id_link}`);
     let producto = await res3.json();
-    console.log(producto);
     products_container.innerHTML="";
     main.innerHTML="";
 
@@ -144,7 +142,6 @@ const productView = async(id_image,id_link) =>{
 
     let resp4 = await fetch(`/api/images/${id_image}`);
     let image = await resp4.json();
-    console.log(image);
 
     //Creación del textContent de los productos
     titulo_producto.textContent = producto.name;
@@ -188,7 +185,6 @@ const productView = async(id_image,id_link) =>{
 
     //Volver a productos
     botonVolverProductos.addEventListener('click',(e)=>{
-        console.log(e);
         listar();
     });
 
@@ -212,14 +208,12 @@ const productView = async(id_image,id_link) =>{
 
 //Evento Añadir al carrito de la compra
 const carritoCompra=(modo)=>{
-    console.log(modo);
     let botonesCesta = document.querySelectorAll('.boton__compra');
     botonesCesta.forEach((botonCesta)=>{
         botonCesta.addEventListener('click',async(e)=>{
             id_producto = e.target.value;
             let respProducts = await fetch(`api/products/${id_producto}`);
             let producto = await respProducts.json();
-            console.log(e.target.value);
             botonCesta.style = 'background-color: rgb(122, 196, 11);';
             setTimeout(()=>{
                 botonCesta.style = 'background-color: white';
@@ -228,7 +222,6 @@ const carritoCompra=(modo)=>{
             if(modo === 'individual'){
                 let cantidadTot = document.querySelector('.cantidad_producto--inidividual');
                 let cantidad = cantidadTot.textContent;
-                console.log(cantidad,producto.stock);
                 if(cantidad > producto.stock){
                     alert('No puedes añadir mas productos que el stock existente');
                 }else{
@@ -247,10 +240,8 @@ const carritoCompra=(modo)=>{
 
 //Creación lineas de pedido
 const createLineasDeProducto = async(id_producto,modo,cantidad)=>{
-    console.log(id_producto);
     let respOrders = await fetch('api/orders/cart');
     let order = await respOrders.json();
-    console.log(order);
     //si no esta registrado, aviso
     if(order === 'no registrado'){
         alert('Para añadir artículos a tu carrito, debes registrarte o estar logueado antes');
@@ -267,7 +258,6 @@ const createLineasDeProducto = async(id_producto,modo,cantidad)=>{
         });
         let respOrders2 = await fetch('api/orders/cart');
         let order2 = await respOrders2.json();
-        console.log(order2);
         introducirProductoCarrito(order2[0].id,id_producto,modo,cantidad);
     }
     introducirProductoCarrito(order[0].id,id_producto,modo,cantidad);
@@ -279,29 +269,20 @@ const introducirProductoCarrito= async(order,id_producto,modo,cantidad)=>{
 
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines);
     let existe = false;
     let orderLineId;
     let orderLineCantidad = 0;
-    console.log(modo);
     //Comprobamos si existe el mismo producto para en vez de crear uno, le sumamos uno a quantity
     orderLines.forEach( async line =>{
         if(line.product_id == id_producto & modo === undefined){
             orderLineId = line.id;
             orderLineCantidad = line.quantity + 1;
-            console.log(orderLineCantidad);
             existe = true;
-            console.log(existe);
         }
-        console.log(line.product_id, id_producto);
-        console.log(modo);
         if(line.product_id == id_producto & modo === 'individual'){
-            console.log(cantidadProductoIndividual);
             orderLineId = line.id;
             orderLineCantidad = line.quantity + parseInt(cantidad);
-            console.log(orderLineCantidad);
             existe = true;
-            console.log(existe);
         }
     });
     if(existe){
@@ -313,11 +294,10 @@ const introducirProductoCarrito= async(order,id_producto,modo,cantidad)=>{
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"quantity": orderLineCantidad}),
-        }).then(resp=> resp.json()).then(resp=>console.log(resp));
+        });
     }else{
         if(modo === 'individual'){
             orderLineCantidad = parseInt(cantidad);
-            console.log(orderLineCantidad);
             fetch('api/orderLines',{
                 method: "POST",
                 mode:'cors',
@@ -326,7 +306,7 @@ const introducirProductoCarrito= async(order,id_producto,modo,cantidad)=>{
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({"quantity": orderLineCantidad,"order_id": order,"product_id":id_producto}),
-            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+            });
         }else{
             fetch('api/orderLines',{
                 method: "POST",
@@ -336,7 +316,7 @@ const introducirProductoCarrito= async(order,id_producto,modo,cantidad)=>{
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({"quantity": 1,"order_id": order,"product_id":id_producto}),
-            }).then(resp=> resp.json()).then(resp=>console.log(resp));
+            });
         }
     }
     countCarrito();
@@ -346,11 +326,8 @@ const countCarrito = async()=>{
 
     let respOrderLines = await fetch('api/orderLines');
     let orderLines = await respOrderLines.json();
-    console.log(orderLines)
     if(orderLines === 'error'){
-        console.log('no invitado');
     }else{
-        console.log(orderLines);
         let num_carrito = document.querySelector('#num_carrito');
         let numeroCarrito = 0;
         orderLines.forEach(linea =>{
