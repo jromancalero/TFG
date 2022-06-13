@@ -129,3 +129,16 @@ INSERT INTO `images` (`id`, `url`, `product_id`, `created_at`, `updated_at`) VAL
 INSERT INTO `users` (`id`, `dni`, `name`, `surname`, `surname2`, `phone`, `user_name`, `email`, `email_verified_at`, `password`, `date_birth`, `profile_photo`, `is_admin`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, '78218945Z', 'Jorge', 'Román', 'Calero', 693425165, 'jorge', 'jromancalero@gmail.com', NULL, '$2y$10$g6FU214/cktSNUr13WtMbut/HvOs8C7/CcyAf36g4v/zvxo35Ku7C', '2000-07-12', NULL, 0, NULL, '2022-05-13 14:34:48', '2022-05-22 15:42:41'),
 (2, '75896458Y', 'admin', 'admin', 'admin', 5648646, 'admin', 'admin@gmail.com', NULL, '$2y$10$8XeVyjDqG9gN96uh.wGTV.h9MTej2Q7L6UH5O5.FEOjft1dHA3JAC', NULL, NULL, 1, NULL, '2022-05-18 11:47:59', '2022-05-18 11:47:59');
+
+INSERT INTO `addresses` (`id`, `tipo`, `nombre`, `patio`, `puerta`, `piso`, `cp`, `localidad`, `pais`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'calle', 'de la huerta', '5', '7', '2', 46990, 'valencia', 'España', 1, '2022-06-13 04:42:22', '2022-06-13 04:42:22');
+
+INSERT INTO `orders` (`id`, `type_payment`, `status`, `date`, `final_price`, `user_id`, `address_id`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'pagado', '2022-06-13', 75, 1, 1, '2022-06-13 04:42:52', '2022-06-13 04:43:10'),
+(2, NULL, 'pagado', '2022-06-13', 132.85, 1, 1, '2022-06-13 04:43:24', '2022-06-13 04:43:40');
+
+INSERT INTO `order_lines` (`id`, `quantity`, `order_id`, `product_id`, `created_at`, `updated_at`) VALUES
+(1, 5, 1, 62, '2022-06-13 04:42:53', '2022-06-13 04:42:53'),
+(2, 1, 2, 60, '2022-06-13 04:43:25', '2022-06-13 04:43:25'),
+(3, 1, 2, 10, '2022-06-13 04:43:27', '2022-06-13 04:43:27'),
+(4, 1, 2, 34, '2022-06-13 04:43:31', '2022-06-13 04:43:31');
