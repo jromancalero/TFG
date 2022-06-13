@@ -248,7 +248,13 @@ imgBot.addEventListener('click',(e)=>{
                 }
             });
             botonSi.addEventListener('click',(e)=>{
-
+                divAyuda.style ='display:none'
+                let gracias = document.createElement('p');
+                gracias.textContent = 'Gracias por confiar en mi :D';
+                divConsultas.append(gracias);
+                setTimeout(()=>{
+                    gracias.innerHTML ="";
+                },3000);
             });
             botonNo.addEventListener('click',(e)=>{
                 divAyuda.style ='display:none'

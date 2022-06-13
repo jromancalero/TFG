@@ -126,7 +126,6 @@
     flex-wrap: wrap;
     height: fit-content;
     align-items: flex-start;
-    align-content: center;
 }
 .div_inputs_carac{
     display: flex;

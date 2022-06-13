@@ -126,9 +126,9 @@ INSERT INTO `images` (`id`, `url`, `product_id`, `created_at`, `updated_at`) VAL
 (59, 'img/gachapon/gachaCoin.png',62, NULL, NULL);
 
 
-INSERT INTO `users` (`id`, `dni`, `name`, `surname`, `surname2`, `phone`, `user_name`, `email`, `email_verified_at`, `password`, `date_birth`, `profile_photo`, `is_admin`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, '78218945Z', 'Jorge', 'Román', 'Calero', 693425165, 'jorge', 'jromancalero@gmail.com', NULL, '$2y$10$g6FU214/cktSNUr13WtMbut/HvOs8C7/CcyAf36g4v/zvxo35Ku7C', '2000-07-12', NULL, 0, NULL, '2022-05-13 14:34:48', '2022-05-22 15:42:41'),
-(2, '75896458Y', 'admin', 'admin', 'admin', 5648646, 'admin', 'admin@gmail.com', NULL, '$2y$10$8XeVyjDqG9gN96uh.wGTV.h9MTej2Q7L6UH5O5.FEOjft1dHA3JAC', NULL, NULL, 1, NULL, '2022-05-18 11:47:59', '2022-05-18 11:47:59');
+INSERT INTO `users` (`id`, `dni`, `name`, `surname`, `surname2`, `phone`, `user_name`, `email`, `email_verified_at`, `password`, `date_birth`, `profile_photo`, `is_admin`, `coin`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, '78218945Z', 'Jorge', 'Román', 'Calero', 693425165, 'jorge', 'jromancalero@gmail.com', NULL, '$2y$10$g6FU214/cktSNUr13WtMbut/HvOs8C7/CcyAf36g4v/zvxo35Ku7C', '2000-07-12', NULL, 0, 5, NULL, '2022-05-13 12:34:48', '2022-06-13 04:43:10'),
+(2, '75896458Y', 'admin', 'admin', 'admin', 5648646, 'admin', 'admin@gmail.com', NULL, '$2y$10$8XeVyjDqG9gN96uh.wGTV.h9MTej2Q7L6UH5O5.FEOjft1dHA3JAC', NULL, NULL, 1, 0, NULL, '2022-05-18 09:47:59', '2022-05-18 09:47:59');
 
 INSERT INTO `addresses` (`id`, `tipo`, `nombre`, `patio`, `puerta`, `piso`, `cp`, `localidad`, `pais`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 'calle', 'de la huerta', '5', '7', '2', 46990, 'valencia', 'España', 1, '2022-06-13 04:42:22', '2022-06-13 04:42:22');
